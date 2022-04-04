@@ -17,6 +17,9 @@ if [[ ${platform} == 'linux' ]]; then
   source ./setup_linux.sh
 elif [[ ${platform} == 'darwin' ]]; then
   source ./setup_darwin.sh
+
+  # install homebrew
+  install_homebrew
 else
   echo "unsupported platform: $platform"
   exit 1
