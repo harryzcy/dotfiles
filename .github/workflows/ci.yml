@@ -1,0 +1,28 @@
+name: Dotfiles Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  setup:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install using Makefile
+        run: |
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            make
+          else
+            sudo make
+          fi
+
+      - name: Run tests
+        run: make test
