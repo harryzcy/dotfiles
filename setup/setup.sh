@@ -15,6 +15,7 @@ fi
 
 if [[ ${platform} == 'linux' ]]; then
   source ./setup_linux.sh
+  run_apt_update
 elif [[ ${platform} == 'darwin' ]]; then
   source ./setup_darwin.sh
 
@@ -27,3 +28,6 @@ fi
 
 # install zsh
 install_zsh
+
+# install git
+install_git

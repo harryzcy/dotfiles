@@ -15,3 +15,11 @@ install_zsh() {
     brew install zsh
   fi
 }
+
+install_git() {
+  if ! command -v git &> /dev/null
+  then
+    echo "installing git"
+    brew install git
+  fi
+}

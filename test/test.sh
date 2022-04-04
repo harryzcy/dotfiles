@@ -5,3 +5,9 @@ then
     echo "zsh could not be found"
     exit 1
 fi
+
+if ! command -v git &> /dev/null
+then
+    echo "git could not be found"
+    exit 1
+fi
