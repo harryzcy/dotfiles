@@ -10,6 +10,7 @@ install_zsh() {
     if ! command -v zsh &> /dev/null
     then
         echo "installing zsh"
+        sudo DEBIAN_FRONTEND=noninteractive apt-get update
         sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install zsh
     fi
 }
