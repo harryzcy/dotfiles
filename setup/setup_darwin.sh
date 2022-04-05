@@ -19,6 +19,8 @@ install_zsh() {
   if [[ -z ${ZSH} || ! -d ${ZSH} ]]; then
     echo "installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  else
+    echo "oh-my-zsh already installed"
   fi
 }
 

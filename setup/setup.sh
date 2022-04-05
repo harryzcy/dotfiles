@@ -16,10 +16,12 @@ fi
 if [[ ${platform} == 'linux' ]]; then
   source ./setup_linux.sh
   run_apt_update
+
+  install_git
 elif [[ ${platform} == 'darwin' ]]; then
   source ./setup_darwin.sh
 
-  # install homebrew
+  install_git
   install_homebrew
 else
   echo "unsupported platform: $platform"
@@ -28,6 +30,3 @@ fi
 
 # install zsh
 install_zsh
-
-# install git
-install_git
