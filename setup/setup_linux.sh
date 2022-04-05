@@ -55,5 +55,5 @@ install_git() {
 }
 
 install_tools() {
-
+  echo "installing tools"
 }
