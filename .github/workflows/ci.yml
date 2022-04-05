@@ -18,10 +18,9 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: |
           brew uninstall --ignore-dependencies --force $(brew list --formula)
-          # brew uninstall --cask --force $(brew list --cask)
-          brew uninstall --cask --force firefox google-chrome
+          brew uninstall --cask --force $(brew list --cask)
           brew cleanup --prune-prefix
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
+          sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
 
       - uses: actions/checkout@v3
 
