@@ -22,3 +22,10 @@ if [[ ! -f ~/.zshrc ]]; then
 else
     cat ~/.zshrc
 fi
+
+if [[ ! -d $HOME/.oh-my-zsh ]]; then
+    echo "oh-my-zsh could not be found"
+    # exit 1
+else
+    ls -a $HOME/.oh-my-zsh
+fi
