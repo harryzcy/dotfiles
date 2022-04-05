@@ -24,9 +24,9 @@ install_zsh() {
   fi
 
   # init zshrc
-  if [[ ! -f ~/.zshrc ]]; then
+  if [[ ! -f $HOME/.zshrc ]]; then
     echo "installing zshrc"
-    ln -s ${src_dir}/.zshrc ~/.zshrc
+    ln -s ${src_dir}/.zshrc $HOME/.zshrc
   fi
 
   # install plugins
