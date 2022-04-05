@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 if ! command -v git &> /dev/null
 then
@@ -13,8 +13,9 @@ then
 fi
 
 # temp fix
-ls -a /
-ls -a ~
+echo $HOME
+pwd
+ls -a ~/
 if [[ ! -f ~/.zshrc ]]; then
     echo "oh-my-zsh could not be found"
     # exit 1
