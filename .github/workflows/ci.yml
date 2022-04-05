@@ -34,4 +34,4 @@ jobs:
 
       - name: Run commands
         run: |
-          make upgrade
+          make upgrade clean

@@ -11,3 +11,6 @@ load:
 
 upgrade:
 	./command/upgrade.sh
+
+clean:
+	./command/clean.sh
