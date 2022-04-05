@@ -71,6 +71,7 @@ ZSH_THEME="robbyrussell"
 plugins=(
     git
     zsh-autosuggestions
+    zsh-syntax-highlighting
     golang
     python
     pip

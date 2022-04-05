@@ -39,6 +39,11 @@ install_zsh() {
     git pull > /dev/null
     popd > /dev/null
   fi
+
+  if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
+    echo "installing zsh-syntax-highlighting"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  fi
 }
 
 install_git() {
@@ -47,4 +52,8 @@ install_git() {
     echo "installing git"
     sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install git
   fi
+}
+
+install_tools() {
+
 }

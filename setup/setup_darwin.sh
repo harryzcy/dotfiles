@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# this_file=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-# base_dir=$(dirname ${this_file})
-# echo ${this_file}
-
 
 install_homebrew() {
   if ! command -v brew &> /dev/null
@@ -11,6 +7,15 @@ install_homebrew() {
       echo "installing homebrew"
       /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
+}
+
+run_brew_install() {
+  if ! command -v brew &> /dev/null
+  then
+      echo "brew is not installed"
+      exit 1
+  fi
+  brew install $1
 }
 
 install_zsh() {
@@ -44,6 +49,11 @@ install_zsh() {
     git pull > /dev/null
     popd > /dev/null
   fi
+
+  if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
+    echo "installing zsh-syntax-highlighting"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+  fi
 }
 
 install_git() {
@@ -52,4 +62,11 @@ install_git() {
     echo "installing git"
     brew install git
   fi
+}
+
+install_tools() {
+  run_brew_install tree
+  run_brew_install wget
+  run_brew_install curl
+  run_brew_install jq
 }

@@ -34,3 +34,4 @@ fi
 
 install_git
 install_zsh ${src_dir}
+install_tools
