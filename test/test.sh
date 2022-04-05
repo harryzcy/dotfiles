@@ -22,7 +22,18 @@ check_directory() {
   fi
 }
 
+check_sym_link() {
+  if [[ ! -L $1 ]]; then
+    echo "symbolic link $1 could not be found"
+    exit 1
+  fi
+  if [[ ! -e $1 ]]; then
+    echo "symbolic link $1 is broken"
+    exit 1
+  fi
+}
+
 check_command git
 check_command zsh
-check_file $HOME/.zshrc
+check_sym_link $HOME/.zshrc
 check_directory $HOME/.oh-my-zsh
