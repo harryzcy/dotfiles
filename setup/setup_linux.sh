@@ -18,10 +18,12 @@ install_zsh() {
   fi
 
   # install oh-my-zsh
-  if [[ -z ${ZSH} || ! -d ${ZSH} ]]; then
+  if [[ ! -d $HOME/.oh-my-zsh ]]; then
     echo "installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   fi
+
+  ls $HOME/.oh-my-zsh
 }
 
 install_git() {
