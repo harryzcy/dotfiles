@@ -35,6 +35,4 @@ jobs:
 
       - name: Run tests
         run: |
-          echo $ZSH_NAME $ZSH_VERSION
           make test
-        shell: zsh {0}

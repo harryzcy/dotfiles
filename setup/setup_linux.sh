@@ -29,6 +29,7 @@ install_zsh() {
     ln -s ${src_dir}/.zshrc ~/.zshrc
   fi
 
+  echo "$HOME/.oh-my-zsh"
   ls $HOME/.oh-my-zsh
 }
 
