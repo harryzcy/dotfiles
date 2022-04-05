@@ -34,4 +34,7 @@ jobs:
           fi
 
       - name: Run tests
-        run: make test
+        run: |
+          echo $ZSH_NAME $ZSH_VERSION
+          make test
+        shell: zsh {0}
