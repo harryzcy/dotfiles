@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH:~/.npm-global/bin/
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${HOME}/.oh-my-zsh"
@@ -96,15 +96,6 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
@@ -117,74 +108,22 @@ export PATH=$PATH:/usr/local/mysql/bin
 # Rust
 export PATH=$PATH:$HOME/.cargo/bin
 
-function set_proxy() {
-    export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891
-}
-
-function unset_proxy() {
-    export https_proxy= http_proxy= all_proxy=
-}
-
-update_time () {
-    sudo sntp -sS time.apple.com
-}
-
 # nvm
 export NVM_DIR=~/.nvm
  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 
-# esp related utils
-function esp32_realpath_int() {
-    wdir="$PWD"; [ "$PWD" = "/" ] && wdir=""
-    arg=$1
-    case "$arg" in
-        /*) scriptdir="${arg}";;
-        *) scriptdir="$wdir/${arg#./}";;
-    esac
-    scriptdir="${scriptdir%/*}"
-    echo "$scriptdir"
-}
-
-# unset esp32_realpath_int
-
-
-start_esp8266 () {
-    export ESP_PATH=~/esp
-    export IDF_PATH=~/esp/ESP8266_RTOS_SDK
-}
-
-start_esp32 () {
-    export ESP_PATH=~/esp
-    export IDF_PATH=$HOME/esp/esp-idf
-    export ESPPORT=/dev/cu.SLAB_USBtoUART
-    source $HOME/esp/esp-idf/export.sh
-    source ~/.espressif/python_env/idf5.0_py3.10_env/bin/activate
-}
-
-init_conda() {
-# >>> conda initialize >>>
-  # !! Contents within this block are managed by 'conda init' !!
-  __conda_setup="$('${HOME}/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-  if [ $? -eq 0 ]; then
-  eval "$__conda_setup"
-  else
-  if [ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]; then
-  . "${HOME}/anaconda3/etc/profile.d/conda.sh"
-  else
-  export PATH="${HOME}/anaconda3/bin:$PATH"
-  fi
-  fi
-  unset __conda_setup
-  # <<< conda initialize <<<
-}
-
 export GPG_TTY=$(tty)
-
-# HyperLedger Fabric commands
-init_fabric() {
-    export PATH=$(go env GOPATH)/src/github.com/hyperledger/fabric-samples/bin:$PATH
-}
 
 # HomeBrew
 HOMEBREW_EDITOR="code"
+
+
+# follow symlink, to go to the directory with the platform specific script
+dotfiles_dir=$(dirname "$(realpath "$HOME/.zshrc")")
+pushd $dotfiles_dir > /dev/null
+
+source .functions.zsh
+source .functions.zsh
+
+popd > /dev/null
