@@ -124,6 +124,6 @@ dotfiles_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 pushd $dotfiles_dir > /dev/null
 
 source .functions.zsh
-source .functions.zsh
+source .environment.zsh
 
 popd > /dev/null
