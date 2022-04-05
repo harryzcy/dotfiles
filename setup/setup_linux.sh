@@ -7,7 +7,7 @@ then
 fi
 
 run_apt_update() {
-  sudo DEBIAN_FRONTEND=noninteractive apt-get update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
 }
 
 install_zsh() {

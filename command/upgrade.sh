@@ -4,8 +4,8 @@
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
   # linux
-  sudo DEBIAN_FRONTEND=noninteractive apt-get update
-  sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # macos
   brew update && brew upgrade
