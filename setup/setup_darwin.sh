@@ -23,24 +23,24 @@ install_zsh() {
   fi
 
   # install oh-my-zsh
-  if [[ -z ${ZSH} || ! -d ${ZSH} ]]; then
+  if [[ ! -d $HOME/.oh-my-zsh ]]; then
     echo "installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   fi
 
   # init zshrc
-  if [[ ! -f ~/.zshrc ]]; then
+  if [[ ! -f $HOME/.zshrc ]]; then
     echo "installing zshrc"
-    ln -s ${src_dir}/.zshrc ~/.zshrc
+    ln -s ${src_dir}/.zshrc $HOME/.zshrc
   fi
 
   # install plugins
-  if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
+  if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
     echo "installing zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   else
     echo "updating zsh-autosuggestions"
-    pushd ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions > /dev/null
+    pushd $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions > /dev/null
     git pull > /dev/null
     popd > /dev/null
   fi

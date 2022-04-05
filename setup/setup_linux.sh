@@ -29,6 +29,17 @@ install_zsh() {
     ln -s ${src_dir}/.zshrc ~/.zshrc
   fi
 
+  # install plugins
+  if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
+    echo "installing zsh-autosuggestions"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  else
+    echo "updating zsh-autosuggestions"
+    pushd $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions > /dev/null
+    git pull > /dev/null
+    popd > /dev/null
+  fi
+
   echo "$HOME/.oh-my-zsh"
   ls $HOME/.oh-my-zsh
 }
