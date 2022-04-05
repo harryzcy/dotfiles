@@ -24,6 +24,7 @@ install_zsh() {
   fi
 
   # init zshrc
+  rm $HOME/.zshrc
   if [[ ! -f $HOME/.zshrc ]]; then
     echo "installing zshrc"
     ln -s ${src_dir}/.zshrc $HOME/.zshrc
