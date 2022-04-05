@@ -1,7 +1,5 @@
 #!/usr/bin/env zsh
 
-echo "Using \$HOME as $HOME"
-
 if ! command -v git &> /dev/null
 then
     echo "git could not be found"

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "Using \$HOME as $HOME"
-
 # change to the directory of this script
 current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd ${current}

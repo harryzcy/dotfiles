@@ -39,9 +39,6 @@ install_zsh() {
     git pull > /dev/null
     popd > /dev/null
   fi
-
-  echo "$HOME/.oh-my-zsh"
-  ls $HOME/.oh-my-zsh
 }
 
 install_git() {
