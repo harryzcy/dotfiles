@@ -23,6 +23,12 @@ install_zsh() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   fi
 
+  # init zshrc
+  if [[ ! -f ~/.zshrc ]]; then
+    echo "installing zshrc"
+    ln -s ${src_dir}/.zshrc ~/.zshrc
+  fi
+
   ls $HOME/.oh-my-zsh
 }
 

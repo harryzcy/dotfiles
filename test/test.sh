@@ -12,16 +12,7 @@ then
     exit 1
 fi
 
-# temp fix
-echo $HOME
-pwd
-ls -a ~/
-if [[ ! -f ~/.zshrc ]]; then
-    echo "oh-my-zsh could not be found"
-    # exit 1
-else
-    cat ~/.zshrc
-fi
+ls -a $HOME/.oh-my-zsh
 
 if [[ ! -d $HOME/.oh-my-zsh ]]; then
     echo "oh-my-zsh could not be found"
