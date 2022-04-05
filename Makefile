@@ -4,4 +4,4 @@ setup:
 	./setup/setup.sh
 
 test:
-	zsh ./test/test.sh
+	./test/test.sh
