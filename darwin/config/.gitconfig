@@ -1,0 +1,22 @@
+[user]
+	email = harry@harryzheng.com
+	name = Chongyi Zheng
+	signingkey = CC2953E050C19686
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+
+[core]
+	excludesfile = ~/.gitignore_global
+
+[credential]
+	helper = osxkeychain
+
+[pull]
+	rebase = true
+
+[init]
+	defaultBranch = main
