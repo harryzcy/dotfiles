@@ -10,12 +10,19 @@ install_homebrew() {
 }
 
 run_brew_install() {
+  package_name=$1
+  exxecutable_name=${2:-$package_name}
+
   if ! command -v brew &> /dev/null
   then
       echo "brew is not installed"
       exit 1
   fi
-  brew install $1
+  if ! command -v $2 &> /dev/null
+  then
+      echo "installing $1"
+      brew install $1
+  fi
 }
 
 install_zsh() {
@@ -34,9 +41,16 @@ install_zsh() {
   fi
 
   # init zshrc
-  rm $HOME/.zshrc
-  if [[ ! -f $HOME/.zshrc ]]; then
-    echo "installing zshrc"
+  if [[ -f $HOME/.zshrc ]]; then
+    if [[ ! -L $HOME/.zshrc ]]; then
+      echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
+      mv $HOME/.zshrc $HOME/.zshrc.bak
+
+      echo "creating symlink for .zshrc"
+      ln -s ${src_dir}/.zshrc $HOME/.zshrc
+    fi
+  else
+    echo "creating symlink for .zshrc"
     ln -s ${src_dir}/.zshrc $HOME/.zshrc
   fi
 
