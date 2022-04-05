@@ -7,7 +7,8 @@ then
 fi
 
 # temp fix
-ls
+ls -a /
+ls -a ~
 if [[ ! -f ./oh-my-zsh.sh ]]; then
     echo "oh-my-zsh could not be found"
     # exit 1
