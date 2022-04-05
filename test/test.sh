@@ -1,22 +1,28 @@
 #!/usr/bin/env zsh
 
-if ! command -v git &> /dev/null
-then
-    echo "git could not be found"
+check_command() {
+  if ! command -v $1 &> /dev/null
+  then
+    echo "command $1 could not be found"
     exit 1
-fi
+  fi
+}
 
-if ! command -v zsh &> /dev/null
-then
-    echo "zsh could not be found"
+check_file() {
+  if [[ ! -f $1 ]]; then
+    echo "file $1 could not be found"
     exit 1
-fi
+  fi
+}
 
-ls -a $HOME/.oh-my-zsh
+check_directory() {
+  if [[ ! -d $1 ]]; then
+    echo "directory $1 could not be found"
+    exit 1
+  fi
+}
 
-if [[ ! -d $HOME/.oh-my-zsh ]]; then
-    echo "oh-my-zsh could not be found"
-    # exit 1
-else
-    ls -a $HOME/.oh-my-zsh
-fi
+check_command git
+check_command zsh
+check_file $HOME/.zshrc
+check_directory $HOME/.oh-my-zsh
