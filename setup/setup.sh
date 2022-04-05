@@ -15,6 +15,8 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='darwin'
 fi
 
+source ./setup_common.sh
+
 if [[ ${platform} == 'linux' ]]; then
   # platform specific src directory
   src_dir=${base_dir}/rpi
@@ -34,4 +36,5 @@ fi
 
 install_git
 install_zsh ${src_dir}
+configure_zsh ${src_dir}
 install_tools
