@@ -85,8 +85,11 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
+# Go
+export GOPATH=$HOME/go
+
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/go/bin
-export GOPATH=$HOME:$(go env GOPATH)/bin
+export PATH=$PATH:$(go env GOPATH)/bin
 export PATH=$PATH:/usr/local/mysql/bin
 
 # Rust
