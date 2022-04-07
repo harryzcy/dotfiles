@@ -72,6 +72,7 @@ plugins=(
     golang
     python
     pip
+    dotenv
 )
 
 source $ZSH/oh-my-zsh.sh
