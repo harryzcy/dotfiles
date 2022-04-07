@@ -91,10 +91,10 @@ export GOPATH=$HOME/go
 
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/go/bin
 export PATH=$PATH:${GOPATH}/bin
-export PATH=$PATH:/usr/local/mysql/bin
+# export PATH=$PATH:/usr/local/mysql/bin
 
 # Rust
-export PATH=$PATH:$HOME/.cargo/bin
+# export PATH=$PATH:$HOME/.cargo/bin
 
 # nvm
 export NVM_DIR=~/.nvm
