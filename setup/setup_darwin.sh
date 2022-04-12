@@ -11,17 +11,20 @@ install_homebrew() {
 
 run_brew_install() {
   package_name=$1
-  exxecutable_name=${2:-$package_name}
+  executable_name=${2:-$package_name}
 
   if ! command -v brew &> /dev/null
   then
       echo "brew is not installed"
       exit 1
   fi
+
+  echo $(command -v $2)
+
   if ! command -v $2 &> /dev/null
   then
-      echo "installing $1"
-      brew install $1
+      echo "installing $package_name"
+      brew install $package_name
   fi
 }
 
@@ -42,6 +45,7 @@ install_git() {
 }
 
 install_tools() {
+  echo "installing tools for macOS"
   run_brew_install cloc
   run_brew_install curl
   run_brew_install gh
