@@ -4,7 +4,9 @@ configure_zsh() {
   src_dir=$1
   
   # Set ZSH as the default shell
-  chsh -s $(which zsh)
+  if [[ "$(basename ${SHELL})" != "zsh" ]]; then
+    chsh -s $(which zsh)
+  fi
 
   # install oh-my-zsh
   if [[ ! -d $HOME/.oh-my-zsh ]]; then
