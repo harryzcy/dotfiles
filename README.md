@@ -4,5 +4,9 @@
 
 ## Structure
 
-- **rpi**: 
-  - dotfiles for Raspberry Pi
+|  directory  | description |
+| ----------- | ----------- |
+| **command** | command script used by `make` targets |
+| **darwin**  | config files for macOS |
+| **rpi**     | config files for Raspberry Pi |
+| **test**    | test scripts used by `make test` |
