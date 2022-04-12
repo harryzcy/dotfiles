@@ -44,9 +44,9 @@ source ./test_common.sh
 # detect the operating system
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
-  source ./test_darwin.sh
-elif [[ "$unamestr" == 'Darwin' ]]; then
   source ./test_linux.sh
+elif [[ "$unamestr" == 'Darwin' ]]; then
+  source ./test_darwin.sh
 else
   echo "unsupported platform: $platform"
   exit 1
