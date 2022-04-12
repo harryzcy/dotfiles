@@ -42,8 +42,12 @@ install_git() {
 }
 
 install_tools() {
+  run_brew_install cloc
+  run_brew_install curl
+  run_brew_install gh
+  run_brew_install httpie
+  run_brew_install jq
+  run_brew_install python3
   run_brew_install tree
   run_brew_install wget
-  run_brew_install curl
-  run_brew_install jq
 }

@@ -33,12 +33,23 @@ check_sym_link() {
   fi
 }
 
-# git
-check_command git
-check_sym_link $HOME/.gitconfig
-check_sym_link $HOME/.gitignore_global
+# change to the directory of this script
+current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+cd ${current}
 
-# zsh
-check_command zsh
-check_sym_link $HOME/.zshrc
-check_directory $HOME/.oh-my-zsh
+base_dir=$(dirname ${current})
+
+# detect the operating system
+unamestr=$(uname)
+if [[ "$unamestr" == 'Linux' ]]; then
+  source ./setup_darwin.sh
+elif [[ "$unamestr" == 'Darwin' ]]; then
+  source ./setup_linux.sh
+else
+  echo "unsupported platform: $platform"
+  exit 1
+fi
+
+check_git && echo "git is installed"
+check_zsh && echo "zsh is installed"
+check_tools && echo "tools are installed"
