@@ -39,12 +39,14 @@ cd ${current}
 
 base_dir=$(dirname ${current})
 
+source ./test_common.sh
+
 # detect the operating system
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
-  source ./setup_darwin.sh
+  source ./test_darwin.sh
 elif [[ "$unamestr" == 'Darwin' ]]; then
-  source ./setup_linux.sh
+  source ./test_linux.sh
 else
   echo "unsupported platform: $platform"
   exit 1
