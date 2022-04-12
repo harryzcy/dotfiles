@@ -42,3 +42,17 @@ configure_zsh() {
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   fi
 }
+
+configure_git() {
+  src_dir=$1
+
+  if [[ ! -f $HOME/.gitconfig ]]; then
+    echo "creating symlink for .gitconfig"
+    ln -s ${src_dir}/git/.gitconfig $HOME/.gitconfig
+  fi
+
+  if [[ ! -f $HOME/.gitignore_global ]]; then
+    echo "creating symlink for .gitignore_global"
+    ln -s ${src_dir}/git/.gitignore_global $HOME/.gitignore_global
+  fi
+}

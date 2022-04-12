@@ -35,6 +35,7 @@ else
 fi
 
 install_git
+configure_git ${src_dir}
 install_zsh ${src_dir}
 configure_zsh ${src_dir}
 install_tools
