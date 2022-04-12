@@ -28,6 +28,7 @@ elif [[ ${platform} == 'darwin' ]]; then
   src_dir=${base_dir}/darwin
 
   source ./setup_darwin.sh
+  install_xcode_select
   install_homebrew
 else
   echo "unsupported platform: $platform"

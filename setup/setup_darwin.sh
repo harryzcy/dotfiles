@@ -1,5 +1,11 @@
 #!/bin/bash
 
+install_xcode_select() {
+  if ! xcode-select -p &> /dev/null
+  then
+    sudo xcode-select --install
+  fi
+}
 
 install_homebrew() {
   if ! command -v brew &> /dev/null
