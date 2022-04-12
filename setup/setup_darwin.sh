@@ -19,9 +19,7 @@ run_brew_install() {
       exit 1
   fi
 
-  echo $(command -v $2)
-
-  if ! command -v $2 &> /dev/null
+  if ! command -v $executable_name &> /dev/null
   then
       echo "installing $package_name"
       brew install $package_name
