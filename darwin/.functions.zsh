@@ -13,10 +13,10 @@ function unset_proxy() {
     export https_proxy= http_proxy= all_proxy=
 }
 
-update_go() {
+install_go() {
     version=$1
     if [ -z "$version" ]; then
-        echo "Usage: update_go <version>"
+        echo "Usage: install_go <version>"
         return 1
     fi
 
