@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# update oh-my-zsh
+omz update
+
 # detect the operating system
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
