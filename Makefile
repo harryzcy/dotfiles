@@ -10,7 +10,7 @@ load:
 	source ~/.zshrc
 
 upgrade:
-	./command/upgrade.sh
+	zsh ./command/upgrade.sh
 
 clean:
 	./command/clean.sh

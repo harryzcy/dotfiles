@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/env zsh
 
 # update oh-my-zsh
-omz update
+ZSH="$ZSH" command zsh -f "$ZSH/tools/upgrade.sh" || return $?
 
 # detect the operating system
 unamestr=$(uname)
