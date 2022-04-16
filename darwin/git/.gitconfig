@@ -11,6 +11,8 @@
 
 [core]
 	excludesfile = ~/.gitignore_global
+	quotePath = false
+	commitGraph = true
 
 [credential]
 	helper = osxkeychain
@@ -20,3 +22,10 @@
 
 [init]
 	defaultBranch = main
+
+[receive]
+	advertisePushOptions = true
+	procReceiveRefs = refs/for
+
+[gc]
+	writeCommitGraph = true
