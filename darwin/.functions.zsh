@@ -121,6 +121,41 @@ jobs:
           token: \${{ secrets.GITHUB_TOKEN }}
 EOT
   fi
+
+  if [ ! -f .github/workflows/golangci-lint.yml ]; then
+    cat >> .github/workflows/golangci-lint.yml << EOT
+name: Go Lint
+
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  golangci:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - uses: actions/checkout@v3
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          only-new-issues: true
+EOT
+  fi
 }
 
 setup_github_workflows() {
