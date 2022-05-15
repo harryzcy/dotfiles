@@ -156,6 +156,16 @@ jobs:
           only-new-issues: true
 EOT
   fi
+
+  if [ ! -f .jscpd.json ]; then
+    cat >> .jscpd.json << EOT
+{
+  "ignore": [
+    "**/*_test.go"
+  ]
+}
+EOT
+  fi
 }
 
 setup_github_workflows() {
