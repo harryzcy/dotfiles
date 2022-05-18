@@ -4,7 +4,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -24,3 +25,14 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Node.js
+node_modules
+dist
+dist-ssr
+*.local
+release
+
+# Go
+coverage/*
+!coverage/main.tmpl
