@@ -198,3 +198,7 @@ EOT
   fi
 
 }
+
+docker_prune() {
+  docker system prune -a
+}
