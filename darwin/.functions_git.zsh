@@ -53,29 +53,6 @@ jobs:
 EOT
   fi
 
-  if [ ! -f .github/workflows/release.yml ]; then
-    cat >> .github/workflows/release.yml << EOT
-name: Releases
-
-on:
-  push:
-    tags:
-      - "v*"
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
-        with:
-          name: Release \${{ github.ref_name }}
-          token: \${{ secrets.GITHUB_TOKEN }}
-EOT
-  fi
-
   if [ ! -f .github/workflows/golangci-lint.yml ]; then
     cat >> .github/workflows/golangci-lint.yml << EOT
 name: Go Lint
@@ -145,6 +122,29 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+EOT
+  fi
+
+  if [ ! -f .github/workflows/release.yml ]; then
+    cat >> .github/workflows/release.yml << EOT
+name: Releases
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ncipollo/release-action@v1
+        with:
+          name: Release \${{ github.ref_name }}
+          token: \${{ secrets.GITHUB_TOKEN }}
 EOT
   fi
 
