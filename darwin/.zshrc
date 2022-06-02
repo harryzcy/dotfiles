@@ -90,7 +90,7 @@ export LANGUAGE=en_US.UTF-8
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH:/usr/local/go/bin
+export PATH=/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$PATH:${GOPATH}/bin
 # export PATH=$PATH:/usr/local/mysql/bin
 
