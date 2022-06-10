@@ -16,3 +16,8 @@ function unset_proxy() {
 source .functions_git.zsh
 source .functions_go.zsh
 source .functions_docker.zsh
+
+if [ -f $HOME/.env ]
+then
+  export $(cat $HOME/.env | xargs)
+fi
