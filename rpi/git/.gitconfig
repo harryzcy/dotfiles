@@ -1,16 +1,16 @@
 [user]
-  name = Chongyi Zheng
-  email = harry@harryzheng.com
+	name = Chongyi Zheng
+	email = harry@harryzheng.com
 
 [core]
 	excludesfile = ~/.gitignore_global
-  editor = vim
+	editor = vim
 
 [init]
 	defaultBranch = main
 
 [pull]
-  rebase = true
+	rebase = true
 
 [credential]
-  helper = store
+	helper = store
