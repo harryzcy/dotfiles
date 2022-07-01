@@ -99,7 +99,8 @@ export PATH=$PATH:${GOPATH}/bin
 
 # nvm
 export NVM_DIR=~/.nvm
- [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
 export GPG_TTY=$(tty)
@@ -116,4 +117,3 @@ source .functions.zsh
 source .environments.zsh
 
 popd > /dev/null
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
