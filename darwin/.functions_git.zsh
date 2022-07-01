@@ -3,18 +3,6 @@
 
 
 setup_github_workflows::go() {
-  if [ -f .github/dependabot.yml ]; then
-    grep -Fq "gomod" .github/dependabot.yml
-    if [ $? -ne 0 ]; then
-        cat << EOT >> .github/dependabot.yml
-  - package-ecosystem: "gomod"
-    directory: "/"
-    schedule:
-      interval: "daily"
-EOT
-    fi
-  fi
-
   if [ ! -f .github/workflows/go.yml ]; then
     cat << EOT >> .github/workflows/go.yml
 name: Go Tests
@@ -100,18 +88,6 @@ EOT
 }
 
 setup_github_workflows::python() {
-  if [ -f .github/dependabot.yml ]; then
-    grep -Fq "pip" .github/dependabot.yml
-    if [ $? -ne 0 ]; then
-        cat << EOT >> .github/dependabot.yml
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-EOT
-    fi
-  fi
-
   if [ ! -f .github/workflows/python.yml ]; then
     cat >> .github/workflows/python.yml << EOT
 name: Python Tests
@@ -163,17 +139,6 @@ setup_github_workflows() {
 
   if [ ! -d .github/workflows ]; then
     mkdir .github/workflows
-  fi
-
-  if [ ! -f .github/dependabot.yml ]; then
-    cat >> .github/dependabot.yml << EOT
-version: 2
-updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "daily"
-EOT
   fi
 
   if [ ! -f .github/workflows/release.yml ]; then
