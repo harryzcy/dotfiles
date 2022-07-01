@@ -58,4 +58,12 @@ install_tools() {
   run_brew_install python3
   run_brew_install tree
   run_brew_install wget
+
+  install_tools:node
+}
+
+install_tools:node() {
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  nvm install --lts
+  nvm use --lts
 }
