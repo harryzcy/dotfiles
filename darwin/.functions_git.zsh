@@ -141,6 +141,28 @@ setup_github_workflows() {
     mkdir .github/workflows
   fi
 
+  if [ ! -f .github/renovate.json ]; then
+    cat >> .github/renovate.json << EOT
+{
+  "extends": [
+    "config:base"
+  ],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true,
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-non-major"
+    }
+  ]
+}
+EOT
+  fi
+
   if [ ! -f .github/workflows/release.yml ]; then
     cat >> .github/workflows/release.yml << EOT
 name: Releases
