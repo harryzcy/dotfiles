@@ -1,7 +1,6 @@
 # tests for macOS
 
 check_tools() {
-  check_command git
   check_command cloc
   check_command curl
   check_command gh
