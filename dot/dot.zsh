@@ -8,8 +8,9 @@ dot() {
   fi
 
   if [ ${command} = "clean" ]; then
-    echo "dot: cleaning"
     ${DOTFILE_DIR}/command/clean.sh
+  elif [ ${command} = "upgrade" ]; then
+    ${DOTFILE_DIR}/command/upgrade.sh
   else
     echo "dot: unknown command"
     return 1
