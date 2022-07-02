@@ -33,9 +33,9 @@ jobs:
         run: |
           make load
           make test
-        shell: zsh
+        shell: zsh {0}
 
       - name: Run commands
         run: |
           make upgrade clean
-        shell: zsh
+        shell: zsh {0}
