@@ -9,5 +9,4 @@ check_tools() {
   check_command python3
   check_command tree
   check_command wget
-  check_command node
 }
