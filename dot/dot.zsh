@@ -11,6 +11,8 @@ dot() {
     ${DOTFILE_DIR}/command/clean.sh
   elif [ ${command} = "upgrade" ]; then
     ${DOTFILE_DIR}/command/upgrade.sh
+  elif [ ${command} = "reload" ]; then
+    source ~/.zshrc
   else
     echo "dot: unknown command"
     return 1
