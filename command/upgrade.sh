@@ -1,4 +1,4 @@
-#!/bin/env zsh
+#!/usr/bin/env zsh
 
 # update oh-my-zsh
 if [ -z "$ZSH" ]; then
