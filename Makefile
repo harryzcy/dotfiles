@@ -1,4 +1,4 @@
-.PHONY: setup test load upgrade
+.PHONY: setup test upgrade
 
 setup:
 	./setup/setup.sh
@@ -6,11 +6,8 @@ setup:
 test:
 	./test/test.sh
 
-load:
-	source ~/.zshrc
-
 upgrade:
-	zsh ./command/upgrade.sh
+	./command/upgrade.sh
 
 clean:
 	./command/clean.sh
