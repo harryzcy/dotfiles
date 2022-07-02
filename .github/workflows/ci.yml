@@ -31,8 +31,11 @@ jobs:
 
       - name: Run tests
         run: |
+          make load
           make test
+        shell: zsh
 
       - name: Run commands
         run: |
           make upgrade clean
+        shell: zsh
