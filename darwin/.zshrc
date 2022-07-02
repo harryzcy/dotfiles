@@ -108,12 +108,15 @@ export GPG_TTY=$(tty)
 # HomeBrew
 HOMEBREW_EDITOR="code"
 
-
 # follow symlink, to go to the directory with the platform specific script
-dotfiles_dir=$(dirname "$(realpath "$HOME/.zshrc")")
-pushd $dotfiles_dir > /dev/null
+platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
+pushd $platform_dir > /dev/null
 
 source .functions.zsh
 source .environments.zsh
 
+source ./../dot/dot.zsh
+
 popd > /dev/null
+
+export DOTFILE_DIR="$(dirname "$platform_dir")"
