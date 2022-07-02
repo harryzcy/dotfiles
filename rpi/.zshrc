@@ -110,5 +110,11 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH="$PATH:/usr/sbin"
 
+platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
+export DOTFILE_DIR="$(dirname "$platform_dir")"
+
+# load dot command
+source ./../dot/dot.zsh
+
 PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 
