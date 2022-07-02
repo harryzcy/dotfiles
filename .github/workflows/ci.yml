@@ -31,7 +31,7 @@ jobs:
 
       - name: Run tests
         run: |
-          make load
+          source ~/.zshrc
           make test
         shell: zsh {0}
 
