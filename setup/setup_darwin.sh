@@ -58,6 +58,7 @@ install_tools() {
   run_brew_install python3
   run_brew_install tree
   run_brew_install wget
+  run_brew_install gnupg
 
   install_tools:node
 }
