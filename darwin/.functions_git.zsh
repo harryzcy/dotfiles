@@ -47,11 +47,8 @@ name: Go Lint
 
 on:
   push:
-    tags:
-      - v*
-    branches:
-      - main
   pull_request:
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -163,6 +160,75 @@ setup_github_workflows() {
 EOT
   fi
 
+  if [ ! -f .github/workflows/release-drafter.yml ]; then
+    cat >> .github/workflows/release-drafter.yml << EOT
+name-template: 'v\$RESOLVED_VERSION'
+tag-template: 'v\$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+  - title: '🧰 Maintenance'
+    label: 'chore'
+  - title: '⬆️ Dependencies'
+    collapse-after: 3
+    labels:
+      - 'dependencies'
+change-title-escapes: '\<*_&'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
+template: |
+  ## Changes
+
+  \$CHANGES
+EOT
+  fi
+
+  if [ ! -f .github/workflows/release-drafter.yml ]; then
+    cat >> .github/workflows/release-drafter.yml << EOT
+name: Release Drafter
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, reopened, synchronize]
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  update_release_draft:
+    permissions:
+      contents: write  # for release-drafter/release-drafter to create a github release
+      pull-requests: write  # for release-drafter/release-drafter to add label to PR
+    runs-on: ubuntu-latest
+    steps:
+      # Drafts your next Release notes as Pull Requests are merged into "main"
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+EOT
+  fi
+
   if [ ! -f .github/workflows/release.yml ]; then
     cat >> .github/workflows/release.yml << EOT
 name: Releases
@@ -173,16 +239,30 @@ on:
       - "v*"
 
 jobs:
-  build:
+  release:
+    name: Release on GitHub
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v3
-      - uses: ncipollo/release-action@v1
+      - uses: release-drafter/release-drafter@v5
+        id: release_drafter
+        env:
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+      - name: Publish Release
+        uses: actions/github-script@v6
         with:
-          name: Release \${{ github.ref_name }}
-          token: \${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: \${{ steps.release_drafter.outputs.id }},
+              tag_name: '\${{ github.ref_name }}',
+              name: 'Release \${{ github.ref_name }}',
+              draft: context.eventName != 'push'
+            });
+
 EOT
   fi
 
