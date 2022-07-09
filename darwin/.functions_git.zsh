@@ -160,8 +160,8 @@ setup_github_workflows() {
 EOT
   fi
 
-  if [ ! -f .github/workflows/release-drafter.yml ]; then
-    cat >> .github/workflows/release-drafter.yml << EOT
+  if [ ! -f .github/release-drafter.yml ]; then
+    cat >> .github/release-drafter.yml << EOT
 name-template: 'v\$RESOLVED_VERSION'
 tag-template: 'v\$RESOLVED_VERSION'
 categories:
