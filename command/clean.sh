@@ -1,10 +1,20 @@
 #!/bin/bash
 
+clean:mac() {
+  brew cleanup -s
+}
+
+clean:debian() {
+  sudo apt-get autoremove -y
+  sudo apt-get autoclean -y
+  sudo apt-get clean -y
+}
+
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
   # linux
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq autoremove
+  clean:debian
 elif [[ "$unamestr" == 'Darwin' ]]; then
   # macos
-  brew cleanup -s
+  clean:mac
 fi
