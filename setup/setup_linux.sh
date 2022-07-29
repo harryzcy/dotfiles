@@ -28,5 +28,5 @@ install_git() {
 
 install_tools() {
   echo "installing tools"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install dnsutils
+  # sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install dnsutils
 }
