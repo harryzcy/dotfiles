@@ -114,7 +114,7 @@ platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
 # load dot command
-source ./../dot/dot.zsh
+source "$DOTFILE_DIR/dot/dot.zsh"
 
 PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 
