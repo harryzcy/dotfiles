@@ -91,7 +91,7 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
 export PATH=/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$PATH:${GOPATH}/bin
+export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.9/bin
 # export PATH=$PATH:/usr/local/mysql/bin
 
 # Rust
