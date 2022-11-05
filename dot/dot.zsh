@@ -9,6 +9,8 @@ dot() {
 
   if [ ${command} = "clean" ]; then
     ${DOTFILE_DIR}/command/clean.sh
+  elif [ ${command} = "update" ]; then
+    git -C ${DOTFILE_DIR} pull
   elif [ ${command} = "upgrade" ]; then
     ${DOTFILE_DIR}/command/upgrade.sh
   elif [ ${command} = "reload" ]; then
