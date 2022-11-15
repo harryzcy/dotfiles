@@ -123,3 +123,8 @@ source ./../dot/dot.zsh
 popd > /dev/null
 
 export DOTFILE_DIR="$(dirname "$platform_dir")"
+
+# pnpm
+export PNPM_HOME=~/Library/pnpm
+export PATH="$PATH:$PNPM_HOME"
+# pnpm end
