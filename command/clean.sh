@@ -2,6 +2,7 @@
 
 clean:mac() {
   brew cleanup -s
+  pip3 cache remove *
 }
 
 clean:debian() {
