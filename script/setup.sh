@@ -15,22 +15,22 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   platform='darwin'
 fi
 
-source ./setup_common.sh
+source ./setup/setup_common.sh
 
 if [[ ${CODESPACES} == 'true' ]]; then
   src_dir=${base_dir}/codespace
-  source ./setup_linux.sh
+  source ./setup/setup_linux.sh
 elif [[ ${platform} == 'linux' ]]; then
   # platform specific src directory
   src_dir=${base_dir}/rpi
 
-  source ./setup_linux.sh
+  source ./setup/setup_linux.sh
   run_apt_update
 elif [[ ${platform} == 'darwin' ]]; then
   # platform specific src directory
   src_dir=${base_dir}/darwin
 
-  source ./setup_darwin.sh
+  source ./setup/setup_darwin.sh
   install_xcode_select
   install_homebrew
 else
