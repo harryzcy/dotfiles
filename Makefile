@@ -7,7 +7,7 @@ test:
 	./test/test.sh
 
 upgrade:
-	./command/upgrade.sh
+	./script/upgrade.sh
 
 clean:
-	./command/clean.sh
+	./script/clean.sh
