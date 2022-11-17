@@ -1,7 +1,7 @@
 .PHONY: setup test upgrade
 
 setup:
-	./setup/setup.sh
+	./script/setup.sh
 
 test:
 	./test/test.sh
