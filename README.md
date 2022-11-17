@@ -6,9 +6,15 @@
 
 |  directory  | description |
 | ----------- | ----------- |
-| **command** | command script used by `make` targets and `dot` commands |
 | **dot**     | `dot` commands |
-| **setup**   | scripts for setting up environment |
+| **script**  | command script used by `make` targets and `dot` commands |
 | **darwin**  | config files for macOS |
 | **rpi**     | config files for Raspberry Pi |
 | **test**    | test scripts used by `make test` |
+
+## Dot commands
+
+- dot clean
+- dot update
+- dot upgrade
+- dot reload
