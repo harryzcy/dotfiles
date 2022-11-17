@@ -17,7 +17,10 @@ fi
 
 source ./setup_common.sh
 
-if [[ ${platform} == 'linux' ]]; then
+if [[ ${CODESPACES} == 'true' ]]; then
+  src_dir=${base_dir}/codespace
+  source ./setup_linux.sh
+elif [[ ${platform} == 'linux' ]]; then
   # platform specific src directory
   src_dir=${base_dir}/rpi
 
@@ -38,5 +41,7 @@ fi
 install_git
 configure_git ${src_dir}
 install_zsh ${src_dir}
+
+echo ${src_dir}
 configure_zsh ${src_dir}
 install_tools
