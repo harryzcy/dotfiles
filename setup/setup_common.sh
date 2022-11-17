@@ -2,9 +2,10 @@
 
 configure_zsh() {
   src_dir=$1
-  
+
   # Set ZSH as the default shell
-  if [[ "$(basename ${SHELL})" != "zsh" ]]; then
+  # Skip this when running in GitHub Codespace, it's configured via setting
+  if [ "$(basename ${SHELL})" != "zsh" ] && [${CODESPACES} != "true"]; then
     chsh -s $(which zsh)
   fi
 
