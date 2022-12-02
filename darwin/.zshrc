@@ -91,7 +91,7 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
 export PATH=/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
-export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.9/bin
+export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.10/bin
 # export PATH=$PATH:/usr/local/mysql/bin
 
 # Rust
@@ -101,10 +101,6 @@ export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.9/bin
 export NVM_DIR=~/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# pnpm
-export PNPM_HOME="~/Library/pnpm"
-export PATH="$PATH:$PNPM_HOME"
 
 export GPG_TTY=$(tty)
 
