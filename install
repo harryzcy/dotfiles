@@ -1,0 +1,4 @@
+#!/bin/bash
+
+current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+${current}/script/setup.sh
