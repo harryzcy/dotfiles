@@ -2,6 +2,7 @@
 
 dot() {
   command="$1"
+  shift
   if [ -z "$command" ]; then
     echo "dot: no command specified"
     return 1
@@ -15,6 +16,11 @@ dot() {
     ${DOTFILE_DIR}/script/upgrade.sh
   elif [ ${command} = "reload" ]; then
     source ~/.zshrc
+  elif [ ${command} = "repo" ]; then
+    ${DOTFILE_DIR}/script/repo.sh "$@"
+  elif [ ${command} = "goto" ]; then
+    dir=$(${DOTFILE_DIR}/script/repo.sh "$@")
+    cd $dir
   else
     echo "dot: unknown command"
     return 1

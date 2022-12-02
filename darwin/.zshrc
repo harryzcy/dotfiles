@@ -124,3 +124,5 @@ export DOTFILE_DIR="$(dirname "$platform_dir")"
 export PNPM_HOME=~/Library/pnpm
 export PATH="$PATH:$PNPM_HOME"
 # pnpm end
+
+export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
