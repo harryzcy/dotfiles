@@ -6,10 +6,11 @@
 
 |  directory  | description |
 | ----------- | ----------- |
-| **dot**     | `dot` commands |
-| **script**  | command script used by `make` targets and `dot` commands |
+| **codespace** | config files for GitHub codespaces |
 | **darwin**  | config files for macOS |
+| **dot**     | `dot` commands |
 | **rpi**     | config files for Raspberry Pi |
+| **script**  | command script used by `make` targets and `dot` commands |
 | **test**    | test scripts used by `make test` |
 
 ## Dot commands
