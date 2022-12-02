@@ -18,5 +18,5 @@ elif [[ "$unamestr" == 'Darwin' ]]; then
   brew upgrade --cask
 
   # upgrade nvm
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 fi
