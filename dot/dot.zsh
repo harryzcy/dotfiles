@@ -8,11 +8,11 @@ dot() {
   fi
 
   if [ ${command} = "clean" ]; then
-    ${DOTFILE_DIR}/command/clean.sh
+    ${DOTFILE_DIR}/script/clean.sh
   elif [ ${command} = "update" ]; then
     git -C ${DOTFILE_DIR} pull
   elif [ ${command} = "upgrade" ]; then
-    ${DOTFILE_DIR}/command/upgrade.sh
+    ${DOTFILE_DIR}/script/upgrade.sh
   elif [ ${command} = "reload" ]; then
     source ~/.zshrc
   else
