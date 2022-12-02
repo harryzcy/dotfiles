@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # change to the directory of this script
 current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
