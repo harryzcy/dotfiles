@@ -50,6 +50,7 @@ install_git() {
 
 install_tools() {
   echo "installing tools for macOS"
+  run_brew_install coreutils realpath
   run_brew_install cloc
   run_brew_install curl
   run_brew_install gh
