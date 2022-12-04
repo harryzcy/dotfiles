@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 install_xcode_select() {
   if ! xcode-select -p &> /dev/null
