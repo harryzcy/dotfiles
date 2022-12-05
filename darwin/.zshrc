@@ -90,12 +90,8 @@ export LANGUAGE=en_US.UTF-8
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
-export PATH=/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.10/bin
 # export PATH=$PATH:/usr/local/mysql/bin
-
-# Rust
-# export PATH=$PATH:$HOME/.cargo/bin
 
 # nvm
 export NVM_DIR=~/.nvm
