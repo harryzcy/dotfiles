@@ -6,6 +6,13 @@ if [ -z "$ZSH" ]; then
 fi
 ZSH="$ZSH" command zsh -f "$ZSH/tools/upgrade.sh" || return $?
 
+# update common tools
+echo "updating zsh-autosuggestions"
+git -C $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions pull > /dev/null
+
+echo "updating zsh-syntax-highlighting"
+git -C $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting pull > /dev/null
+
 # detect the operating system
 unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
