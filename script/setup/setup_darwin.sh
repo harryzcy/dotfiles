@@ -88,7 +88,13 @@ create_bin() {
     mkdir $DOTFILE_DIR/dot/bin
   fi
 
-  symlink_if_not_exists "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" chrome
+  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
+    cat > "$DOTFILE_DIR/dot/bin/chrome" << EOT
+#!/usr/bin/env zsh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+EOT
+  fi
+  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
 }
 
 install_dmg() {
