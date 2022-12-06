@@ -55,3 +55,4 @@ fi
 check_git && echo "git is installed"
 check_zsh && echo "zsh is installed"
 check_tools && echo "tools are installed"
+check_softwares && echo "softwares are installed"

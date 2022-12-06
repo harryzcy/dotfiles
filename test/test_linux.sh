@@ -4,3 +4,7 @@ check_tools() {
   # check_command dig
   # check_command nslookup
 }
+
+check_softwares() {
+  # nothing
+}
