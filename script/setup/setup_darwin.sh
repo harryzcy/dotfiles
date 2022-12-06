@@ -82,11 +82,14 @@ symlink_if_not_exists() {
 }
 
 create_bin() {
+  echo "$DOTFILE_DIR/dot/bin"
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]
   then
     echo "creating $DOTFILE_DIR/dot/bin"
     mkdir $DOTFILE_DIR/dot/bin
   fi
+
+  ls "$DOTFILE_DIR/dot/bin"
 
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
     cat > "$DOTFILE_DIR/dot/bin/chrome" << EOT
