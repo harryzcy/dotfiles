@@ -90,17 +90,18 @@ export LANGUAGE=en_US.UTF-8
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
-export PATH=/usr/local/go/bin:/usr/local/bin:/usr/local/sbin:$PATH
 export PATH=$PATH:${GOPATH}/bin:$HOME/Library/Python/3.10/bin
-# export PATH=$PATH:/usr/local/mysql/bin
-
-# Rust
-# export PATH=$PATH:$HOME/.cargo/bin
 
 # nvm
 export NVM_DIR=~/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# add nvm to the end instead of the beginning
+export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
+
+# pnpm
+export PNPM_HOME=$HOME/Library/pnpm
+export PATH="$PATH:$PNPM_HOME"
 
 export GPG_TTY=$(tty)
 
@@ -115,10 +116,5 @@ source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
-
-# pnpm
-export PNPM_HOME=~/Library/pnpm
-export PATH="$PATH:$PNPM_HOME"
-# pnpm end
 
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
