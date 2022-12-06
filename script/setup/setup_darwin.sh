@@ -59,7 +59,7 @@ install_tools() {
   run_brew_install python3
   run_brew_install tree
   run_brew_install wget
-  run_brew_install gnupg
+  run_brew_install gnupg gpg
 
   install_tools:node
 }
@@ -69,4 +69,12 @@ install_tools:node() {
   [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
   nvm install --lts
   nvm use --lts
+}
+
+create_bin() {
+  if [ ! -d "$DOTFILE_DIR/dot/bin" ]
+  then
+    echo "creating $HOME/bin"
+    mkdir $HOME/bin
+  fi
 }
