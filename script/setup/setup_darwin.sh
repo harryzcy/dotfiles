@@ -152,9 +152,11 @@ install_software() {
   if [ "$arch" = "arm64" ]; then
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
     notion_url="https://www.notion.so/desktop/apple-silicon/download"
+    docker_url="https://desktop.docker.com/mac/stable/arm64/Docker.dmg"
   else
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
     notion_url="https://www.notion.so/desktop/mac/download"
+    docker_url="https://desktop.docker.com/mac/stable/amd64/Docker.dmg"
   fi
 
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -167,6 +169,7 @@ install_software() {
   install_dmg "IINA" "https://dl-portal.iina.io/IINA.${iina_version}.dmg" "/Applications/IINA.app/Contents/MacOS/IINA"
 
   install_pkg "zoom.us" "https://zoom.us/client/latest/Zoom.pkg" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
+  install_dmg "Docker" "$docker_url" "/Applications/Docker.app/Contents/MacOS/Docker"
 
   create_bin
 }
