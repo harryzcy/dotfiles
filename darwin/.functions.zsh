@@ -13,9 +13,10 @@ function unset_proxy() {
   export https_proxy= http_proxy= all_proxy=
 }
 
-source .functions_git.zsh
-source .functions_go.zsh
-source .functions_docker.zsh
+dir=$(dirname "$0")
+source $dir/.functions_git.zsh
+source $dir/.functions_go.zsh
+source $dir/.functions_docker.zsh
 
 if [ -f $HOME/.env ]
 then

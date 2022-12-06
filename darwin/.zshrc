@@ -110,15 +110,11 @@ HOMEBREW_EDITOR="code"
 
 # follow symlink, to go to the directory with the platform specific script
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
-pushd $platform_dir > /dev/null
-
-source .functions.zsh
-source .environments.zsh
-
-source ./../dot/dot.zsh
-
-popd > /dev/null
-
 export DOTFILE_DIR="$(dirname "$platform_dir")"
+
+source $platform_dir/.functions.zsh
+source $platform_dir/.environments.zsh
+
+source $DOTFILE_DIR/dot/dot.zsh
 
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
