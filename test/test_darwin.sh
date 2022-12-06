@@ -16,4 +16,5 @@ check_softwares() {
   check_directory "/Applications/Google Chrome.app"
   check_directory "/Applications/Visual Studio Code.app"
   check_directory "/Applications/Notion.app"
+  check_directory "/Applications/Keka.app"
 }

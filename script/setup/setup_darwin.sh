@@ -144,6 +144,7 @@ install_software() {
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   install_zip "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
   install_dmg "Notion" "$notion_url" "/Applications/Notion.app/Contents/MacOS/Notion"
+  install_dmg "Keka" "https://d.keka.io/" "/Applications/Keka.app/Contents/MacOS/Keka"
 
   create_bin
 }
