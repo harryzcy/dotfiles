@@ -116,5 +116,6 @@ source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
+export PATH="$PATH:$DOTFILE_DIR/dot/bin"
 
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"

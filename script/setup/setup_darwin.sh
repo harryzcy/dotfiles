@@ -82,11 +82,42 @@ symlink_if_not_exists() {
 }
 
 create_bin() {
+  echo "$DOTFILE_DIR/dot/bin"
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]
   then
     echo "creating $DOTFILE_DIR/dot/bin"
     mkdir $DOTFILE_DIR/dot/bin
   fi
 
-  symlink_if_not_exists "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" chrome
+  ls "$DOTFILE_DIR/dot/bin"
+
+  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
+    cat > "$DOTFILE_DIR/dot/bin/chrome" << EOT
+#!/usr/bin/env zsh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+EOT
+  fi
+  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+}
+
+install_dmg() {
+  package_name="$1"
+  url="$2"
+  check_file="$3"
+
+  if [ ! -f "$check_file" ]; then
+    echo "installing $package_name"
+    curl -L -o "/tmp/$package_name.dmg" "$url"
+    hdiutil attach -nobrowse -quiet "/tmp/$package_name.dmg"
+    cp -r "/Volumes/$package_name/$package_name.app" /Applications
+    hdiutil detach -quiet "/Volumes/$package_name"
+    rm "/tmp/$package_name.dmg"
+  fi
+}
+
+install_software() {
+  echo "installing software for macOS"
+  install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+  create_bin
 }
