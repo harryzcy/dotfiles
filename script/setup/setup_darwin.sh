@@ -59,7 +59,7 @@ install_tools() {
   run_brew_install python3
   run_brew_install tree
   run_brew_install wget
-  run_brew_install gnupg
+  run_brew_install gnupg gpg
 
   install_tools:node
 }
@@ -69,4 +69,24 @@ install_tools:node() {
   [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
   nvm install --lts
   nvm use --lts
+}
+
+symlink_if_not_exists() {
+  src="$1"
+  dest="$DOTFILE_DIR/dot/bin/$2"
+
+  if [ ! -f "$dest" ] && [ -f "$src"] ; then
+    echo "symlinking \"$src\" to \"$dest\""
+    ln -s "$src" "$dest"
+  fi
+}
+
+create_bin() {
+  if [ ! -d "$DOTFILE_DIR/dot/bin" ]
+  then
+    echo "creating $DOTFILE_DIR/dot/bin"
+    mkdir $DOTFILE_DIR/dot/bin
+  fi
+
+  symlink_if_not_exists "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" chrome
 }
