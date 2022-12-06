@@ -115,6 +115,19 @@ install_dmg() {
   fi
 }
 
+install_zip() {
+  package_name="$1"
+  url="$2"
+  check_file="$3"
+
+  if [ ! -f "$check_file" ]; then
+    echo "installing $package_name"
+    curl -L -o "/tmp/$package_name.zip" "$url"
+    unzip -q "/tmp/$package_name.zip" -d /Applications
+    rm "/tmp/$package_name.zip"
+  fi
+}
+
 install_software() {
   echo "installing software for macOS"
 
@@ -127,7 +140,7 @@ install_software() {
   fi
 
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-  install_dmg "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
+  install_zip "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
 
   create_bin
 }
