@@ -115,9 +115,32 @@ install_dmg() {
   fi
 }
 
+install_zip() {
+  package_name="$1"
+  url="$2"
+  check_file="$3"
+
+  if [ ! -f "$check_file" ]; then
+    echo "installing $package_name"
+    curl -L -o "/tmp/$package_name.zip" "$url"
+    unzip -q "/tmp/$package_name.zip" -d /Applications
+    rm "/tmp/$package_name.zip"
+  fi
+}
+
 install_software() {
   echo "installing software for macOS"
+
+  arch=$(uname -m)
+
+  if [ "$arch" = "arm64" ]; then
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
+  else
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
+  fi
+
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  install_zip "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
 
   create_bin
 }

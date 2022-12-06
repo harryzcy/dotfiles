@@ -14,4 +14,5 @@ check_tools() {
 
 check_softwares() {
   check_directory "/Applications/Google Chrome.app"
+  check_directory "/Applications/Visual Studio Code.app"
 }
