@@ -135,12 +135,15 @@ install_software() {
 
   if [ "$arch" = "arm64" ]; then
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
+    notion_url="https://www.notion.so/desktop/apple-silicon/download"
   else
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
+    notion_url="https://www.notion.so/desktop/mac/download"
   fi
 
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
   install_zip "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
+  install_dmg "Notion" "$notion_url" "/Applications/Notion.app/Contents/MacOS/Notion"
 
   create_bin
 }
