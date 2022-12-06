@@ -128,6 +128,19 @@ install_zip() {
   fi
 }
 
+install_pkg() {
+  package_name="$1"
+  url="$2"
+  check_file="$3"
+
+  if [ ! -f "$check_file" ]; then
+    echo "installing $package_name"
+    curl -L -o "/tmp/$package_name.pkg" "$url"
+    sudo installer -pkg "/tmp/$package_name.pkg" -target /
+    rm "/tmp/$package_name.pkg"
+  fi
+}
+
 install_software() {
   echo "installing software for macOS"
 
@@ -149,6 +162,8 @@ install_software() {
 
   iina_version=$(curl -s https://api.github.com/repos/iina/iina/releases/latest | jq -r '.tag_name')
   install_zip "IINA" "https://dl-portal.iina.io/IINA.${iina_version}.dmg" "/Applications/IINA.app/Contents/MacOS/IINA"
+
+  install_pkg "zoom.us" "https://zoom.us/client/latest/Zoom.pkg" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
 
   create_bin
 }
