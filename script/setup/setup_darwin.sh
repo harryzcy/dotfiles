@@ -82,14 +82,11 @@ symlink_if_not_exists() {
 }
 
 create_bin() {
-  echo "$DOTFILE_DIR/dot/bin"
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]
   then
     echo "creating $DOTFILE_DIR/dot/bin"
     mkdir $DOTFILE_DIR/dot/bin
   fi
-
-  ls "$DOTFILE_DIR/dot/bin"
 
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
     cat > "$DOTFILE_DIR/dot/bin/chrome" << EOT
@@ -108,8 +105,8 @@ install_dmg() {
   if [ ! -f "$check_file" ]; then
     echo "installing $package_name"
     curl -L -o "/tmp/$package_name.dmg" "$url"
-    hdiutil attach -nobrowse -quiet "/tmp/$package_name.dmg"
-    cp -r "/Volumes/$package_name/$package_name.app" /Applications
+    dir=$(hdiutil attach "/tmp/$package_name.dmg" | tail -1 | awk '{print $3}')
+    cp -r "$dir/$package_name.app" /Applications
     hdiutil detach -quiet "/Volumes/$package_name"
     rm "/tmp/$package_name.dmg"
   fi
