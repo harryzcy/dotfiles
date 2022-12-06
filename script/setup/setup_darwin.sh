@@ -111,8 +111,8 @@ install_dmg() {
   if [ ! -f "$check_file" ]; then
     echo "installing $package_name"
     curl -L -o "/tmp/$package_name.dmg" "$url"
-    dir=$(hdiutil attach "/tmp/$package_name.dmg" | tail -1 | awk '{print $3}')
-    cp -r "$dir/$package_name.app" /Applications
+    dir=$(hdiutil attach -nobrowse "/tmp/$package_name.dmg" | tail -1 | sed 's/.*Volumes\///')
+    cp -r "/Volumes/$dir/$package_name.app" /Applications
     hdiutil detach -quiet "/Volumes/$package_name"
     rm "/tmp/$package_name.dmg"
   fi
