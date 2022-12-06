@@ -75,7 +75,7 @@ symlink_if_not_exists() {
   src="$1"
   dest="$DOTFILE_DIR/dot/bin/$2"
 
-  if [ ! -f "$dest" ]; then
+  if [ ! -f "$dest" ] && [ -f "src"] ; then
     echo "symlinking \"$src\" to \"$dest\""
     ln -s "$src" "$dest"
   fi
