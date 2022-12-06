@@ -65,10 +65,16 @@ install_tools() {
 }
 
 install_tools:node() {
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-  [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-  nvm install --lts
-  nvm use --lts
+  if ! command -v node &> /dev/null
+  then
+    echo "installing node"
+    nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
+    nvm_latest=${nvm_latest##*/}
+    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
+    [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
+    nvm install --lts
+    nvm use --lts
+  fi
 }
 
 symlink_if_not_exists() {
