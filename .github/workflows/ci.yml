@@ -12,6 +12,8 @@ jobs:
         os: [macos-11, macos-12, ubuntu-latest]
 
     steps:
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: Clean up installed software on macOS
         if: startsWith(matrix.os, 'macos')
         run: |
@@ -22,8 +24,6 @@ jobs:
           rm -rf /Users/runner/.gitconfig /Users/runner/.gitignore_global
 
       - uses: actions/checkout@v3
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
 
       - name: Install using Makefile
         run: |
