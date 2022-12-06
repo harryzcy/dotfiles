@@ -106,9 +106,9 @@ install_dmg() {
     echo "installing $package_name"
     curl -L -o "/tmp/$package_name.dmg" "$url"
     hdiutil attach -nobrowse -quiet "/tmp/$package_name.dmg"
-    cp -r /Volumes/$package_name/$package_name.app /Applications
-    hdiutil detach -quiet /Volumes/$package_name
-    rm /tmp/$package_name.dmg
+    cp -r "/Volumes/$package_name/$package_name.app" /Applications
+    hdiutil detach -quiet "/Volumes/$package_name"
+    rm "/tmp/$package_name.dmg"
   fi
 }
 
