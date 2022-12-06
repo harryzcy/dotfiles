@@ -147,5 +147,8 @@ install_software() {
   install_dmg "Keka" "https://d.keka.io/" "/Applications/Keka.app/Contents/MacOS/Keka"
   install_zip "iTerm2" "https://iterm2.com/downloads/stable/latest" "/Applications/iTerm.app/Contents/MacOS/iTerm2"
 
+  iina_version=$(curl -s https://api.github.com/repos/iina/iina/releases/latest | jq -r '.tag_name')
+  install_zip "IINA" "https://dl-portal.iina.io/IINA.${iina_version}.dmg" "/Applications/IINA.app/Contents/MacOS/IINA"
+
   create_bin
 }

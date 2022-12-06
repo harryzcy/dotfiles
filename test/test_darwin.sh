@@ -18,4 +18,5 @@ check_softwares() {
   check_directory "/Applications/Notion.app"
   check_directory "/Applications/Keka.app"
   check_directory "/Applications/iTerm2.app"
+  check_directory "/Applications/IINA.app"
 }
