@@ -22,6 +22,8 @@ jobs:
           rm -rf /Users/runner/.gitconfig /Users/runner/.gitignore_global
 
       - uses: actions/checkout@v3
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Install using Makefile
         run: |
