@@ -1,8 +1,10 @@
-.PHONY: setup test upgrade
+.PHONY: setup test upgrade token
 
-setup:
-  echo $(value GITHUB_TOKEN)
+setup: token
 	./script/setup.sh
+
+token:
+	@echo $(value GITHUB_TOKEN)
 
 test:
 	./test/test.sh
