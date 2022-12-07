@@ -26,6 +26,8 @@ jobs:
       - name: Install using Makefile
         run: |
           make setup
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         run: |
