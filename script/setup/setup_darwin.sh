@@ -138,7 +138,7 @@ install_pkg() {
 
   if [ ! -f "$check_file" ]; then
     echo "installing $package_name"
-    curl -L -o "/tmp/$package_name.pkg" "$url"
+    curl -sL -o "/tmp/$package_name.pkg" "$url"
     sudo installer -pkg "/tmp/$package_name.pkg" -target /
     rm "/tmp/$package_name.pkg"
   fi
