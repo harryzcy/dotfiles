@@ -168,9 +168,9 @@ install_software() {
   if [ -z "$GITHUB_TOKEN" ]; then
     iina_version=$(curl -s https://api.github.com/repos/iina/iina/releases/latest | grep tag_name | cut -d : -f 2,3 | tr -d \"\ \,)
   else
+    # needed because if GitHub rate limits in GitHub actions
     iina_version=$(curl -s --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/iina/iina/releases/latest | grep tag_name | cut -d : -f 2,3 | tr -d \"\ \,)
   fi
-  echo "installing IINA $iina_version from https://dl-portal.iina.io/IINA.${iina_version}.dmg"
   install_dmg "IINA" "https://dl-portal.iina.io/IINA.${iina_version}.dmg" "/Applications/IINA.app/Contents/MacOS/IINA"
 
   install_pkg "zoom.us" "https://zoom.us/client/latest/Zoom.pkg" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
