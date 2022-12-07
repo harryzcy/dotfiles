@@ -110,7 +110,7 @@ install_dmg() {
 
   if [ ! -f "$check_file" ]; then
     echo "installing $package_name"
-    curl -L -o "/tmp/$package_name.dmg" "$url"
+    curl -sL -o "/tmp/$package_name.dmg" "$url"
     dir=$(hdiutil attach -nobrowse "/tmp/$package_name.dmg" | tail -1 | sed 's/.*Volumes\///')
     cp -r "/Volumes/$dir/$package_name.app" /Applications
     hdiutil detach -quiet "/Volumes/$package_name"
@@ -125,7 +125,7 @@ install_zip() {
 
   if [ ! -f "$check_file" ]; then
     echo "installing $package_name"
-    curl -L -o "/tmp/$package_name.zip" "$url"
+    curl -sL -o "/tmp/$package_name.zip" "$url"
     unzip -q "/tmp/$package_name.zip" -d /Applications
     rm "/tmp/$package_name.zip"
   fi
