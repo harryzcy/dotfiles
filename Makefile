@@ -1,6 +1,7 @@
 .PHONY: setup test upgrade
 
 setup:
+  echo $(value GITHUB_TOKEN)
 	./script/setup.sh
 
 test:
