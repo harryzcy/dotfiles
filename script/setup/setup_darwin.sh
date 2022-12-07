@@ -166,6 +166,7 @@ install_software() {
   install_zip "iTerm2" "https://iterm2.com/downloads/stable/latest" "/Applications/iTerm.app/Contents/MacOS/iTerm2"
 
   iina_version=$(curl -s https://api.github.com/repos/iina/iina/releases/latest | jq -r '.tag_name')
+  echo "installing IINA $iina_version from https://dl-portal.iina.io/IINA.${iina_version}.dmg"
   install_dmg "IINA" "https://dl-portal.iina.io/IINA.${iina_version}.dmg" "/Applications/IINA.app/Contents/MacOS/IINA"
 
   install_pkg "zoom.us" "https://zoom.us/client/latest/Zoom.pkg" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
