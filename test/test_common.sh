@@ -3,8 +3,8 @@
 check_git() {
   # git
   check_command git
-  check_sym_link $HOME/.gitconfig
-  check_sym_link $HOME/.gitignore_global
+  check_file $HOME/.gitconfig
+  check_file $HOME/.gitignore_global
 }
 
 check_zsh() {
