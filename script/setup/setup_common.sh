@@ -45,12 +45,12 @@ configure_git() {
   src_dir=$1
 
   if [[ ! -f $HOME/.gitconfig ]]; then
-    echo "creating symlink for .gitconfig"
+    echo "creating .gitconfig"
     cp ${src_dir}/git/.gitconfig $HOME/.gitconfig
   fi
 
   if [[ ! -f $HOME/.gitignore_global ]]; then
-    echo "creating symlink for .gitignore_global"
+    echo "creating .gitignore_global"
     cp ${src_dir}/git/.gitignore_global $HOME/.gitignore_global
   fi
 }
