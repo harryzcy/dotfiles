@@ -1,4 +1,10 @@
 #!/bin/bash
 
-current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-${current}/script/setup.sh
+if ! command -v git &> /dev/null; then
+    echo "git is not installed"
+    exit 1
+fi
+
+git clone https://github.com/harryzcy/dotfiles.git $HOME/dotfiles
+
+$HOME/dotfiles/script/setup.sh
