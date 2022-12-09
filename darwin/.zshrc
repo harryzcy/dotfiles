@@ -89,7 +89,7 @@ export LANGUAGE=en_US.UTF-8
 # Go
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
-export PATH=$PATH:/usr/local/sbin/:/opt/homebrew/bin:${GOPATH}/bin:$HOME/Library/Python/3.10/bin
+export PATH=$PATH:/usr/local/sbin/:/opt/homebrew/bin:/usr/local/go/bin:${GOPATH}/bin:$HOME/Library/Python/3.10/bin
 
 # nvm
 export NVM_DIR=~/.nvm
