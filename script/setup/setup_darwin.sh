@@ -101,6 +101,7 @@ create_bin() {
 EOT
   fi
   chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+  ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
 }
 
 install_dmg() {
