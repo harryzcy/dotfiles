@@ -1,7 +1,7 @@
 [user]
 	email = harry@harryzheng.com
 	name = harryzcy
-	signingkey = CC2953E050C19686
+	signingkey = <signingkey>
 
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
