@@ -67,6 +67,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  web-search
   zsh-autosuggestions
   zsh-syntax-highlighting
   golang
