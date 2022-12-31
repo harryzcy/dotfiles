@@ -106,6 +106,9 @@ export PATH="$PATH:$PNPM_HOME"
 
 export GPG_TTY=$(tty)
 
+# gh cli uses EDITOR env
+export EDITOR="vim"
+
 # HomeBrew
 HOMEBREW_EDITOR="code"
 
