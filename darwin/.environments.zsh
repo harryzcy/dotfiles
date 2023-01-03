@@ -25,9 +25,9 @@ start_esp8266 () {
 start_esp32 () {
   export ESP_PATH=~/esp
   export IDF_PATH=$HOME/esp/esp-idf
-  export ESPPORT=/dev/cu.SLAB_USBtoUART
+  # export ESPPORT=/dev/cu.SLAB_USBtoUART
   source $HOME/esp/esp-idf/export.sh
-  source ~/.espressif/python_env/idf5.0_py3.10_env/bin/activate
+  # source ~/.espressif/python_env/idf5.0_py3.10_env/bin/activate
 }
 
 # esp related utils
