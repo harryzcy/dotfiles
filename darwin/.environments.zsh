@@ -1,17 +1,22 @@
 # development environment switching
 
 init_conda() {
-# >>> conda initialize >>>
+  conda_dir="$HOME/miniconda3"
+  if [ ! -d "$conda_dir" ]; then
+    conda_dir="$HOME/anaconda3"
+  fi
+
+  # >>> conda initialize >>>
   # !! Contents within this block are managed by 'conda init' !!
-  __conda_setup="$("${HOME}/anaconda3/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+  __conda_setup="$("${conda_dir}/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
   if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+      eval "$__conda_setup"
   else
-    if [ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "${HOME}/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="${HOME}/anaconda3/bin:$PATH"
-    fi
+      if [ -f "${conda_dir}/etc/profile.d/conda.sh" ]; then
+          . "${conda_dir}/etc/profile.d/conda.sh"
+      else
+          export PATH="${conda_dir}/bin:$PATH"
+      fi
   fi
   unset __conda_setup
   # <<< conda initialize <<<
