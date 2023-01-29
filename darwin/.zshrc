@@ -74,6 +74,7 @@ plugins=(
   python
   pip
   dotenv
+  kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
