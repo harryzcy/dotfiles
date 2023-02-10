@@ -78,7 +78,6 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-source <(kubectl completion zsh)
 
 # User configuration
 
@@ -123,5 +122,8 @@ source $platform_dir/.environments.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
 export PATH="$PATH:$DOTFILE_DIR/dot/bin"
+
+source <(kubectl completion zsh)
+source <(helm completion zsh)
 
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
