@@ -22,3 +22,18 @@ if [ -f $HOME/.env ]
 then
   export $(cat $HOME/.env | xargs)
 fi
+
+function chk3s () {
+  if [ -n "$1" ] && [ $1 = "-h" ]; then
+    echo "Usage: chk3s <cluster>"
+    return
+  fi
+
+  cluster=${1:-default}
+
+  if [ $cluster = "default" ]; then
+    export KUBECONFIG=$HOME/.kube/config
+  else
+    export KUBECONFIG=$HOME/.kube/config-$cluster
+  fi
+}
