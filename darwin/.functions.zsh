@@ -31,9 +31,5 @@ function chk3s () {
 
   cluster=${1:-default}
 
-  if [ $cluster = "default" ]; then
-    export KUBECONFIG=$HOME/.kube/config
-  else
-    export KUBECONFIG=$HOME/.kube/config-$cluster
-  fi
+  kubectl config use-context $cluster
 }
