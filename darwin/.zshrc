@@ -128,6 +128,16 @@ export PATH="$PATH:$DOTFILE_DIR/dot/bin"
 
 source <(kubectl completion zsh)
 source <(helm completion zsh)
+# ansible completion
+eval $(register-python-argcomplete ansible)
+eval $(register-python-argcomplete ansible-config)
+eval $(register-python-argcomplete ansible-console)
+eval $(register-python-argcomplete ansible-doc)
+eval $(register-python-argcomplete ansible-galaxy)
+eval $(register-python-argcomplete ansible-inventory)
+eval $(register-python-argcomplete ansible-playbook)
+eval $(register-python-argcomplete ansible-pull)
+eval $(register-python-argcomplete ansible-vault)
 
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
