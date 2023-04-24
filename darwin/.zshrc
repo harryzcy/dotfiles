@@ -94,6 +94,9 @@ export GOPATH=$HOME/go
 
 export PATH=/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH:/usr/local/sbin/:/usr/local/go/bin:${GOPATH}/bin
 
+# Python
+export PATH=${PATH}:/Users/harry/Library/Python/3.11/bin
+
 # nvm
 export NVM_DIR=~/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
