@@ -35,7 +35,12 @@ jobs:
           make test
         shell: zsh {0}
 
-      - name: Run commands
+      - name: Run upgrade command
         run: |
-          make upgrade clean
+          make upgrade
+        shell: zsh {0}
+      
+      - name: Run clean command
+        run: |
+          make clean
         shell: zsh {0}
