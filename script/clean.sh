@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 clean:mac() {
-  brew cleanup -s
+  brew cleanup
 
   # clean pip cache
   local_wheel_str=$(pip3 cache info | grep "locally built wheels")
