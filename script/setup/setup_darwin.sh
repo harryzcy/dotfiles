@@ -17,7 +17,6 @@ install_homebrew() {
 
 run_brew_install() {
   package_name=$1
-  executable_name=${2:-$package_name}
 
   if ! command -v brew &> /dev/null
   then
@@ -51,7 +50,7 @@ install_git() {
 
 install_tools() {
   echo "installing tools for macOS"
-  run_brew_install coreutils realpath
+  run_brew_install coreutils
   run_brew_install cloc
   run_brew_install curl
   run_brew_install gh
@@ -60,7 +59,7 @@ install_tools() {
   run_brew_install python3
   run_brew_install tree
   run_brew_install wget
-  run_brew_install gnupg gpg
+  run_brew_install gnupg
 
   install_tools:node
 }
