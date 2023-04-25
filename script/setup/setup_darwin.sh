@@ -62,6 +62,8 @@ install_tools() {
   run_brew_install gnupg
   run_brew_install ansible
   install_tools:argcomplete # needed for autocompletion for ansible
+  run_brew_install helm
+  run_brew_install kubectl
 
   install_tools:node
 }
