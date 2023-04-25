@@ -61,6 +61,7 @@ install_tools() {
   run_brew_install wget
   run_brew_install gnupg
   run_brew_install ansible
+  install_tools:argcomplete # needed for autocompletion for ansible
 
   install_tools:node
 }
@@ -75,6 +76,14 @@ install_tools:node() {
     [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
     nvm install --lts
     nvm use --lts
+  fi
+}
+
+install_tools:argcomplete() {
+  if ! command -v register-python-argcomplete &> /dev/null
+  then
+    echo "installing argcomplete"
+    pip3 install argcomplete
   fi
 }
 
