@@ -25,10 +25,11 @@ run_brew_install() {
       exit 1
   fi
 
-  if ! command -v $executable_name &> /dev/null
-  then
-      echo "installing $package_name"
-      brew install $package_name
+  if brew list $1 &>/dev/null; then
+    echo "already installed: $package_name"
+  else
+    echo "installing $package_name"
+    brew install $package_name
   fi
 }
 
