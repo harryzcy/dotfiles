@@ -60,6 +60,7 @@ install_tools() {
   run_brew_install tree
   run_brew_install wget
   run_brew_install gnupg
+  run_brew_install ansible
 
   install_tools:node
 }
