@@ -98,11 +98,29 @@ export PATH=/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH:/usr/lo
 export PATH=${PATH}:/Users/harry/Library/Python/3.11/bin
 
 # nvm
-export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# add nvm to the end instead of the beginning
-export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
+lazy_load_nvm() {
+  unset -f npm node nvm
+  export NVM_DIR=~/.nvm
+  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  # add nvm to the end instead of the beginning
+  export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
+}
+
+npm() {
+ lazy_load_nvm
+ npm $@
+}
+
+node() {
+  lazy_load_nvm
+  node $@
+}
+
+nvm() {
+  lazy_load_nvm
+  node $@
+}
 
 # pnpm
 export PNPM_HOME=$HOME/Library/pnpm
