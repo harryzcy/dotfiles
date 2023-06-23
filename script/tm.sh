@@ -6,6 +6,36 @@ directories=(
   node_modules
 )
 
+_auto_exclude() {
+  parent=$1
+  dry_run=$2
+
+  # prevent no matches found error with (N) glob qualifier
+  for dir in $parent/*(N); do
+    [ ! -d "$dir" ] && continue
+    [ -L "${dir%/}" ] && continue
+
+    dir="${dir:a}" # remote trailing slash
+
+    is_excluded=false
+    for exclude in $directories; do
+      if [[ $dir =~ $exclude ]]; then
+        is_excluded=true
+        if [ "$dry_run" = true ]; then
+          echo "Would exclude $dir"
+        else
+          echo "Excluding $dir"
+          tmutil addexclusion $dir
+        fi
+      fi
+    done
+
+    if [ "$is_excluded" = false ]; then
+      _auto_exclude $dir $dry_run
+    fi
+  done
+}
+
 auto_exclude() {
   flag=$1
   dry_run=false
@@ -13,31 +43,7 @@ auto_exclude() {
     dry_run=true
   fi
 
-  excluded=()
-
-  for dir in $PWD/**/*/; do
-    dir="${dir:a}" # remote trailing slash
-
-    # check if dir is already excluded
-    for exclude in $excluded; do
-      if [[ $dir =~ $exclude ]]; then
-        continue 2
-      fi
-    done
-
-    # check if dir matches any of the excluded directories
-    for exclude in $directories; do
-      if [[ $dir =~ $exclude ]]; then
-        if [ "$dry_run" = true ]; then
-          echo "Would exclude $dir"
-        else
-          echo "Excluding $dir"
-          tmutil addexclusion $dir
-        fi
-        excluded+=($dir)
-      fi
-    done
-  done
+  _auto_exclude $PWD $dry_run
 }
 
 add_exclude() {
@@ -82,6 +88,8 @@ if [ "$arg" = "ls" ]; then
 elif [ "$arg" = "add" ]; then
   if [ -z "$2" ]; then
     auto_exclude
+  elif [ "$2" = "--dry-run" ]; then
+    auto_exclude $2
   else
     add_exclude $2
   fi
