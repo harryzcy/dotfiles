@@ -7,6 +7,12 @@ directories=(
 )
 
 auto_exclude() {
+  flag=$1
+  dry_run=false
+  if [ "$flag" = "--dry-run" ]; then
+    dry_run=true
+  fi
+
   excluded=()
 
   for dir in $PWD/**/*/; do
@@ -22,8 +28,12 @@ auto_exclude() {
     # check if dir matches any of the excluded directories
     for exclude in $directories; do
       if [[ $dir =~ $exclude ]]; then
-        echo "Excluding $dir"
-        tmutil addexclusion $dir
+        if [ "$dry_run" = true ]; then
+          echo "Would exclude $dir"
+        else
+          echo "Excluding $dir"
+          # tmutil addexclusion $dir
+        fi
         excluded+=($dir)
       fi
     done
