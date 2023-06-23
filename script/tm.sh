@@ -32,7 +32,7 @@ auto_exclude() {
           echo "Would exclude $dir"
         else
           echo "Excluding $dir"
-          # tmutil addexclusion $dir
+          tmutil addexclusion $dir
         fi
         excluded+=($dir)
       fi
