@@ -159,3 +159,6 @@ eval $(register-python-argcomplete ansible-vault)
 
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
+
+# Aliases
+alias kak="kubectl apply -k"
