@@ -4,6 +4,7 @@ arg=$1
 
 directories=(
   node_modules
+  venv # python virtualenv
 )
 
 _auto_exclude() {
