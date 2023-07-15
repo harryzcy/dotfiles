@@ -113,6 +113,8 @@ export PATH="$PATH:/usr/sbin:$HOME/.local/bin"
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
+source $platform_dir/.functions_go.zsh
+
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
 
