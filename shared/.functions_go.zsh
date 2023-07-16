@@ -8,24 +8,39 @@ install_go() {
     return 1
   fi
 
-  sudo -v
+  if sudo -n true 2>/dev/null; then 
+    # sudo is available
+  else
+    # request sudo password
+    sudo -v
+  fi
 
   echo "Updating go to version $version"
+
+  osstr=$(uname -s)
+  if [[ "$osstr" == "Darwin" ]]; then
+    os="darwin"
+  elif [[ "$osstr" == "Linux" ]]; then
+    os="linux"
+  else
+    echo "Unsupported OS: $osstr"
+    return 1
+  fi
 
   archstr=$(uname -m)
   if [[ "$archstr" == "x86_64" ]]; then
     arch="amd64"
-  elif [[ "$archstr" == "arm64" || "$archstr" == "arm" ]]; then
+  elif [[ "$archstr" == "arm64" || "$archstr" == "arm" || "$archstr" == "aarch64" ]]; then
     arch="arm64"
   else
     echo "Unsupported architecture: $archstr"
     return 1
   fi
 
-  url="https://go.dev/dl/go${version}.darwin-${arch}.tar.gz"
+  url="https://go.dev/dl/go${version}.${os}-${arch}.tar.gz"
   echo "Downloading $url"
 
-  file="$HOME/Downloads/go${version}.darwin-${arch}.tar.gz"
+  file="$HOME/Downloads/go${version}.${os}-${arch}.tar.gz"
   curl -L "$url" -o "$file"
 
   echo "Extracting $file"
