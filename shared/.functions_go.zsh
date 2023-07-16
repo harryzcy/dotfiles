@@ -40,7 +40,7 @@ install_go() {
   url="https://go.dev/dl/go${version}.${os}-${arch}.tar.gz"
   echo "Downloading $url"
 
-  file="$HOME/Downloads/go${version}.${os}-${arch}.tar.gz"
+  file="${DOWNLOAD_DIR}/go${version}.${os}-${arch}.tar.gz"
   curl -L "$url" -o "$file"
 
   echo "Extracting $file"

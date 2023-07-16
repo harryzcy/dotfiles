@@ -113,6 +113,8 @@ export PATH="$PATH:/usr/sbin:$HOME/.local/bin"
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
+export DOWNLOAD_DIR="$HOME"
+
 source $DOTFILE_DIR/shared/.functions.zsh
 
 # load dot command

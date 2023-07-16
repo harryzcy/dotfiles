@@ -138,6 +138,8 @@ HOMEBREW_EDITOR="code"
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
+export DOWNLOAD_DIR="$HOME/Downloads"
+
 source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 
