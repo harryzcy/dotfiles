@@ -159,6 +159,8 @@ eval $(register-python-argcomplete ansible-playbook)
 eval $(register-python-argcomplete ansible-pull)
 eval $(register-python-argcomplete ansible-vault)
 
+export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
+
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
 
