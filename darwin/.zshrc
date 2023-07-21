@@ -119,7 +119,7 @@ node() {
 
 nvm() {
   lazy_load_nvm
-  node $@
+  nvm $@
 }
 
 export GPG_TTY=$(tty)
