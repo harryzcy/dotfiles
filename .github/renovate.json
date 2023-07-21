@@ -1,7 +1,7 @@
 {
   "extends": [
     "config:recommended",
-    ":dependencyDashboard"
+    ":disableDependencyDashboard"
   ],
   "labels": [
     "dependencies"
