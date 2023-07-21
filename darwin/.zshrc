@@ -56,7 +56,7 @@ node() {
 
 nvm() {
   lazy_load_nvm
-  node $@
+  nvm $@
 }
 
 # pnpm
