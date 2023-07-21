@@ -122,10 +122,6 @@ nvm() {
   node $@
 }
 
-# pnpm
-export PNPM_HOME=$HOME/Library/pnpm
-export PATH="$PATH:$PNPM_HOME"
-
 export GPG_TTY=$(tty)
 
 # gh cli uses EDITOR env
