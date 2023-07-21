@@ -14,7 +14,6 @@ function unset_proxy() {
 }
 
 dir=$(dirname "$0")
-source $dir/.functions_git.zsh
 source $dir/.functions_docker.zsh
 source $DOTFILE_DIR/shared/.functions.zsh
 
