@@ -31,6 +31,9 @@ export GOPATH=$HOME/go
 
 export PATH=/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH:/usr/local/sbin/:/usr/local/go/bin:${GOPATH}/bin
 
+# Rust
+export PATH="$PATH:$HOME/.cargo/bin"
+
 # Python
 export PATH=${PATH}:/Users/harry/Library/Python/3.11/bin
 
