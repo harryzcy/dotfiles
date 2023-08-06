@@ -42,14 +42,14 @@ lazy_load_nvm() {
   unset -f npm node nvm
   export NVM_DIR=~/.nvm
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
   # add nvm to the end instead of the beginning
   export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
 }
 
 npm() {
- lazy_load_nvm
- npm $@
+  lazy_load_nvm
+  npm $@
 }
 
 node() {
@@ -95,10 +95,16 @@ eval $(register-python-argcomplete ansible-playbook)
 eval $(register-python-argcomplete ansible-pull)
 eval $(register-python-argcomplete ansible-vault)
 
+# Projects
+export PROJECTS_PATH="${HOME}/Projects"
+
+# ansible inventory
+export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
+
 export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
 
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
+export DOT_REPO_PATH="${PROJECTS_PATH}:${HOME}/go/src/github.com/harryzcy:${HOME}/go/src/git.zcy.dev/harryzcy"
 
 # Aliases
 alias kak="kubectl apply -k"
