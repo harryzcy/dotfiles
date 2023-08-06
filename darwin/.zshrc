@@ -95,13 +95,16 @@ eval $(register-python-argcomplete ansible-playbook)
 eval $(register-python-argcomplete ansible-pull)
 eval $(register-python-argcomplete ansible-vault)
 
+# Projects
+export PROJECTS_PATH="${HOME}/Projects"
+
 # ansible inventory
-export ANSIBLE_INVENTORY=${HOME}/Projects/infrastructure/inventory
+export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
 
 export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
 
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export DOT_REPO_PATH="$HOME/Projects:$HOME/go/src/github.com/harryzcy:$HOME/go/src/git.harryzheng.com/harryzcy"
+export DOT_REPO_PATH="${PROJECTS_PATH}:${HOME}/go/src/github.com/harryzcy:${HOME}/go/src/git.zcy.dev/harryzcy"
 
 # Aliases
 alias kak="kubectl apply -k"
