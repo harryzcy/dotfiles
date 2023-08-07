@@ -29,7 +29,8 @@ export LANGUAGE=en_US.UTF-8
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
-export PATH=/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH:/usr/local/sbin/:/usr/local/go/bin:${GOPATH}/bin
+export PATH=$PATH:/usr/local/go/bin:${GOPATH}/bin:/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:/usr/local/sbin/
+export PATH="$PATH:/opt/homebrew/opt/libpq/bin"
 
 # Rust
 export PATH="$PATH:$HOME/.cargo/bin"
@@ -103,7 +104,6 @@ export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
 
 export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
 
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export DOT_REPO_PATH="${PROJECTS_PATH}:${HOME}/go/src/github.com/harryzcy:${HOME}/go/src/git.zcy.dev/harryzcy"
 
 # Aliases
