@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
 
 check_command() {
-  if ! command -v $1 &> /dev/null
-  then
+  if ! command -v $1 &>/dev/null; then
     echo "command $1 could not be found"
     exit 1
   fi

@@ -6,7 +6,7 @@ clean:mac() {
   # clean pip cache
   local_wheel_str=$(pip3 cache info | grep "locally built wheels")
   num_wheels=${local_wheel_str#*:} # remove everything before :
-  if (( num_wheels > 0 )); then
+  if ((num_wheels > 0)); then
     pip3 cache remove "*"
   fi
 }
