@@ -45,6 +45,6 @@ install_zsh ${src_dir}
 configure_zsh ${src_dir}
 install_tools
 
-if typeset -f install_software > /dev/null; then
+if typeset -f install_software >/dev/null; then
   install_software
 fi
