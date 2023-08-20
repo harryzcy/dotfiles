@@ -1,27 +1,24 @@
 #!/usr/bin/env bash
 
 install_xcode_select() {
-  if ! xcode-select -p &> /dev/null
-  then
+  if ! xcode-select -p &>/dev/null; then
     sudo xcode-select --install
   fi
 }
 
 install_homebrew() {
-  if ! command -v brew &> /dev/null
-  then
-      echo "installing homebrew"
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if ! command -v brew &>/dev/null; then
+    echo "installing homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }
 
 run_brew_install() {
   package_name=$1
 
-  if ! command -v brew &> /dev/null
-  then
-      echo "brew is not installed"
-      exit 1
+  if ! command -v brew &>/dev/null; then
+    echo "brew is not installed"
+    exit 1
   fi
 
   if brew list $1 &>/dev/null; then
@@ -33,16 +30,14 @@ run_brew_install() {
 }
 
 install_zsh() {
-  if ! command -v zsh &> /dev/null
-  then
+  if ! command -v zsh &>/dev/null; then
     echo "installing zsh"
     brew install zsh
   fi
 }
 
 install_git() {
-  if ! command -v git &> /dev/null
-  then
+  if ! command -v git &>/dev/null; then
     echo "installing git"
     brew install git
   fi
@@ -69,8 +64,7 @@ install_tools() {
 }
 
 install_tools:node() {
-  if ! command -v node &> /dev/null
-  then
+  if ! command -v node &>/dev/null; then
     echo "installing node"
     nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
     nvm_latest=${nvm_latest##*/}
@@ -82,8 +76,7 @@ install_tools:node() {
 }
 
 install_tools:argcomplete() {
-  if ! command -v register-python-argcomplete &> /dev/null
-  then
+  if ! command -v register-python-argcomplete &>/dev/null; then
     echo "installing argcomplete"
     pip3 install argcomplete
   fi
@@ -93,21 +86,20 @@ symlink_if_not_exists() {
   src="$1"
   dest="$DOTFILE_DIR/dot/bin/$2"
 
-  if [ ! -f "$dest" ] && [ -f "$src"] ; then
+  if [ ! -f "$dest" ] && [ -f "$src"]; then
     echo "symlinking \"$src\" to \"$dest\""
     ln -s "$src" "$dest"
   fi
 }
 
 create_bin() {
-  if [ ! -d "$DOTFILE_DIR/dot/bin" ]
-  then
+  if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
     echo "creating $DOTFILE_DIR/dot/bin"
     mkdir $DOTFILE_DIR/dot/bin
   fi
 
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
-    cat > "$DOTFILE_DIR/dot/bin/chrome" << EOT
+    cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
 #!/usr/bin/env zsh
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
 EOT
@@ -193,4 +185,12 @@ install_software() {
   install_dmg "Docker" "$docker_url" "/Applications/Docker.app/Contents/MacOS/Docker"
 
   create_bin
+}
+
+init_hammerspoon() {
+  if [ ! -d "$HOME/.hammerspoon" ]; then
+    echo "initializing hammerspoon"
+    mkdir "$HOME/.hammerspoon"
+    ln -s "$DOTFILE_DIR/darwin/hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
+  fi
 }
