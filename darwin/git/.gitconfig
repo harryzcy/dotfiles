@@ -1,6 +1,6 @@
 [user]
-	email = harry@harryzheng.com
-	name = harryzcy
+	email = git@zcy.dev
+	name = Chongyi Zheng
 	signingkey = <signingkey>
 
 [filter "lfs"]
