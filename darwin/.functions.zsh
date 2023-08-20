@@ -1,7 +1,7 @@
 # .functions.zsh
 # A list of helper functions
 
-update_time () {
+update_time() {
   sudo sntp -sS time.apple.com
 }
 
@@ -17,12 +17,11 @@ dir=$(dirname "$0")
 source $dir/.functions_docker.zsh
 source $DOTFILE_DIR/shared/.functions.zsh
 
-if [ -f $HOME/.env ]
-then
+if [ -f $HOME/.env ]; then
   export $(cat $HOME/.env | xargs)
 fi
 
-function chk3s () {
+function chk3s() {
   if [ -n "$1" ] && [ $1 = "-h" ]; then
     echo "Usage: chk3s <cluster>"
     return
