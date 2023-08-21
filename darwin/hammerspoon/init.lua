@@ -29,8 +29,6 @@ end
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "1", moveWindowToDisplay(1))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "2", moveWindowToDisplay(2))
 
-hs.alert.show("Config loaded")
-
 local function Chinese()
   hs.console.printStyledtext("swithcing to Chinese")
   hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
@@ -41,14 +39,39 @@ local function English()
   hs.keycodes.currentSourceID("com.apple.keylayout.US")
 end
 
-local function set_app_input_method(app_name, set_input_method_function, event)
-  event = event or hs.window.filter.windowFocused
-  hs.window.filter.new(app_name)
-    :subscribe(event, function() set_input_method_function() end)
+local app2Ime = {
+  {'/Applications/iTerm.app', 'English'},
+  {'/System/Library/CoreServices/Finder.app', 'English'},
+  {'/System/Library/CoreServices/Spotlight.app', 'English'},
+  {'/Applications/System Preferences.app', 'English'},
+  {'/Applications/Visual Studio Code.app', 'English'},
+  {'/Applications/Wechat.app', 'Chinese'},
+}
+
+function updateFocusAppInputMethod()
+  local focusAppPath = hs.window.frontmostWindow():application():path()
+  for index, app in pairs(app2Ime) do
+      local appPath = app[1]
+      local expectedIme = app[2]
+
+      if focusAppPath == appPath then
+          if expectedIme == 'English' then
+              English()
+          else
+              Chinese()
+          end
+          break
+      end
+  end
 end
 
-set_app_input_method('Hammerspoon', English, hs.window.filter.windowCreated)
-set_app_input_method('Spotlight', English, hs.window.filter.windowCreated)
-set_app_input_method('iTerm2', English)
-set_app_input_method('WeChat', Chinese)
-set_app_input_method('Code', English)
+function applicationWatcher(appName, eventType, appObject)
+  if (eventType == hs.application.watcher.activated) then
+      updateFocusAppInputMethod()
+  end
+end
+
+appWatcher = hs.application.watcher.new(applicationWatcher)
+appWatcher:start()
+
+hs.alert.show("Config loaded")
