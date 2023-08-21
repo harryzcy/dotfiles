@@ -2,11 +2,22 @@
 
 dot() {
   command="$1"
-  shift
   if [ -z "$command" ]; then
-    echo "dot: no command specified"
+    echo "dot: command utility"
+    echo
+    echo "Usage: dot <command> [options]"
+    echo
+    echo "Commands:"
+    echo "  clean   clean up cache"
+    echo "  update  update dotfiles from Git"
+    echo "  upgrade upgrade installed packages"
+    echo "  reload  reload dotfiles"
+    echo "  repo    print repository path"
+    echo "  goto    goto repository"
+    echo "  tm      time machine utilities"
     return 1
   fi
+  shift
 
   if [ ${command} = "clean" ]; then
     ${DOTFILE_DIR}/script/clean.sh
