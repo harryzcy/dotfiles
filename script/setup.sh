@@ -21,12 +21,6 @@ if [[ "$arch" == 'aar64' ]]; then
   arch='arm64'
 fi
 
-if [[ "$arch" == 'x86_64' ]]; then
-  NO_INSTALL=true
-else
-  NO_INSTALL=false
-fi
-
 source ./setup/setup_common.sh
 
 if [[ "${CODESPACES}" == 'true' ]]; then
