@@ -28,6 +28,10 @@ export DOWNLOAD_DIR="$HOME"
 
 source $DOTFILE_DIR/shared/.functions.zsh
 
+if [[ -f "$HOME/.zshrc.local" ]]; then
+	source $HOME/.zshrc.local
+fi
+
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
 
