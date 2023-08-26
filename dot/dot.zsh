@@ -32,6 +32,9 @@ dot() {
   elif [ ${command} = "goto" ]; then
     dir=$(${DOTFILE_DIR}/script/repo.sh "$@")
     cd $dir
+  elif [ ${command} = "code" ]; then
+    dir=$(${DOTFILE_DIR}/script/repo.sh "$@")
+    code $dir
   elif [ ${command} = "tm" ]; then
     ${DOTFILE_DIR}/script/tm.sh "$@"
   else
