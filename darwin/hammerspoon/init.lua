@@ -15,8 +15,9 @@ function moveMouseScreen(screenNum)
   hs.mouse.absolutePosition(center)
   hs.eventtap.leftClick(center)
 end
-hs.hotkey.bind({'cmd', 'shift'}, 'left', function() moveMouseScreen(1) end)
-hs.hotkey.bind({'cmd', 'shift'}, 'right', function() moveMouseScreen(2) end)
+hs.hotkey.bind({'cmd', 'shift'}, 'down', function() moveMouseScreen(1) end)
+hs.hotkey.bind({'cmd', 'shift'}, 'left', function() moveMouseScreen(2) end)
+hs.hotkey.bind({'cmd', 'shift'}, 'right', function() moveMouseScreen(3) end)
 
 function moveWindowToDisplay(d)
   return function()
