@@ -2,7 +2,16 @@
 
 _dot() {
   local -a subcmds
-  subcmds=('clean' 'update' 'upgrade' 'reload' 'repo' 'goto' 'code' 'tm')
+  subcmds=(
+    'clean:clean up cache'
+    'update:update dotfiles from Git'
+    'upgrade:upgrade installed packages'
+    'reload:reload dotfiles'
+    'repo:print repository path'
+    'goto:goto repository'
+    'code:open repository in VSCode'
+    'tm:time machine utilities'
+  )
   _describe 'command' subcmds
 }
 
