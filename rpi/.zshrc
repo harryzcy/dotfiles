@@ -30,6 +30,7 @@ source $DOTFILE_DIR/shared/.functions.zsh
 
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
+source "$DOTFILE_DIR/dot/_dot.zsh"
 
 PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 
