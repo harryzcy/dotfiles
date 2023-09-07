@@ -21,7 +21,7 @@ jobs:
           sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
           rm -rf /Users/runner/.gitconfig /Users/runner/.gitignore_global
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install using Makefile
         run: |
