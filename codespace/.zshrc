@@ -21,4 +21,4 @@ export DOTFILE_DIR="$(dirname "$platform_dir")"
 
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
-
+source "$DOTFILE_DIR/dot/_dot.zsh"

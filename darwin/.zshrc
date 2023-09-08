@@ -81,6 +81,7 @@ source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
+source "$DOTFILE_DIR/dot/_dot.zsh"
 export PATH="$PATH:$DOTFILE_DIR/dot/bin"
 
 source <(kubectl completion zsh)
