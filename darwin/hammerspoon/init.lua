@@ -4,20 +4,46 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
 end)
 
-function moveMouseScreen(screenNum)
+function moveMouseScreen(position)
   local screens = hs.screen.allScreens()
-  if #screens < screenNum then
+  if #screens < 3 then
     return
   end
 
-  local rect = screens[screenNum]:fullFrame()
+  local bottomScreen = screens[1]
+  local topLeftScreen
+  local topRightScreen
+
+  x2, y2 = screens[2]:position()
+  x3, y3 = screens[3]:position()
+  if x2 > x3 then
+    topLeftScreen = screens[3]
+    topRightScreen = screens[2]
+  else
+    topLeftScreen = screens[2]
+    topRightScreen = screens[3]
+  end
+
+  local screen
+  if position == 'bottom' then
+    screen = bottomScreen
+  elseif position == 'left' then
+    screen = topLeftScreen
+  elseif position == 'right' then
+    screen = topRightScreen
+  else
+    return
+  end
+
+  local rect = screen:fullFrame()
   local center = hs.geometry.rectMidPoint(rect)
   hs.mouse.absolutePosition(center)
   hs.eventtap.leftClick(center)
 end
-hs.hotkey.bind({'cmd', 'shift'}, 'down', function() moveMouseScreen(1) end)
-hs.hotkey.bind({'cmd', 'shift'}, 'left', function() moveMouseScreen(2) end)
-hs.hotkey.bind({'cmd', 'shift'}, 'right', function() moveMouseScreen(3) end)
+
+hs.hotkey.bind({'cmd', 'shift'}, 'down', function() moveMouseScreen('bottom') end)
+hs.hotkey.bind({'cmd', 'shift'}, 'left', function() moveMouseScreen('left') end)
+hs.hotkey.bind({'cmd', 'shift'}, 'right', function() moveMouseScreen('right') end)
 
 function moveWindowToDisplay(d)
   return function()
