@@ -38,6 +38,9 @@ export PATH="$PATH:$HOME/.cargo/bin"
 # Python
 export PATH=${PATH}:/Users/harry/Library/Python/3.11/bin
 
+# SML/NJ
+export PATH=${PATH}:/usr/local/smlnj/bin
+
 # nvm
 lazy_load_nvm() {
   unset -f npm node nvm
