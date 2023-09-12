@@ -6,6 +6,9 @@ end)
 
 function moveMouseScreen(position)
   local screens = hs.screen.allScreens()
+  if #screens < 3 then
+    return
+  end
 
   local bottomScreen = screens[1]
   local topLeftScreen
