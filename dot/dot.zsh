@@ -31,9 +31,17 @@ dot() {
     ${DOTFILE_DIR}/script/repo.sh "$@"
   elif [ ${command} = "goto" ]; then
     dir=$(${DOTFILE_DIR}/script/repo.sh "$@")
+    if [ -z "$dir" ]; then
+      echo "dot: repository not found"
+      return 1
+    fi
     cd $dir
   elif [ ${command} = "code" ]; then
     dir=$(${DOTFILE_DIR}/script/repo.sh "$@")
+    if [ -z "$dir" ]; then
+      echo "dot: repository not found"
+      return 1
+    fi
     code $dir
   elif [ ${command} = "tm" ]; then
     ${DOTFILE_DIR}/script/tm.sh "$@"
