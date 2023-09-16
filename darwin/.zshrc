@@ -82,6 +82,7 @@ export DOWNLOAD_DIR="$HOME/Downloads"
 
 source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
+source $platform_dir/.aliases.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
 source "$DOTFILE_DIR/dot/_dot.zsh"
