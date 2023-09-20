@@ -41,31 +41,6 @@ export PATH=${PATH}:/Users/harry/Library/Python/3.11/bin
 # SML/NJ
 export PATH=${PATH}:/usr/local/smlnj/bin
 
-# nvm
-lazy_load_nvm() {
-  unset -f npm node nvm
-  export NVM_DIR=~/.nvm
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-  # add nvm to the end instead of the beginning
-  export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
-}
-
-npm() {
-  lazy_load_nvm
-  npm $@
-}
-
-node() {
-  lazy_load_nvm
-  node $@
-}
-
-nvm() {
-  lazy_load_nvm
-  nvm $@
-}
-
 export GPG_TTY=$(tty)
 
 # gh cli uses EDITOR env
