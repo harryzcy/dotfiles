@@ -4,10 +4,10 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
 end)
 
-function moveMouseScreen(position)
+function getScreen(position)
   local screens = hs.screen.allScreens()
   if #screens < 3 then
-    return
+    return nil
   end
 
   local bottomScreen = screens[1]
@@ -35,6 +35,15 @@ function moveMouseScreen(position)
     return
   end
 
+  return screen
+end
+
+function moveMouseScreen(position)
+  local screen = getScreen(position)
+  if screen == nil then
+    return
+  end
+
   local rect = screen:fullFrame()
   local center = hs.geometry.rectMidPoint(rect)
   hs.mouse.absolutePosition(center)
@@ -45,16 +54,17 @@ hs.hotkey.bind({'ctrl', 'shift'}, 'down', function() moveMouseScreen('bottom') e
 hs.hotkey.bind({'ctrl', 'shift'}, 'left', function() moveMouseScreen('left') end)
 hs.hotkey.bind({'ctrl', 'shift'}, 'right', function() moveMouseScreen('right') end)
 
-function moveWindowToDisplay(d)
+function moveWindowToDisplay(position)
   return function()
-    local displays = hs.screen.allScreens()
+    local screen = getScreen(position)
     local win = hs.window.focusedWindow()
-    win:moveToScreen(displays[d], false, true)
+    win:moveToScreen(screen, false, true)
   end
 end
 
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "1", moveWindowToDisplay(1))
-hs.hotkey.bind({"ctrl", "alt", "cmd"}, "2", moveWindowToDisplay(2))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "down", moveWindowToDisplay('bottom'))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "left", moveWindowToDisplay('left'))
+hs.hotkey.bind({"ctrl", "alt", "cmd"}, "right", moveWindowToDisplay('right'))
 
 local function Chinese()
   hs.console.printStyledtext("swithcing to Chinese")
