@@ -68,12 +68,16 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "right", moveWindowToDisplay('right'))
 
 local function Chinese()
   hs.console.printStyledtext("swithcing to Chinese")
-  hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
+  if hs.keycodes.currentSourceID() ~= "com.apple.inputmethod.SCIM.ITABC" then
+    hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
+  end
 end
 
 local function English()
   hs.console.printStyledtext("swithcing to English")
-  hs.keycodes.currentSourceID("com.apple.keylayout.US")
+  if hs.keycodes.currentSourceID() ~= "com.apple.keylayout.US" then
+    hs.keycodes.currentSourceID("com.apple.keylayout.US")
+  end
 end
 
 local app2Ime = {
