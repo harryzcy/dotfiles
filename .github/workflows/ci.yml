@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-12, macos-13, ubuntu-latest]
+        os: [macos-13, ubuntu-latest]
 
     steps:
       - name: Clean up installed software on macOS
@@ -39,7 +39,7 @@ jobs:
         run: |
           make upgrade
         shell: zsh {0}
-      
+
       - name: Run clean command
         run: |
           make clean
