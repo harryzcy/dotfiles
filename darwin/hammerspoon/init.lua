@@ -4,6 +4,15 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "R", function()
   hs.reload()
 end)
 
+function muteOnWake(eventType)
+  if (eventType == hs.caffeinate.watcher.systemDidWake) then
+    local output = hs.audiodevice.defaultOutputDevice()
+    output:setMuted(true)
+  end
+end
+caffeinateWatcher = hs.caffeinate.watcher.new(muteOnWake)
+caffeinateWatcher:start()
+
 function getScreen(position)
   local screens = hs.screen.allScreens()
   if #screens < 3 then
