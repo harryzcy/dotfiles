@@ -190,7 +190,6 @@ install_software() {
 init_hammerspoon() {
   if [ ! -d "$HOME/.hammerspoon" ]; then
     echo "initializing hammerspoon"
-    mkdir "$HOME/.hammerspoon"
-    ln -s "$DOTFILE_DIR/darwin/hammerspoon/init.lua" "$HOME/.hammerspoon/init.lua"
+    ln -s "$DOTFILE_DIR/darwin/hammerspoon" "$HOME/.hammerspoon"
   fi
 }
