@@ -23,8 +23,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
-typeset -U path
-
 # follow symlink, to go to the directory with the platform specific script
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
@@ -62,6 +60,7 @@ source $platform_dir/.environments.zsh
 source $platform_dir/.aliases.zsh
 source $platform_dir/.completion.zsh
 
+typeset -U path
 path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
