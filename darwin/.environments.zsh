@@ -1,12 +1,13 @@
 # development environment switching
 
-init_conda() {
+lazy_load_conda() {
+  unset -f conda
+
   conda_dir="$HOME/miniconda3"
   if [ ! -d "$conda_dir" ]; then
     conda_dir="$HOME/anaconda3"
   fi
 
-  # >>> conda initialize >>>
   # !! Contents within this block are managed by 'conda init' !!
   __conda_setup="$("${conda_dir}/bin/conda" 'shell.zsh' 'hook' 2>/dev/null)"
   if [ $? -eq 0 ]; then
@@ -19,7 +20,11 @@ init_conda() {
     fi
   fi
   unset __conda_setup
-  # <<< conda initialize <<<
+}
+
+conda() {
+  lazy_load_conda
+  conda $@
 }
 
 start_esp8266() {
