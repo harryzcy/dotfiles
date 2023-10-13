@@ -42,4 +42,4 @@ function unmountTM()
 end
 
 local path = getTMMountPoint()
--- unmountTM(path)
+hs.timer.doAt("4:00", "1d", unmountTM)
