@@ -9,11 +9,12 @@ function getTMMountPoint()
 end
 
 function isTMMounted(path)
+  if path == nil then
+    return false
+  end
   local status = hs.execute("if mount | grep -q \"" .. path .. "\"; then echo true; else echo false; fi")
-  print(13, status)
+  return status:match("true") ~= nil
 end
 
 local path = getTMMountPoint()
-if path then
-  isTMMounted(path)
-end
+isTMMounted(path)
