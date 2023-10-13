@@ -55,11 +55,6 @@ export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
 # snuuze
 export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
 
-source $platform_dir/.functions.zsh
-source $platform_dir/.environments.zsh
-source $platform_dir/.aliases.zsh
-source $platform_dir/.completion.zsh
-
 typeset -U path
 path=(
   /usr/local/go/bin # Go
@@ -75,3 +70,8 @@ path=(
   $DOTFILE_DIR/dot/bin                 # dot
 )
 export PATH
+
+source $platform_dir/.functions.zsh
+source $platform_dir/.environments.zsh
+source $platform_dir/.aliases.zsh
+source $platform_dir/.completion.zsh
