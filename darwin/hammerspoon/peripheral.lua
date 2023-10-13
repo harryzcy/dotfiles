@@ -16,8 +16,9 @@ function isTMMounted(path)
 end
 
 function isTMRunning()
-  local phase = hs.execute("tmutil currentphase")
-  return phase:match("BackupNotRunning") == nil
+  local status = hs.execute("tmutil status")
+  local data = hs.plist.readStatus(status)
+  return data['Running'] == 1
 end
 
 function stopTM()
