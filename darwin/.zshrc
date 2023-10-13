@@ -85,6 +85,3 @@ export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
 export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
 
 export DOT_REPO_PATH="${PROJECTS_PATH}:${HOME}/go/src/github.com/harryzcy:${HOME}/go/src/git.zcy.dev/harryzcy"
-
-# Aliases
-alias kak="kubectl apply -k"
