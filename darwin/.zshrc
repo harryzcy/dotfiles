@@ -19,8 +19,6 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
-
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
@@ -30,6 +28,8 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/go
 
 export PATH=/usr/local/go/bin:/opt/homebrew/bin:$PATH:${GOPATH}/bin:/opt/homebrew/opt/python/libexec/bin:/usr/local/sbin/
+
+# Postgres
 export PATH="$PATH:/opt/homebrew/opt/libpq/bin"
 
 # Rust
@@ -53,16 +53,17 @@ HOMEBREW_EDITOR="code"
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
-export DOWNLOAD_DIR="$HOME/Downloads"
+# dot command
+source $DOTFILE_DIR/dot/dot.zsh
+source $DOTFILE_DIR/dot/_dot.zsh
+export PATH="$PATH:$DOTFILE_DIR/dot/bin"
 
 source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 source $platform_dir/.aliases.zsh
 source $platform_dir/.completion.zsh
 
-source $DOTFILE_DIR/dot/dot.zsh
-source $DOTFILE_DIR/dot/_dot.zsh
-export PATH="$PATH:$DOTFILE_DIR/dot/bin"
+export DOWNLOAD_DIR="$HOME/Downloads"
 
 # Projects
 export PROJECTS_PATH="${HOME}/Projects"
