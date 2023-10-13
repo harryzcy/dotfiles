@@ -10,3 +10,6 @@ alias ghpco='gh pr checkout'
 alias ghps='gh pr status'
 alias ghauto='gh pr merge --auto'
 alias ghr='gh repo'
+
+# kubectl
+alias kak="kubectl apply -k"
