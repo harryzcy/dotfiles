@@ -58,23 +58,11 @@ export DOWNLOAD_DIR="$HOME/Downloads"
 source $platform_dir/.functions.zsh
 source $platform_dir/.environments.zsh
 source $platform_dir/.aliases.zsh
+source $platform_dir/.completion.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
 source "$DOTFILE_DIR/dot/_dot.zsh"
 export PATH="$PATH:$DOTFILE_DIR/dot/bin"
-
-source <(kubectl completion zsh)
-source <(helm completion zsh)
-# ansible completion
-eval $(register-python-argcomplete ansible)
-eval $(register-python-argcomplete ansible-config)
-eval $(register-python-argcomplete ansible-console)
-eval $(register-python-argcomplete ansible-doc)
-eval $(register-python-argcomplete ansible-galaxy)
-eval $(register-python-argcomplete ansible-inventory)
-eval $(register-python-argcomplete ansible-playbook)
-eval $(register-python-argcomplete ansible-pull)
-eval $(register-python-argcomplete ansible-vault)
 
 # Projects
 export PROJECTS_PATH="${HOME}/Projects"
