@@ -61,7 +61,7 @@ source $platform_dir/.aliases.zsh
 source $platform_dir/.completion.zsh
 
 source $DOTFILE_DIR/dot/dot.zsh
-source "$DOTFILE_DIR/dot/_dot.zsh"
+source $DOTFILE_DIR/dot/_dot.zsh
 export PATH="$PATH:$DOTFILE_DIR/dot/bin"
 
 # Projects
