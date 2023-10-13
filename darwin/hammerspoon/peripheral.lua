@@ -11,10 +11,34 @@ end
 function isTMMounted(path)
   if path == nil then
     return false
-  end
-  local status = hs.execute("if mount | grep -q \"" .. path .. "\"; then echo true; else echo false; fi")
+  end  local status = hs.execute("if mount | grep -q \"" .. path .. "\"; then echo true; else echo false; fi")
   return status:match("true") ~= nil
 end
 
+function isTMRunning()
+  local phase = hs.execute("tmutil currentphase")
+  return phase:match("BackupNotRunning") == nil
+end
+
+function stopTM()
+  if isTMRunning() then
+    hs.execute("tmutil stopbackup")
+  end
+end
+
+function unmountTM()
+  local path = getTMMountPoint()
+  if path == nil then
+    return
+  end
+
+  stopTM()
+  while isTMRunning() do
+    hs.timer.usleep(100000)
+  end
+
+  hs.fs.volume.eject(path)
+end
+
 local path = getTMMountPoint()
-isTMMounted(path)
+-- unmountTM(path)
