@@ -59,7 +59,7 @@ typeset -U path
 path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
-  $PATH
+  $path
   $GOPATH/bin # Go
   /usr/local/sbin
   /opt/homebrew/opt/python/libexec/bin # Python
