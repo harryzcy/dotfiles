@@ -2,6 +2,12 @@
 alias a='ansible'
 alias ap='ansible-playbook'
 
+# dot
+alias tm='dot tm'
+alias goto='dot goto'
+alias reload='dot reload'
+alias repo='dot repo'
+
 # gh
 alias ghp='gh pr'
 alias ghpc='gh pr create'
