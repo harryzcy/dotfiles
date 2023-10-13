@@ -60,8 +60,8 @@ path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
   $path
-  $GOPATH/bin # Go
-  /usr/local/sbin
+  $GOPATH/bin                          # Go
+  /usr/local/sbin                      # n2n
   /opt/homebrew/opt/python/libexec/bin # Python
   /opt/homebrew/opt/libpq/bin          # Postgres
   $HOME/.cargo/bin                     # Rust
