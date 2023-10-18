@@ -27,6 +27,9 @@ export LANGUAGE=en_US.UTF-8
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
+# Projects
+export PROJECTS_PATH="${HOME}/Projects"
+
 # dot command
 source $DOTFILE_DIR/dot/dot.zsh
 source $DOTFILE_DIR/dot/_dot.zsh
@@ -45,9 +48,6 @@ export EDITOR="vim"
 HOMEBREW_EDITOR="code"
 
 export DOWNLOAD_DIR="$HOME/Downloads"
-
-# Projects
-export PROJECTS_PATH="${HOME}/Projects"
 
 # ansible inventory
 export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
