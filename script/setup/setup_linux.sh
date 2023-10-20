@@ -5,19 +5,26 @@ if ! command -v apt &>/dev/null; then
   exit 1
 fi
 
-run_apt_update() {
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
-}
+export DEBIAN_FRONTEND=noninteractive
 
-install_zsh() {
-  if ! command -v zsh &>/dev/null; then
-    echo "installing zsh"
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install zsh
-  fi
+run_apt_update() {
+  sudo apt-get -yq update
 }
 
 install_tools() {
   echo "installing tools"
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install git
-  # sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install dnsutils
+  sudo apt-get -yq install git
+  sudo apt-get -yq install zsh
 }
+
+if [[ "${CODESPACES}" == 'true' ]]; then
+  src_dir="${DOTFILE_DIR}/codespace"
+else
+  src_dir="${DOTFILE_DIR}/linux"
+fi
+
+if [[ "${NO_INSTALL}" != "true" ]]; then
+  run_apt_update
+  install_tools
+fi
+configure_git ${src_dir}

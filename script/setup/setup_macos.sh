@@ -13,16 +13,10 @@ install_homebrew() {
   fi
 }
 
-install_zsh() {
-  if ! command -v zsh &>/dev/null; then
-    echo "installing zsh"
-    brew install zsh
-  fi
-}
-
 install_tools() {
   echo "installing tools for macOS"
   run_brew_install git
+  run_brew_install zsh
   run_brew_install coreutils
   run_brew_install cloc
   run_brew_install curl
@@ -60,7 +54,7 @@ install_tools:argcomplete() {
   fi
 }
 
-create_bin() {
+configure_dot_bin() {
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
     echo "creating $DOTFILE_DIR/dot/bin"
     mkdir $DOTFILE_DIR/dot/bin
@@ -110,15 +104,21 @@ install_software() {
 
   install_pkg "zoom.us" "$zoom_url" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
   install_dmg "Docker" "$docker_url" "/Applications/Docker.app/Contents/MacOS/Docker"
-
-  create_bin
 }
 
-init_hammerspoon() {
+configure_hammerspoon() {
   echo "initializing hammerspoon"
   create_symlink "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
 }
 
 install_xcode_select
-install_homebrew
-init_hammerspoon
+if [[ "${NO_INSTALL}" != "true" ]]; then
+  install_homebrew
+  install_tools
+  install_software
+fi
+
+configure_git "${DOTFILE_DIR}/macos"
+configure_zsh "${DOTFILE_DIR}/macos"
+configure_hammerspoon
+configure_dot_bin

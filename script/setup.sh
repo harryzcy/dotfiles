@@ -23,32 +23,12 @@ fi
 
 source ./setup/util_common.sh
 
-if [[ "${CODESPACES}" == 'true' ]]; then
-  src_dir="${DOTFILE_DIR}/codespace"
+if [[ ${platform} == 'linux' ]]; then
   source ./setup/setup_linux.sh
-elif [[ ${platform} == 'linux' ]]; then
-  src_dir="${DOTFILE_DIR}/linux"
-  source ./setup/setup_linux.sh
-  if [[ "${NO_INSTALL}" != "true" ]]; then
-    run_apt_update
-  fi
 elif [[ ${platform} == 'macos' ]]; then
-  src_dir="${DOTFILE_DIR}/macos"
   source ./setup/util_macos.sh
   source ./setup/setup_macos.sh
 else
   echo "unsupported platform: $platform"
   exit 1
-fi
-
-configure_git ${src_dir}
-[[ "${NO_INSTALL}" != "true" ]] && install_zsh ${src_dir}
-configure_zsh ${src_dir}
-
-if [[ "${NO_INSTALL}" != "true" ]]; then
-  install_tools
-
-  if typeset -f install_software >/dev/null; then
-    install_software
-  fi
 fi
