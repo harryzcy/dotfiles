@@ -36,9 +36,9 @@ elif [[ ${platform} == 'linux' ]]; then
   fi
 elif [[ ${platform} == 'darwin' ]]; then
   # platform specific src directory
-  src_dir="${DOTFILE_DIR}/darwin"
+  src_dir="${DOTFILE_DIR}/macos"
 
-  source ./setup/setup_darwin.sh
+  source ./setup/setup_macos.sh
   install_xcode_select
   install_homebrew
 else
