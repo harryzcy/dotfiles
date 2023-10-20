@@ -14,7 +14,3 @@ unset_proxy() {
 }
 
 source $DOTFILE_DIR/shared/.functions.zsh
-
-docker_prune() {
-  docker system prune -a
-}
