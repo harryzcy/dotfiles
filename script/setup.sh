@@ -21,7 +21,7 @@ if [[ "$arch" == 'aar64' ]]; then
   arch='arm64'
 fi
 
-source ./setup/install_util.sh
+source ./setup/util_common.sh
 
 if [[ "${CODESPACES}" == 'true' ]]; then
   src_dir="${DOTFILE_DIR}/codespace"
@@ -34,10 +34,8 @@ elif [[ ${platform} == 'linux' ]]; then
   fi
 elif [[ ${platform} == 'macos' ]]; then
   src_dir="${DOTFILE_DIR}/macos"
+  source ./setup/util_macos.sh
   source ./setup/setup_macos.sh
-  install_xcode_select
-  install_homebrew
-  init_env
 else
   echo "unsupported platform: $platform"
   exit 1
