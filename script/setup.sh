@@ -28,7 +28,7 @@ if [[ "${CODESPACES}" == 'true' ]]; then
   source ./setup/setup_linux.sh
 elif [[ ${platform} == 'linux' ]]; then
   # platform specific src directory
-  src_dir="${DOTFILE_DIR}/rpi"
+  src_dir="${DOTFILE_DIR}/linux"
 
   source ./setup/setup_linux.sh
   if [[ "${NO_INSTALL}" != "true" ]]; then

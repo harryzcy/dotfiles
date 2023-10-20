@@ -9,7 +9,7 @@
 | **codespace** | config files for GitHub codespaces |
 | **macos**  | config files for macOS |
 | **dot**     | `dot` commands |
-| **rpi**     | config files for Raspberry Pi |
+| **linux**     | config files for Raspberry Pi |
 | **script**  | command script used by `make` targets and `dot` commands |
 | **test**    | test scripts used by `make test` |
 
