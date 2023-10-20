@@ -27,19 +27,11 @@ configure_zsh() {
   fi
 
   # init zshrc
-  if [[ -f $HOME/.zshrc ]]; then
-    target_file=$(readlink $HOME/.zshrc)
-    if [[ $target_file != ${src_dir}/.zshrc ]]; then
-      echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
-      mv $HOME/.zshrc $HOME/.zshrc.bak
-
-      echo "creating symlink for .zshrc"
-      ln -s ${src_dir}/.zshrc $HOME/.zshrc
-    fi
-  else
-    echo "creating symlink for .zshrc"
-    ln -s ${src_dir}/.zshrc $HOME/.zshrc
+  if [[ -e $HOME/.zshrc || -L $HOME/.zshrc ]]; then
+    echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
+    mv $HOME/.zshrc $HOME/.zshrc.bak
   fi
+  create_symlink ${src_dir}/.zshrc $HOME/.zshrc
 
   # install plugins
   if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
