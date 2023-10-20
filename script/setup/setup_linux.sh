@@ -28,3 +28,4 @@ if [[ "${NO_INSTALL}" != "true" ]]; then
   install_tools
 fi
 configure_git ${src_dir}
+configure_zsh ${src_dir}
