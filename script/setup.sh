@@ -5,7 +5,7 @@ current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd ${current}
 
 export DOTFILE_DIR=$(dirname ${current})
-source ${DOTFILE_DIR}/shared/.functions.bash
+source ${DOTFILE_DIR}/shared/.functions.sh
 
 os=$(detect_os)
 arch=$(detect_arch)
