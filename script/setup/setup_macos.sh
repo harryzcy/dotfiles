@@ -13,38 +13,10 @@ install_homebrew() {
   fi
 }
 
-run_brew_install() {
-  package_name=$1
-
-  if ! command -v brew &>/dev/null; then
-    echo "brew is not installed"
-    exit 1
-  fi
-
-  if brew list $1 &>/dev/null; then
-    echo "already installed: $package_name"
-  else
-    echo "installing $package_name"
-    brew install $package_name
-  fi
-}
-
-install_zsh() {
-  if ! command -v zsh &>/dev/null; then
-    echo "installing zsh"
-    brew install zsh
-  fi
-}
-
-install_git() {
-  if ! command -v git &>/dev/null; then
-    echo "installing git"
-    brew install git
-  fi
-}
-
 install_tools() {
   echo "installing tools for macOS"
+  run_brew_install git
+  run_brew_install zsh
   run_brew_install coreutils
   run_brew_install cloc
   run_brew_install curl
@@ -64,88 +36,24 @@ install_tools() {
 }
 
 install_tools:node() {
-  if ! command -v node &>/dev/null; then
-    echo "installing node"
-    nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
-    nvm_latest=${nvm_latest##*/}
-    curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
-    [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-    nvm install --lts
-    nvm use --lts
+  if [[ -f "$HOME/.nvm/nvm.sh" ]]; then
+    echo "nvm is already installed"
+    return
   fi
+
+  echo "installing node"
+  nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
+  nvm_latest=${nvm_latest##*/}
+  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
+  [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
+  nvm install --lts
+  nvm use --lts
 }
 
 install_tools:argcomplete() {
   if ! command -v register-python-argcomplete &>/dev/null; then
     echo "installing argcomplete"
     pip3 install argcomplete
-  fi
-}
-
-symlink_if_not_exists() {
-  src="$1"
-  dest="$DOTFILE_DIR/dot/bin/$2"
-
-  if [ ! -f "$dest" ] && [ -f "$src"]; then
-    echo "symlinking \"$src\" to \"$dest\""
-    ln -s "$src" "$dest"
-  fi
-}
-
-create_bin() {
-  if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
-    echo "creating $DOTFILE_DIR/dot/bin"
-    mkdir $DOTFILE_DIR/dot/bin
-  fi
-
-  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
-    cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
-#!/usr/bin/env zsh
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
-EOT
-  fi
-  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
-  ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
-}
-
-install_dmg() {
-  package_name="$1"
-  url="$2"
-  check_file="$3"
-
-  if [ ! -f "$check_file" ]; then
-    echo "installing $package_name"
-    curl -sL -o "/tmp/$package_name.dmg" "$url"
-    dir=$(hdiutil attach -nobrowse "/tmp/$package_name.dmg" | tail -1 | sed 's/.*Volumes\///')
-    cp -r "/Volumes/$dir/$package_name.app" /Applications
-    hdiutil detach -quiet "/Volumes/$package_name"
-    rm "/tmp/$package_name.dmg"
-  fi
-}
-
-install_zip() {
-  package_name="$1"
-  url="$2"
-  check_file="$3"
-
-  if [ ! -f "$check_file" ]; then
-    echo "installing $package_name"
-    curl -sL -o "/tmp/$package_name.zip" "$url"
-    unzip -q "/tmp/$package_name.zip" -d /Applications
-    rm "/tmp/$package_name.zip"
-  fi
-}
-
-install_pkg() {
-  package_name="$1"
-  url="$2"
-  check_file="$3"
-
-  if [ ! -f "$check_file" ]; then
-    echo "installing $package_name"
-    curl -sL -o "/tmp/$package_name.pkg" "$url"
-    sudo installer -pkg "/tmp/$package_name.pkg" -target /
-    rm "/tmp/$package_name.pkg"
   fi
 }
 
@@ -183,13 +91,37 @@ install_software() {
 
   install_pkg "zoom.us" "$zoom_url" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
   install_dmg "Docker" "$docker_url" "/Applications/Docker.app/Contents/MacOS/Docker"
-
-  create_bin
 }
 
-init_hammerspoon() {
-  if [ ! -d "$HOME/.hammerspoon" ]; then
-    echo "initializing hammerspoon"
-    ln -s "$DOTFILE_DIR/darwin/hammerspoon" "$HOME/.hammerspoon"
+configure_dot_bin() {
+  if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
+    echo "creating $DOTFILE_DIR/dot/bin"
+    mkdir $DOTFILE_DIR/dot/bin
   fi
+
+  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
+    cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
+#!/usr/bin/env zsh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+EOT
+  fi
+  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+  create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
 }
+
+configure_hammerspoon() {
+  echo "initializing hammerspoon"
+  create_symlink "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
+}
+
+install_xcode_select
+if [[ "${NO_INSTALL}" != "true" ]]; then
+  install_homebrew
+  install_tools
+  install_software
+fi
+
+configure_git "${DOTFILE_DIR}/macos"
+configure_zsh "${DOTFILE_DIR}/macos"
+configure_hammerspoon
+configure_dot_bin

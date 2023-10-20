@@ -5,56 +5,19 @@ current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd ${current}
 
 export DOTFILE_DIR=$(dirname ${current})
+source ${DOTFILE_DIR}/shared/.functions.sh
 
-# detect the operating system
-platform='unknown'
-unamestr=$(uname)
-if [[ "$unamestr" == 'Linux' ]]; then
-  platform='linux'
-elif [[ "$unamestr" == 'Darwin' ]]; then
-  platform='darwin'
-fi
+os=$(detect_os)
+arch=$(detect_arch)
 
-# detect architecture
-arch=$(uname -m)
-if [[ "$arch" == 'aar64' ]]; then
-  arch='arm64'
-fi
+source ./setup/util_common.sh
 
-source ./setup/setup_common.sh
-
-if [[ "${CODESPACES}" == 'true' ]]; then
-  src_dir="${DOTFILE_DIR}/codespace"
+if [[ ${os} == 'linux' ]]; then
   source ./setup/setup_linux.sh
-elif [[ ${platform} == 'linux' ]]; then
-  # platform specific src directory
-  src_dir="${DOTFILE_DIR}/rpi"
-
-  source ./setup/setup_linux.sh
-  if [[ "${NO_INSTALL}" != "true" ]]; then
-    run_apt_update
-  fi
-elif [[ ${platform} == 'darwin' ]]; then
-  # platform specific src directory
-  src_dir="${DOTFILE_DIR}/darwin"
-
-  source ./setup/setup_darwin.sh
-  install_xcode_select
-  install_homebrew
+elif [[ ${os} == 'macos' ]]; then
+  source ./setup/util_macos.sh
+  source ./setup/setup_macos.sh
 else
-  echo "unsupported platform: $platform"
+  echo "unsupported operating system: $os"
   exit 1
-fi
-
-[[ "${NO_INSTALL}" != "true" ]] && install_git
-configure_git ${src_dir}
-[[ "${NO_INSTALL}" != "true" ]] && install_zsh ${src_dir}
-configure_zsh ${src_dir}
-
-if [[ "${NO_INSTALL}" != "true" ]]; then
-  install_tools
-
-  if typeset -f install_software >/dev/null; then
-    install_software
-  fi
 fi

@@ -1,5 +1,16 @@
 # setup functions common to all platforms
 
+create_symlink() {
+  src="$1"
+  dest="$2"
+
+  current_dest=$(readlink "$dest")
+  if [ "$current_dest" != "$src" ]; then
+    echo "symlinking \"$src\" to \"$dest\""
+    ln -sf "$src" "$dest"
+  fi
+}
+
 configure_zsh() {
   src_dir=$1
 
@@ -16,28 +27,21 @@ configure_zsh() {
   fi
 
   # init zshrc
-  if [[ -f $HOME/.zshrc ]]; then
-    if [[ ! -L $HOME/.zshrc ]]; then
-      echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
-      mv $HOME/.zshrc $HOME/.zshrc.bak
-
-      echo "creating symlink for .zshrc"
-      ln -s ${src_dir}/.zshrc $HOME/.zshrc
-    fi
-  else
-    echo "creating symlink for .zshrc"
-    ln -s ${src_dir}/.zshrc $HOME/.zshrc
+  if [[ -e $HOME/.zshrc || -L $HOME/.zshrc ]]; then
+    echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
+    mv $HOME/.zshrc $HOME/.zshrc.bak
   fi
+  create_symlink ${src_dir}/.zshrc $HOME/.zshrc
 
   # install plugins
   if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
     echo "installing zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   fi
 
   if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
     echo "installing zsh-syntax-highlighting"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   fi
 }
 
