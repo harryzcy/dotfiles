@@ -20,10 +20,6 @@ install_zsh() {
   fi
 }
 
-install_git() {
-  run_brew_install git
-}
-
 install_tools() {
   echo "installing tools for macOS"
   run_brew_install coreutils

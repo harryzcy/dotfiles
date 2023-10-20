@@ -16,13 +16,6 @@ install_zsh() {
   fi
 }
 
-install_git() {
-  if ! command -v git &>/dev/null; then
-    echo "installing git"
-    sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install git
-  fi
-}
-
 install_tools() {
   echo "installing tools"
   # sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install dnsutils
