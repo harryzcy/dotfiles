@@ -17,7 +17,8 @@ configure_zsh() {
 
   # init zshrc
   if [[ -f $HOME/.zshrc ]]; then
-    if [[ ! -L $HOME/.zshrc ]]; then
+    target_file=$(readlink $HOME/.zshrc)
+    if [[ $target_file != ${src_dir}/.zshrc ]]; then
       echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
       mv $HOME/.zshrc $HOME/.zshrc.bak
 
