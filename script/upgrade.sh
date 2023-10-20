@@ -13,13 +13,12 @@ git -C $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions pull >/dev/null
 echo "updating zsh-syntax-highlighting"
 git -C $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting pull >/dev/null
 
-# detect the operating system
-unamestr=$(uname)
-if [[ "$unamestr" == 'Linux' ]]; then
+os=$(detect_os)
+if [[ "$os" == 'linux' ]]; then
   # linux
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
-elif [[ "$unamestr" == 'Darwin' ]]; then
+elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
   brew upgrade --cask

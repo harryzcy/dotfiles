@@ -17,11 +17,9 @@ clean:debian() {
   sudo apt-get clean -y
 }
 
-unamestr=$(uname)
-if [[ "$unamestr" == 'Linux' ]]; then
-  # linux
+os=$(detect_os)
+if [[ "$os" == 'linux' ]]; then
   clean:debian
-elif [[ "$unamestr" == 'Darwin' ]]; then
-  # macos
+elif [[ "$os" == 'macos' ]]; then
   clean:mac
 fi
