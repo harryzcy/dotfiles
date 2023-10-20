@@ -37,6 +37,7 @@ elif [[ ${platform} == 'macos' ]]; then
   source ./setup/setup_macos.sh
   install_xcode_select
   install_homebrew
+  init_env
 else
   echo "unsupported platform: $platform"
   exit 1

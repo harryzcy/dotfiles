@@ -82,7 +82,7 @@ install_tools:argcomplete() {
   fi
 }
 
-symlink_if_not_exists() {
+create_symlink() {
   src="$1"
   dest="$2"
 
@@ -106,7 +106,7 @@ create_bin() {
 EOT
   fi
   chmod +x "$DOTFILE_DIR/dot/bin/chrome"
-  ln -sf "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
+  create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
 }
 
 install_dmg() {
@@ -188,7 +188,11 @@ install_software() {
   create_bin
 }
 
+init_env() {
+  init_hammerspoon
+}
+
 init_hammerspoon() {
   echo "initializing hammerspoon"
-  symlink_if_not_exists "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
+  create_symlink "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
 }
