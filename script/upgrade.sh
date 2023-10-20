@@ -1,10 +1,7 @@
 #!/usr/bin/env zsh
 
 # update oh-my-zsh
-if [ -z "$ZSH" ]; then
-  ZSH="$HOME/.oh-my-zsh"
-fi
-ZSH="$ZSH" command zsh -f "$ZSH/tools/upgrade.sh" || return $?
+omz update
 
 # update common tools
 echo "updating zsh-autosuggestions"
