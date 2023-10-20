@@ -45,7 +45,7 @@ unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
   source ./test_linux.sh
 elif [[ "$unamestr" == 'Darwin' ]]; then
-  source ./test_darwin.sh
+  source ./test_macos.sh
 else
   echo "unsupported platform: $platform"
   exit 1

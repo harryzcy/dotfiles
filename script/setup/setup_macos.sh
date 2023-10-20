@@ -190,6 +190,6 @@ install_software() {
 init_hammerspoon() {
   if [ ! -d "$HOME/.hammerspoon" ]; then
     echo "initializing hammerspoon"
-    ln -s "$DOTFILE_DIR/darwin/hammerspoon" "$HOME/.hammerspoon"
+    ln -s "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
   fi
 }

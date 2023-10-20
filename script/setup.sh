@@ -12,7 +12,7 @@ unamestr=$(uname)
 if [[ "$unamestr" == 'Linux' ]]; then
   platform='linux'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-  platform='darwin'
+  platform='macos'
 fi
 
 # detect architecture
@@ -34,7 +34,7 @@ elif [[ ${platform} == 'linux' ]]; then
   if [[ "${NO_INSTALL}" != "true" ]]; then
     run_apt_update
   fi
-elif [[ ${platform} == 'darwin' ]]; then
+elif [[ ${platform} == 'macos' ]]; then
   # platform specific src directory
   src_dir="${DOTFILE_DIR}/macos"
 

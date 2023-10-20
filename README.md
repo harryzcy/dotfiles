@@ -7,7 +7,7 @@
 |  directory  | description |
 | ----------- | ----------- |
 | **codespace** | config files for GitHub codespaces |
-| **darwin**  | config files for macOS |
+| **macos**  | config files for macOS |
 | **dot**     | `dot` commands |
 | **rpi**     | config files for Raspberry Pi |
 | **script**  | command script used by `make` targets and `dot` commands |
