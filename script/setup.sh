@@ -21,7 +21,7 @@ if [[ "$arch" == 'aar64' ]]; then
   arch='arm64'
 fi
 
-source ./setup/setup_common.sh
+source ./setup/install_util.sh
 
 if [[ "${CODESPACES}" == 'true' ]]; then
   src_dir="${DOTFILE_DIR}/codespace"

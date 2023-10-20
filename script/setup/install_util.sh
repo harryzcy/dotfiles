@@ -1,5 +1,16 @@
 # setup functions common to all platforms
 
+create_symlink() {
+  src="$1"
+  dest="$2"
+
+  current_dest=$(readlink "$dest")
+  if [ "$current_dest" != "$src" ]; then
+    echo "symlinking \"$src\" to \"$dest\""
+    ln -sf "$src" "$dest"
+  fi
+}
+
 configure_zsh() {
   src_dir=$1
 
