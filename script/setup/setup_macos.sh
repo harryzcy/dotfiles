@@ -84,11 +84,12 @@ install_tools:argcomplete() {
 
 symlink_if_not_exists() {
   src="$1"
-  dest="$DOTFILE_DIR/dot/bin/$2"
+  dest="$2"
 
-  if [ ! -f "$dest" ] && [ -f "$src"]; then
+  current_dest=$(readlink "$dest")
+  if [ "$current_dest" != "$src" ]; then
     echo "symlinking \"$src\" to \"$dest\""
-    ln -s "$src" "$dest"
+    ln -sf "$src" "$dest"
   fi
 }
 
@@ -188,8 +189,6 @@ install_software() {
 }
 
 init_hammerspoon() {
-  if [ ! -d "$HOME/.hammerspoon" ]; then
-    echo "initializing hammerspoon"
-    ln -s "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
-  fi
+  echo "initializing hammerspoon"
+  symlink_if_not_exists "$DOTFILE_DIR/macos/hammerspoon" "$HOME/.hammerspoon"
 }
