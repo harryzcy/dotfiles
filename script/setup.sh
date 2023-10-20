@@ -27,17 +27,13 @@ if [[ "${CODESPACES}" == 'true' ]]; then
   src_dir="${DOTFILE_DIR}/codespace"
   source ./setup/setup_linux.sh
 elif [[ ${platform} == 'linux' ]]; then
-  # platform specific src directory
   src_dir="${DOTFILE_DIR}/linux"
-
   source ./setup/setup_linux.sh
   if [[ "${NO_INSTALL}" != "true" ]]; then
     run_apt_update
   fi
 elif [[ ${platform} == 'macos' ]]; then
-  # platform specific src directory
   src_dir="${DOTFILE_DIR}/macos"
-
   source ./setup/setup_macos.sh
   install_xcode_select
   install_homebrew
