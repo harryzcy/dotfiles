@@ -3,13 +3,13 @@
 # update oh-my-zsh
 omz update
 
-# update common tools
 echo "updating zsh-autosuggestions"
 git -C $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions pull >/dev/null
 
 echo "updating zsh-syntax-highlighting"
 git -C $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting pull >/dev/null
 
+# update common tools
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   # linux
