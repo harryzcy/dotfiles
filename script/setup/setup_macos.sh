@@ -57,22 +57,6 @@ install_tools:argcomplete() {
   fi
 }
 
-configure_dot_bin() {
-  if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
-    echo "creating $DOTFILE_DIR/dot/bin"
-    mkdir $DOTFILE_DIR/dot/bin
-  fi
-
-  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
-    cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
-#!/usr/bin/env zsh
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
-EOT
-  fi
-  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
-  create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
-}
-
 install_software() {
   echo "installing software for macOS"
 
@@ -107,6 +91,22 @@ install_software() {
 
   install_pkg "zoom.us" "$zoom_url" "/Applications/zoom.us.app/Contents/MacOS/zoom.us"
   install_dmg "Docker" "$docker_url" "/Applications/Docker.app/Contents/MacOS/Docker"
+}
+
+configure_dot_bin() {
+  if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
+    echo "creating $DOTFILE_DIR/dot/bin"
+    mkdir $DOTFILE_DIR/dot/bin
+  fi
+
+  if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
+    cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
+#!/usr/bin/env zsh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+EOT
+  fi
+  chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+  create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
 }
 
 configure_hammerspoon() {
