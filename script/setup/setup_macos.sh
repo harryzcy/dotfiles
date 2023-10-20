@@ -22,6 +22,7 @@ install_zsh() {
 
 install_tools() {
   echo "installing tools for macOS"
+  run_brew_install git
   run_brew_install coreutils
   run_brew_install cloc
   run_brew_install curl
