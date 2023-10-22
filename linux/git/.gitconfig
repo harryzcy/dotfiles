@@ -15,6 +15,9 @@
 	commitGraph = true
 	editor = vim
 
+[commit]
+	gpgsign = true
+
 [credential]
 	helper = store
 
