@@ -1,6 +1,6 @@
 [user]
-	email = git@zcy.dev
 	name = Chongyi Zheng
+	email = git@zcy.dev
 	signingkey = <signingkey>
 
 [filter "lfs"]
@@ -17,11 +17,11 @@
 [credential]
 	helper = osxkeychain
 
-[pull]
-	rebase = true
-
 [init]
 	defaultBranch = main
+
+[pull]
+	rebase = true
 
 [receive]
 	advertisePushOptions = true

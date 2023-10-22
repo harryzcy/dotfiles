@@ -1,10 +1,22 @@
 [user]
 	name = Chongyi Zheng
-	email = harry@harryzheng.com
+	email = git@zcy.dev
+	signingkey = <signingkey>
+
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
 
 [core]
 	excludesfile = ~/.gitignore_global
+	quotePath = false
+	commitGraph = true
 	editor = vim
+
+[credential]
+	helper = store
 
 [init]
 	defaultBranch = main
@@ -12,5 +24,9 @@
 [pull]
 	rebase = true
 
-[credential]
-	helper = store
+[receive]
+	advertisePushOptions = true
+	procReceiveRefs = refs/for
+
+[gc]
+	writeCommitGraph = true
