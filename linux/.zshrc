@@ -28,6 +28,8 @@ export DOWNLOAD_DIR="$HOME"
 
 source $DOTFILE_DIR/shared/.functions.zsh
 
+export GPG_TTY=$(tty)
+
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
