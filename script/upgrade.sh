@@ -10,6 +10,7 @@ echo "updating zsh-syntax-highlighting"
 git -C $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting pull >/dev/null
 
 # update common tools
+source $DOTFILE_DIR/shared/.functions.sh
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   # linux
