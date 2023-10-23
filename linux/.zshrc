@@ -38,6 +38,8 @@ if [ -z "$DISPLAY" ]; then
 	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 fi
 
+source $DOTFILE_DIR/linux/.environments.zsh
+
 if [[ -f "$HOME/.zshrc.local" ]]; then
 	source $HOME/.zshrc.local
 fi
