@@ -38,7 +38,9 @@ if [ -z "$DISPLAY" ]; then
 	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 fi
 
-source $DOTFILE_DIR/linux/.environments.zsh
+if [[ $(hostname -s) = gpu-* ]]; then
+	source $DOTFILE_DIR/linux/dev.environments.zsh
+fi
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
 	source $HOME/.zshrc.local
