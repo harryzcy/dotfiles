@@ -33,7 +33,6 @@ export GPG_TTY=$(tty)
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
-export DOT_REPO_PATH="${HOME}/Projects:${HOME}/Projects/telepresence"
 
 if [ -z "$DISPLAY" ]; then
 	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
