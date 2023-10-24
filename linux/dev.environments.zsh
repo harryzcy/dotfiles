@@ -9,6 +9,6 @@ path=(
 )
 export PATH
 
-eval "$(/home/harryzcy/miniconda3/bin/conda shell.zsh hook)"
+eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 
 export DOT_REPO_PATH="${HOME}/Projects:${HOME}/Projects/telepresence"
