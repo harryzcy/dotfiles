@@ -1,3 +1,7 @@
+# Go
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+
 path=(
 	/usr/local/go/bin # Go
 	$path
