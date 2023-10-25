@@ -17,6 +17,7 @@ clean:debian() {
   sudo apt-get clean -y
 }
 
+source ${DOTFILE_DIR}/shared/.functions.sh
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   clean:debian
