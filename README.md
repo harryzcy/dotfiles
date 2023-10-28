@@ -7,9 +7,10 @@
 |  directory  | description |
 | ----------- | ----------- |
 | **codespace** | config files for GitHub codespaces |
-| **macos**  | config files for macOS |
+| **dev**     | config files for dev machines |
 | **dot**     | `dot` commands |
-| **linux**     | config files for Raspberry Pi |
+| **macos**   | config files for macOS |
+| **linux**   | config files for Raspberry Pi |
 | **script**  | command script used by `make` targets and `dot` commands |
 | **test**    | test scripts used by `make test` |
 

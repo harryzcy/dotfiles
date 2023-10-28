@@ -7,26 +7,24 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
 	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	dotenv
-	golang
-	python
-	pip
+  web-search
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  golang
+  python
+  pip
+  dotenv
+  kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="$PATH:/usr/sbin:$HOME/.local/bin"
-
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
 export DOWNLOAD_DIR="$HOME"
-
-source $DOTFILE_DIR/shared/.functions.zsh
 
 export GPG_TTY=$(tty)
 
@@ -34,12 +32,13 @@ export GPG_TTY=$(tty)
 source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
 
-if [ -z "$DISPLAY" ]; then
-	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
-fi
-
+source $DOTFILE_DIR/shared/.functions.zsh
 if [[ $(hostname -s) = gpu-* ]]; then
 	source $DOTFILE_DIR/linux/dev.environments.zsh
+fi
+
+if [ -z "$DISPLAY" ]; then
+	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 fi
 
 if [[ -f "$HOME/.zshrc.local" ]]; then

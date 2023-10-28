@@ -72,10 +72,6 @@ path=(
 export PATH
 
 source $platform_dir/.functions.zsh
-source $platform_dir/.environments.zsh
-source $platform_dir/.aliases.zsh
 source $platform_dir/.completion.zsh
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source $DOTFILE_DIR/dev/.aliases.zsh
+source $DOTFILE_DIR/dev/.environments.zsh
