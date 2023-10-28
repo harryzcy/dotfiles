@@ -13,6 +13,7 @@ plugins=(
 	golang
 	python
 	pip
+	kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
