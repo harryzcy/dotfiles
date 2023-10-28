@@ -5,7 +5,8 @@ export GOPATH=$HOME/go
 path=(
 	/usr/local/go/bin # Go
 	$path
-	$GOPATH/bin # Go
+	$HOME/.cargo/bin # Rust
+	$GOPATH/bin      # Go
 )
 export PATH
 
