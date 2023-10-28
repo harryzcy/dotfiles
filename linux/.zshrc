@@ -7,13 +7,14 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
 	git
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	dotenv
-	golang
-	python
-	pip
-	kubectl
+  web-search
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  golang
+  python
+  pip
+  dotenv
+  kubectl
 )
 
 source $ZSH/oh-my-zsh.sh
