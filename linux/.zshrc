@@ -6,7 +6,7 @@ ZSH_THEME="robbyrussell"
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 plugins=(
-	git
+  git
   web-search
   zsh-autosuggestions
   zsh-syntax-highlighting
@@ -33,14 +33,15 @@ source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
 
 source $DOTFILE_DIR/shared/.functions.zsh
-if [[ $(hostname -s) = gpu-* ]]; then
-	source $DOTFILE_DIR/linux/dev.environments.zsh
-fi
 
 if [ -z "$DISPLAY" ]; then
-	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
+  PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
+fi
+
+if [[ $(hostname -s) = gpu-* ]]; then
+  source $DOTFILE_DIR/linux/dev.environments.zsh
 fi
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
-	source $HOME/.zshrc.local
+  source $HOME/.zshrc.local
 fi
