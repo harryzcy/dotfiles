@@ -28,20 +28,19 @@ export DOTFILE_DIR="$(dirname "$platform_dir")"
 
 export DOWNLOAD_DIR="$HOME"
 
-source $DOTFILE_DIR/shared/.functions.zsh
-
 export GPG_TTY=$(tty)
 
 # load dot command
 source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
 
-if [ -z "$DISPLAY" ]; then
-	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
-fi
-
+source $DOTFILE_DIR/shared/.functions.zsh
 if [[ $(hostname -s) = gpu-* ]]; then
 	source $DOTFILE_DIR/linux/dev.environments.zsh
+fi
+
+if [ -z "$DISPLAY" ]; then
+	PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 fi
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
