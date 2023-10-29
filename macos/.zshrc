@@ -41,20 +41,6 @@ export GOPATH=$HOME/go
 
 export GPG_TTY=$(tty)
 
-# gh cli uses EDITOR env
-export EDITOR="vim"
-
-# HomeBrew
-HOMEBREW_EDITOR="code"
-
-export DOWNLOAD_DIR="$HOME/Downloads"
-
-# ansible inventory
-export ANSIBLE_INVENTORY=${PROJECTS_PATH}/infrastructure/inventory
-
-# snuuze
-export SNUUZE_CONFIG_FILE="$HOME/.snuuze/config.yaml"
-
 typeset -U path
 path=(
   /usr/local/go/bin # Go
@@ -74,4 +60,5 @@ export PATH
 source $platform_dir/.functions.zsh
 source $platform_dir/.completion.zsh
 source $DOTFILE_DIR/dev/.aliases.zsh
+source $DOTFILE_DIR/dev/.variables.zsh
 source $DOTFILE_DIR/dev/.environments.zsh
