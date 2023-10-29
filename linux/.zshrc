@@ -24,8 +24,6 @@ source $ZSH/oh-my-zsh.sh
 platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
 export DOTFILE_DIR="$(dirname "$platform_dir")"
 
-export DOWNLOAD_DIR="$HOME"
-
 export GPG_TTY=$(tty)
 
 # load dot command
