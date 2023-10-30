@@ -17,5 +17,13 @@ alias ghps='gh pr status'
 alias ghauto='gh pr merge --auto'
 alias ghr='gh repo'
 
+# git
+# git_main_branch is used by git plugin for `gcm` alias
+git_main_branch() {
+  command git rev-parse --git-dir &>/dev/null || return
+  default_branch=$(command git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' 2>/dev/null)
+  echo ${default_branch:-main}
+}
+
 # kubectl
 alias kak="kubectl apply -k"
