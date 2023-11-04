@@ -28,6 +28,10 @@ if [[ "$os" == 'linux' ]]; then
     rm -rf "$HOME/awscliv2.zip" "$HOME/aws"
   fi
 
+  if type "pipx" >/dev/null; then
+    echo "upgrading pipx packages"
+    pipx upgrade-all
+  fi
 elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
