@@ -19,6 +19,11 @@ if [[ "$os" == 'linux' ]]; then
   # linux
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+
+  # if awscli is installed, upgrade it
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/awscliv2.zip"
+  unzip -o "$HOME/awscliv2.zip" -d "$HOME"
+  sudo "$HOME/aws/install" --update
 elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
