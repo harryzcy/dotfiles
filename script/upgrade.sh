@@ -25,6 +25,7 @@ if [[ "$os" == 'linux' ]]; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/awscliv2.zip"
     unzip -o "$HOME/awscliv2.zip" -d "$HOME"
     sudo "$HOME/aws/install" --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+    rm -rf "$HOME/awscliv2.zip" "$HOME/aws"
   fi
 
 elif [[ "$os" == 'macos' ]]; then
