@@ -7,6 +7,7 @@ path=(
 	$path
 	$HOME/.cargo/bin # Rust
 	$GOPATH/bin      # Go
+	$HOME/.local/bin # pipx
 )
 export PATH
 
