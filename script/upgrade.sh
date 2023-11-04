@@ -23,7 +23,7 @@ if [[ "$os" == 'linux' ]]; then
   # if awscli is installed, upgrade it
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/awscliv2.zip"
   unzip -o "$HOME/awscliv2.zip" -d "$HOME"
-  sudo "$HOME/aws/install" --update
+  sudo "$HOME/aws/install" --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
 elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
