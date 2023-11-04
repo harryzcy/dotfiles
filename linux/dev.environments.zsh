@@ -11,6 +11,7 @@ path=(
 export PATH
 
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
+PS1=$(echo "$PS1" | perl -pe 's/^\(base\)\s*//')
 
 source $DOTFILE_DIR/dev/.aliases.zsh
 source $DOTFILE_DIR/dev/.variables.zsh
