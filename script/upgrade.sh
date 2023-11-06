@@ -32,6 +32,11 @@ if [[ "$os" == 'linux' ]]; then
     echo "upgrading pipx packages"
     pipx upgrade-all
   fi
+
+  if command -v golangci-lint &>/dev/null; then
+    echo "upgrading golangci-lint"
+    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+  fi
 elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
