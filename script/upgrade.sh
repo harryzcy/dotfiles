@@ -37,10 +37,16 @@ if [[ "$os" == 'linux' ]]; then
     echo "upgrading golangci-lint"
     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
   fi
+
+  $DOTFILE_DIR/upgrade/upgrade_linux.sh
 elif [[ "$os" == 'macos' ]]; then
   # macos
   brew update && brew upgrade
   brew upgrade --cask
+
+  # krew
+  kubectl krew update
+  kubectl krew upgrade
 
   # upgrade nvm
   nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
