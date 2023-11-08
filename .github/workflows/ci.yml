@@ -37,10 +37,10 @@ jobs:
 
       - name: Run upgrade command
         run: |
-          make upgrade
+          dot upgrade
         shell: zsh {0}
 
       - name: Run clean command
         run: |
-          make clean
+          dot clean
         shell: zsh {0}
