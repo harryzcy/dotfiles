@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # setup functions common to all platforms
 
 create_symlink() {
