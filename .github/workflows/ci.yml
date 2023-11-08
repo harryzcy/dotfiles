@@ -20,11 +20,11 @@ jobs:
         with:
           files_yaml: |
             macos:
-              - **
+              - '**'
               - '!linux'
               - '!script/**/**_linux.sh'
             linux:
-              - **
+              - '**'
               - '!macos'
               - '!script/**/**_macos.sh'
 
