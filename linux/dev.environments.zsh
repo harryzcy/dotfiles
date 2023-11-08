@@ -5,10 +5,11 @@ export GOPATH=$HOME/go
 path=(
 	/usr/local/go/bin # Go
 	$path
-	$HOME/.cargo/bin # Rust
-	$GOPATH/bin      # Go
-	$HOME/.local/bin # pipx
-	$HOME/.krew/bin  # kubectl krew
+	$HOME/.cargo/bin                         # Rust
+	$GOPATH/bin                              # Go
+	$HOME/.local/bin                         # pipx
+	$HOME/.krew/bin                          # kubectl krew
+	/usr/local/texlive/2023/bin/x86_64-linux # TeXLive
 )
 export PATH
 
