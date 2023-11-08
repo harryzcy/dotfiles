@@ -5,9 +5,3 @@ setup:
 
 test:
 	./test/test.sh
-
-upgrade:
-	./script/upgrade.sh
-
-clean:
-	./script/clean.sh
