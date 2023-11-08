@@ -20,8 +20,8 @@ if [[ "$os" == 'linux' ]]; then
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 
-  $DOTFILE_DIR/linux/upgrade_linux.sh
+  $DOTFILE_DIR/upgrade/upgrade_linux.sh
 elif [[ "$os" == 'macos' ]]; then
   # macos
-  $DOTFILE_DIR/macos/upgrade_macos.sh
+  $DOTFILE_DIR/upgrade/upgrade_macos.sh
 fi

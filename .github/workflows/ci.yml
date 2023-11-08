@@ -22,11 +22,11 @@ jobs:
             macos:
               - **
               - '!linux'
-              - '!script/linux/**'
+              - '!script/**/**_linux.sh'
             linux:
               - **
               - '!macos'
-              - '!script/macos/**'
+              - '!script/**/**_macos.sh'
 
   setup:
     name: Setup
