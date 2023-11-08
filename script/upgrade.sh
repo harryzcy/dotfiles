@@ -17,9 +17,6 @@ source $DOTFILE_DIR/shared/.functions.sh
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   # linux
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
-  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
-
   $DOTFILE_DIR/upgrade/upgrade_linux.sh
 elif [[ "$os" == 'macos' ]]; then
   # macos

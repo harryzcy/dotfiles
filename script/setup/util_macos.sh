@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 run_brew_install() {
   package_name=$1
 
