@@ -28,13 +28,8 @@ jobs:
               - '!macos'
               - '!script/**/**_macos.sh'
 
-      - name: Print output
-        run: |
-          echo "macos_any_changed: ${{ steps.changed-files.outputs.macos_any_changed }}"
-          echo "linux_any_changed: ${{ steps.changed-files.outputs.linux_any_changed }}"
-
   setup:
-    name: Setup
+    name: Test Setup
     needs: detect-files
     runs-on: ${{ matrix.os }}
     strategy:
@@ -43,7 +38,7 @@ jobs:
 
     steps:
       - name: Clean up installed software on macOS
-        if: startsWith(matrix.os, 'macos')
+        if: startsWith(matrix.os, 'macos') && needs.detect-files.outputs.macos_any_changed == 'true'
         run: |
           brew uninstall --ignore-dependencies --force $(brew list --formula)
           brew uninstall --cask --force $(brew list --cask)
@@ -60,13 +55,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run tests on macOS
+        if: startsWith(matrix.os, 'macos') && needs.detect-files.outputs.macos_any_changed == 'true'
+        run: |
+          source ~/.zshrc
+          make test
+        shell: zsh {0}
+
       - name: Install using Makefile on Linux
         if: startsWith(matrix.os, 'ubuntu') && needs.detect-files.outputs.linux_any_changed == 'true'
         run: make setup
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run tests
+      - name: Run tests on Linux
+        if: startsWith(matrix.os, 'ubuntu') && needs.detect-files.outputs.linux_any_changed == 'true'
         run: |
           source ~/.zshrc
           make test
