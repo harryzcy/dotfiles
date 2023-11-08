@@ -8,6 +8,7 @@ path=(
 	$HOME/.cargo/bin # Rust
 	$GOPATH/bin      # Go
 	$HOME/.local/bin # pipx
+	$HOME/.krew/bin  # kubectl krew
 )
 export PATH
 
