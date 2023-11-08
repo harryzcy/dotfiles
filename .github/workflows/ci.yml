@@ -21,12 +21,12 @@ jobs:
           files_yaml: |
             macos:
               - **
-              - !linux
-              - !script/*/*_linux.sh
+              - '!linux'
+              - '!script/*/*_linux.sh'
             linux:
               - **
-              - !macos
-              - !script/*/*_macos.sh
+              - '!macos'
+              - '!script/*/*_macos.sh'
 
   setup:
     name: Setup
