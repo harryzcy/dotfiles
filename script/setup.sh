@@ -10,13 +10,13 @@ source ${DOTFILE_DIR}/shared/.functions.sh
 os=$(detect_os)
 arch=$(detect_arch)
 
-source ./setup/util_common.sh
+source ./common/util_common.sh
 
 if [[ ${os} == 'linux' ]]; then
-  source ./setup/setup_linux.sh
+  source ./linux/setup_linux.sh
 elif [[ ${os} == 'macos' ]]; then
-  source ./setup/util_macos.sh
-  source ./setup/setup_macos.sh
+  source ./macos/util_macos.sh
+  source ./macos/setup_macos.sh
 else
   echo "unsupported operating system: $os"
   exit 1
