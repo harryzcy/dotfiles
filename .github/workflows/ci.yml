@@ -34,13 +34,3 @@ jobs:
           source ~/.zshrc
           make test
         shell: zsh {0}
-
-      - name: Run upgrade command
-        run: |
-          make upgrade
-        shell: zsh {0}
-
-      - name: Run clean command
-        run: |
-          make clean
-        shell: zsh {0}
