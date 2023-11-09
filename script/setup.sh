@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 # change to the directory of this script
 current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 cd ${current}
