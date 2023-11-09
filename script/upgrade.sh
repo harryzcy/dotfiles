@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -o pipefail
+
 # update oh-my-zsh
 if [ -z "$ZSH" ]; then
   ZSH="$HOME/.oh-my-zsh"

@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -o pipefail
+
 brew update && brew upgrade
 brew upgrade --cask
 

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 if ! command -v apt &>/dev/null; then
   echo "command apt could not be found"
   exit 1
