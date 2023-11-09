@@ -109,3 +109,11 @@ esp32_realpath_int() {
 init_fabric() {
   export PATH=$(go env GOPATH)/src/github.com/hyperledger/fabric-samples/bin:$PATH
 }
+
+disable_gui() {
+  sudo systemctl isolate multi-user.target
+}
+
+enable_gui() {
+  sudo systemctl isolate graphical.target
+}
