@@ -113,7 +113,7 @@ init_fabric() {
 disable_gui() {
   os=$(detect_os)
   if [ $os != "linux" ]; then
-    echo "Only support linux"
+    echo "The current OS is not linux."
     return
   fi
   sudo systemctl isolate multi-user.target
@@ -122,7 +122,7 @@ disable_gui() {
 enable_gui() {
   os=$(detect_os)
   if [ $os != "linux" ]; then
-    echo "Only support linux"
+    echo "The current OS is not linux."
     return
   fi
   sudo systemctl isolate graphical.target
