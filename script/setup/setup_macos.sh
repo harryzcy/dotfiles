@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -o pipefail
+
 install_xcode_select() {
   if ! xcode-select -p &>/dev/null; then
     sudo xcode-select --install

@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+set -o pipefail
+
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 
