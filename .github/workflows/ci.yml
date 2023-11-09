@@ -28,6 +28,11 @@ jobs:
               - '!macos'
               - '!script/**/**_macos.sh'
 
+      - name: Print outputs
+        run: |
+          echo "macos_any_changed: ${{ steps.changed-files.outputs.macos_any_changed }}"
+          echo "linux_any_changed: ${{ steps.changed-files.outputs.linux_any_changed }}"
+
   setup:
     name: Test Setup
     needs: detect-files
