@@ -111,9 +111,19 @@ init_fabric() {
 }
 
 disable_gui() {
+  os=$(detect_os)
+  if [ $os != "linux" ]; then
+    echo "Only support linux"
+    return
+  fi
   sudo systemctl isolate multi-user.target
 }
 
 enable_gui() {
+  os=$(detect_os)
+  if [ $os != "linux" ]; then
+    echo "Only support linux"
+    return
+  fi
   sudo systemctl isolate graphical.target
 }
