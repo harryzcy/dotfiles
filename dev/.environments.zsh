@@ -109,3 +109,21 @@ esp32_realpath_int() {
 init_fabric() {
   export PATH=$(go env GOPATH)/src/github.com/hyperledger/fabric-samples/bin:$PATH
 }
+
+disable_gui() {
+  os=$(detect_os)
+  if [ $os != "linux" ]; then
+    echo "The current OS is not linux."
+    return
+  fi
+  sudo systemctl isolate multi-user.target
+}
+
+enable_gui() {
+  os=$(detect_os)
+  if [ $os != "linux" ]; then
+    echo "The current OS is not linux."
+    return
+  fi
+  sudo systemctl isolate graphical.target
+}
