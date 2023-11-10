@@ -19,8 +19,8 @@ source $DOTFILE_DIR/shared/.functions.sh
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   # linux
-  $DOTFILE_DIR/upgrade/upgrade_linux.sh
+  source $DOTFILE_DIR/script/upgrade/upgrade_linux.sh
 elif [[ "$os" == 'macos' ]]; then
   # macos
-  $DOTFILE_DIR/upgrade/upgrade_macos.sh
+  source $DOTFILE_DIR/script/upgrade/upgrade_macos.sh
 fi
