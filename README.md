@@ -18,5 +18,3 @@
 
 - dot clean
 - dot update
-- dot upgrade
-- dot reload
