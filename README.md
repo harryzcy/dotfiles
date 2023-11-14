@@ -9,8 +9,8 @@
 | **codespace** | config files for GitHub codespaces |
 | **dev**     | config files for dev machines |
 | **dot**     | `dot` commands |
-| **macos**   | config files for macOS |
-| **linux**   | config files for Raspberry Pi |
+| **macos**   | config files for macOS, also imports `dev` |
+| **linux**   | config files for Linux machines, optionally imports `dev` |
 | **script**  | command script used by `make` targets and `dot` commands |
 | **test**    | test scripts used by `make test` |
 
