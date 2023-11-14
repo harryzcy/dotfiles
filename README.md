@@ -16,7 +16,13 @@
 
 ## Dot commands
 
-- dot clean
-- dot update
-- dot upgrade
-- dot reload
+`dot` is the entry command for many scripts.
+
+- `dot clean`: cleanup cache
+- `dot update`: update dotfiles from Git
+- `dot upgrade`: upgrade installed packages
+- `dot reload`: reload dotfiles
+- `dot repo`: print repository path
+- `dot goto`: goto repository directory
+- `dot code`: open repository in Visual Studio Code
+- `dot tm`: time machine utilities for macOS
