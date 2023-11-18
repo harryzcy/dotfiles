@@ -20,4 +20,6 @@ if [[ $(hostname -s) = gpu-* ]]; then
 
   kubectl krew update
   kubectl krew upgrade
+
+  rustup update
 fi
