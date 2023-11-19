@@ -34,7 +34,7 @@ conda() {
 # Node & nvm
 # nvm
 lazy_load_nvm() {
-  unset -f npm node nvm npx yarn
+  unset -f npm node nvm npx yarn sls
   export NVM_DIR=~/.nvm
   [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
@@ -65,6 +65,11 @@ npx() {
 yarn() {
   lazy_load_nvm
   yarn $@
+}
+
+sls() {
+  lazy_load_nvm
+  sls $@
 }
 
 # Kubectl
