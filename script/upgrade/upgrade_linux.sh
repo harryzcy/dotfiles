@@ -33,7 +33,7 @@ upgrade_apt
 upgrade_zsh
 
 # dev machine
-if [[ $(hostname -s) = gpu-* ]]; then
+if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_awscli
   upgrade_pipx
   upgrade_golanglint
