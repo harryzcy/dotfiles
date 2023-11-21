@@ -22,4 +22,6 @@ if [[ $(hostname -s) = gpu-* ]]; then
   kubectl krew upgrade
 
   rustup update
+
+  update_node
 fi
