@@ -22,11 +22,6 @@ upgrade_golanglint() {
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 }
 
-upgrade_krex() {
-  kubectl krew update
-  kubectl krew upgrade
-}
-
 upgrade_rust() {
   rustup update
 }

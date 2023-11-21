@@ -27,3 +27,8 @@ upgrade_node() {
     npm install -g "${node_packaegs[@]}"
   fi
 }
+
+upgrade_krex() {
+  kubectl krew update
+  kubectl krew upgrade
+}
