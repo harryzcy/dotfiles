@@ -14,5 +14,11 @@ nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o 
 nvm_latest=${nvm_latest##*/}
 curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
 
-# upgrade npm and node
-nvm install --lts --latest-npm --reinstall-packages-from='lts/*'
+# upgrade node
+node_latest=$(nvm ls-remote | grep -i 'latest' | tail -n 1 | awk '{print $2}')
+node_current=$(nvm current)
+if [[ "$node_latest" != "$node_current" ]]; then
+  echo "upgrading node"
+  nvm install lts
+  nvm uninstall "$node_current"
+fi
