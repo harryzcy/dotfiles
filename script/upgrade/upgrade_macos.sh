@@ -2,11 +2,13 @@
 
 set -o pipefail
 
-brew update && brew upgrade
-brew upgrade --cask
+upgrade_brew() {
+  brew update && brew upgrade
+  brew upgrade --cask
+}
 
-# krew
-kubectl krew update
-kubectl krew upgrade
-
-update_node
+### Main Script ###
+upgrade_zsh
+upgrade_brew
+upgrade_krex
+upgrade_node

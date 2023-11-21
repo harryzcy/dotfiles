@@ -31,12 +31,13 @@ source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
 
 source $DOTFILE_DIR/shared/.functions.zsh
+source $DOTFILE_DIR/shared/.environments.zsh
 
 if [ -z "$DISPLAY" ]; then
   PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
 fi
 
-if [[ $(hostname -s) = gpu-* ]]; then
+if [[ "$IS_DEV_MACHINE" = true ]]; then
   source $DOTFILE_DIR/linux/dev.environments.zsh
 fi
 
@@ -45,5 +46,5 @@ if [[ -f "$HOME/.zshrc.local" ]]; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
