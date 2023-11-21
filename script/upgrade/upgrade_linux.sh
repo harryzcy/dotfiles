@@ -2,8 +2,10 @@
 
 set -o pipefail
 
-sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
-sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+upgrade_apt() {
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+}
 
 upgrade_awscli() {
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/awscliv2.zip"
@@ -25,6 +27,10 @@ upgrade_golanglint() {
 upgrade_rust() {
   rustup update
 }
+
+### Main Script ###
+upgrade_apt
+upgrade_zsh
 
 # dev machine
 if [[ $(hostname -s) = gpu-* ]]; then

@@ -6,8 +6,6 @@ set -o pipefail
 source $DOTFILE_DIR/shared/.functions.sh
 source $DOTFILE_DIR/script/upgrade/upgrade_common.sh
 
-upgrade_zsh
-
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then
   # linux

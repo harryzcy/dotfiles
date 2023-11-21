@@ -7,6 +7,8 @@ upgrade_brew() {
   brew upgrade --cask
 }
 
+### Main Script ###
+upgrade_zsh
 upgrade_brew
 upgrade_krex
 upgrade_node
