@@ -1,5 +1,12 @@
 #!/usr/bin/env zsh
 
+node_packaegs=(
+  npm-check-updates
+  serverless
+  wrangler
+  yarn
+)
+
 update_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
@@ -15,5 +22,8 @@ update_node() {
     echo "upgrading node"
     nvm install "$node_latest"
     nvm uninstall "$node_current"
+
+    # reinstall global packages
+    npm install -g "${node_packaegs[@]}"
   fi
 }
