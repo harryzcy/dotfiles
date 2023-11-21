@@ -7,7 +7,7 @@ node_packaegs=(
   yarn
 )
 
-update_node() {
+upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
   # upgrade nvm

@@ -9,4 +9,4 @@ brew upgrade --cask
 kubectl krew update
 kubectl krew upgrade
 
-update_node
+upgrade_node
