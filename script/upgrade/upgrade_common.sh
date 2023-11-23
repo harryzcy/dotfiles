@@ -31,7 +31,7 @@ upgrade_node() {
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
 
   # upgrade node
-  node_latest=$(nvm ls-remote | grep -i 'latest' | tail -n 1 | awk '{print $2}' | strings)
+  node_latest=$(nvm ls-remote | grep -i 'latest' | tail -n 1 | awk '{print $1}' | strings)
   node_current=$(nvm current)
   if [ "$node_latest" != "$node_current" ]; then
     echo "upgrading node"
