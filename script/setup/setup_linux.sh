@@ -19,7 +19,9 @@ install_tools() {
   echo "installing tools"
   run_apt_install git
   run_apt_install zsh
+}
 
+install_tools:dev() {
   (
     set -x
     cd "$(mktemp -d)" &&
@@ -40,9 +42,14 @@ else
   src_dir="${DOTFILE_DIR}/linux"
 fi
 
+source "${DOTFILE_DIR}/shared/.environments.zsh"
 if [[ "${NO_INSTALL}" != "true" ]]; then
   run_apt_update
   install_tools
+
+  if [[ "${IS_DEV_MACHINE}" = true ]]; then
+    install_tools:dev
+  fi
 fi
 configure_git ${src_dir}
 configure_zsh ${src_dir}
