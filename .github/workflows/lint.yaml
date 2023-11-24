@@ -9,9 +9,6 @@ on:
 jobs:
   super-linter:
     name: Super Linter
-    permissions:
-      contents: read
-      pull-requests: read
     uses: harryzcy/github-actions/.github/workflows/linter.yml@main
 
   assert-nvm:
