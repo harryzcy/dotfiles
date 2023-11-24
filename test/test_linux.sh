@@ -3,7 +3,10 @@
 check_tools() {
   # check_command dig
   # check_command nslookup
-  # check_command http
+
+  if [[ "${IS_DEV_MACHINE}" = true ]]; then
+    check_command http
+  fi
 }
 
 check_softwares() {
