@@ -49,6 +49,7 @@ jobs:
         run: |
           # shellcheck disable=SC2046
           brew uninstall --ignore-dependencies --force $(brew list --formula)
+          # shellcheck disable=SC2046
           brew uninstall --cask --force $(brew list --cask) 
           brew cleanup --prune-prefix
           sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
