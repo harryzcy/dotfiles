@@ -7,6 +7,10 @@ on:
       - main
 
 jobs:
+  super-linter:
+    name: Super Linter
+    uses: harryzcy/github-actions/.github/workflows/linter.yml@main
+
   assert-nvm:
     name: Correct NVM Location
     runs-on: ubuntu-latest
@@ -16,12 +20,12 @@ jobs:
 
       - name: Assert NVM
         run: |
-          if grep -q "NVM_DIR" linux/.zshrc; then
-            echo "NVM_DIR" is set incorrectly
+          if grep -q "NVM_DIR" "linux/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
             exit 1
           fi
 
-          if grep -q "NVM_DIR" macos/.zshrc; then
-            echo "NVM_DIR" is set incorrectly
+          if grep -q "NVM_DIR" "macos/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
             exit 1
           fi
