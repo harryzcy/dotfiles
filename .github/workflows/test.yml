@@ -47,8 +47,9 @@ jobs:
       - name: Clean up installed software on macOS
         if: startsWith(matrix.os, 'macos') && needs.detect-files.outputs.macos_any_changed == 'true'
         run: |
-          brew uninstall --ignore-dependencies --force $(brew list --formula) # shellcheck disable=SC2046
-          brew uninstall --cask --force $(brew list --cask) # shellcheck disable=SC2046
+          # shellcheck disable=SC2046
+          brew uninstall --ignore-dependencies --force $(brew list --formula)
+          brew uninstall --cask --force $(brew list --cask) 
           brew cleanup --prune-prefix
           sudo /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh)"
           rm -rf /Users/runner/.gitconfig /Users/runner/.gitignore_global
