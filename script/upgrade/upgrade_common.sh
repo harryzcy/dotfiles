@@ -29,7 +29,7 @@ upgrade_node() {
   nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
   nvm_latest=${nvm_latest##*/}
   # ensure nvm doesn't modify .zshrc
-  PROFILE=/dev/null bash -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
+  PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
 
   # upgrade node
   node_latest=$(nvm ls-remote | grep -i 'latest' | tail -n 1 | awk '{print $2}' | strings)
