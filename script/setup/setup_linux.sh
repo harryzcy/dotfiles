@@ -42,7 +42,7 @@ else
   src_dir="${DOTFILE_DIR}/linux"
 fi
 
-source "${DOTFILE_DIR}/shared/.environments.zsh"
+source "${DOTFILE_DIR}/shared/.environments.sh"
 if [[ "${NO_INSTALL}" != "true" ]]; then
   run_apt_update
   install_tools
