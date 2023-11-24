@@ -5,7 +5,7 @@ if [[ -z "$IS_DEV_MACHINE" ]]; then
   if [[ "$os" == 'macos' ]]; then
     IS_DEV_MACHINE=true
   elif [[ "$os" == 'linux' ]]; then
-    if [[ $(hostname -s) = gpu-* ]]; then
+    if [[ "$(hostname -s)" = gpu-* ]]; then
       IS_DEV_MACHINE=true
     fi
   fi
