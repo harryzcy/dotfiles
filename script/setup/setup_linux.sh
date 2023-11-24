@@ -28,6 +28,8 @@ install_tools() {
       tar zxvf "${KREW}.tar.gz" &&
       ./"${KREW}" install krew
   )
+
+  pip install httpie
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
