@@ -42,6 +42,10 @@ jobs:
     strategy:
       matrix:
         os: [macos-13, ubuntu-latest]
+        dev: [true, false]
+        exclude:
+          - os: macos-13
+            dev: false
 
     steps:
       - name: Clean up installed software on macOS
@@ -73,7 +77,11 @@ jobs:
 
       - name: Install using Makefile on Linux
         if: startsWith(matrix.os, 'ubuntu') && needs.detect-files.outputs.linux_any_changed == 'true'
-        run: make setup
+        run: |
+          if [[ "${{ matrix.dev }}" == true ]]; then
+            export IS_DEV_MACHINE=true
+          fi
+          make setup
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -81,5 +89,8 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu') && needs.detect-files.outputs.linux_any_changed == 'true'
         run: |
           source ~/.zshrc
+          if [[ "${{ matrix.dev }}" == true ]]; then
+            export IS_DEV_MACHINE=true
+          fi
           make test
         shell: zsh {0}
