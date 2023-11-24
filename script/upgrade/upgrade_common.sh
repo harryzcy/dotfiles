@@ -26,6 +26,7 @@ upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
   # upgrade nvm
+  export PROFILE=/dev/null # ensure nvm doesn't modify .zshrc
   nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
   nvm_latest=${nvm_latest##*/}
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
