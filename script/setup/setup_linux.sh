@@ -7,16 +7,18 @@ if ! command -v apt &>/dev/null; then
   exit 1
 fi
 
-export DEBIAN_FRONTEND=noninteractive
-
 run_apt_update() {
-  sudo apt-get -yq update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+}
+
+run_apt_install() {
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install "$@"
 }
 
 install_tools() {
   echo "installing tools"
-  sudo apt-get -yq install git
-  sudo apt-get -yq install zsh
+  run_apt_install git
+  run_apt_install zsh
 
   (
     set -x
