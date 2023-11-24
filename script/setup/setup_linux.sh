@@ -31,7 +31,7 @@ install_tools() {
       ./"${KREW}" install krew
   )
 
-  pip install httpie
+  pipx install httpie
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
