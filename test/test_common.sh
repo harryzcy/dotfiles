@@ -1,4 +1,4 @@
-# common tests
+#!/usr/bin/env zsh
 
 check_git() {
   # git
