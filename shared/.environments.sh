@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [[ -z "$IS_DEV_MACHINE" ]]; then
   IS_DEV_MACHINE=false
 
