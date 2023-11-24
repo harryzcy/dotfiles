@@ -23,12 +23,12 @@ jobs:
 
       - name: Assert NVM
         run: |
-          if grep -q "NVM_DIR" linux/.zshrc; then
-            echo "NVM_DIR" is set incorrectly
+          if grep -q "NVM_DIR" "linux/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
             exit 1
           fi
 
-          if grep -q "NVM_DIR" macos/.zshrc; then
-            echo "NVM_DIR" is set incorrectly
+          if grep -q "NVM_DIR" "macos/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
             exit 1
           fi
