@@ -2,7 +2,7 @@
 
 check_git() {
   check_command git
-  check_file $"HOME/.gitconfig"
+  check_file "$HOME/.gitconfig"
   check_file "$HOME/.gitignore_global"
 }
 
