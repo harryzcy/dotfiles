@@ -3,9 +3,9 @@
 set -o pipefail
 
 # common tools
-source $DOTFILE_DIR/shared/.functions.sh
-source $DOTFILE_DIR/shared/.environments.zsh
-source $DOTFILE_DIR/script/upgrade/upgrade_common.sh
+source "$DOTFILE_DIR/shared/.functions.sh"
+source "$DOTFILE_DIR/shared/.environments.sh"
+source "$DOTFILE_DIR/script/upgrade/upgrade_common.sh"
 
 os=$(detect_os)
 if [[ "$os" == 'linux' ]]; then

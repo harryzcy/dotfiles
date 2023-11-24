@@ -30,8 +30,8 @@ export GPG_TTY=$(tty)
 source "$DOTFILE_DIR/dot/dot.zsh"
 source "$DOTFILE_DIR/dot/_dot.zsh"
 
-source $DOTFILE_DIR/shared/.functions.zsh
-source $DOTFILE_DIR/shared/.environments.zsh
+source "$DOTFILE_DIR/shared/.functions.zsh"
+source "$DOTFILE_DIR/shared/.environments.sh"
 
 if [ -z "$DISPLAY" ]; then
   PROMPT="%{$fg[green]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} ${PROMPT}"
