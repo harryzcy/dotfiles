@@ -57,6 +57,9 @@ path=(
 )
 export PATH
 
+# Ruby
+eval "$(rbenv init - zsh)"
+
 source $platform_dir/.functions.zsh
 source $platform_dir/.completion.zsh
 source $DOTFILE_DIR/dev/.aliases.zsh
