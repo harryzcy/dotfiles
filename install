@@ -7,4 +7,4 @@ fi
 
 git clone https://github.com/harryzcy/dotfiles.git $HOME/dotfiles
 
-$HOME/dotfiles/script/setup.sh
+bash $HOME/dotfiles/script/setup.sh

@@ -1,4 +1,4 @@
-# tests for macOS
+#!/usr/bin/env zsh
 
 check_tools() {
   check_command cloc

@@ -7,17 +7,21 @@ if ! command -v apt &>/dev/null; then
   exit 1
 fi
 
-export DEBIAN_FRONTEND=noninteractive
-
 run_apt_update() {
-  sudo apt-get -yq update
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+}
+
+run_apt_install() {
+  sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install "$@"
 }
 
 install_tools() {
   echo "installing tools"
-  sudo apt-get -yq install git
-  sudo apt-get -yq install zsh
+  run_apt_install git
+  run_apt_install zsh
+}
 
+install_tools:dev() {
   (
     set -x
     cd "$(mktemp -d)" &&
@@ -28,6 +32,8 @@ install_tools() {
       tar zxvf "${KREW}.tar.gz" &&
       ./"${KREW}" install krew
   )
+
+  pipx install httpie
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
@@ -36,9 +42,14 @@ else
   src_dir="${DOTFILE_DIR}/linux"
 fi
 
+source "${DOTFILE_DIR}/shared/.environments.sh"
 if [[ "${NO_INSTALL}" != "true" ]]; then
   run_apt_update
   install_tools
+
+  if [[ "${IS_DEV_MACHINE}" = true ]]; then
+    install_tools:dev
+  fi
 fi
 configure_git ${src_dir}
 configure_zsh ${src_dir}

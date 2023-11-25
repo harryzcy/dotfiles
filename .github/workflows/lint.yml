@@ -1,0 +1,31 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  super-linter:
+    name: Super Linter
+    uses: harryzcy/github-actions/.github/workflows/linter.yml@main
+
+  assert-nvm:
+    name: Correct NVM Location
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assert NVM
+        run: |
+          if grep -q "NVM_DIR" "linux/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
+            exit 1
+          fi
+
+          if grep -q "NVM_DIR" "macos/.zshrc"; then
+            echo "NVM_DIR is set incorrectly"
+            exit 1
+          fi
