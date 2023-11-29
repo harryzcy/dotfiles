@@ -110,7 +110,7 @@ install_software() {
 configure_dot_bin() {
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
     echo "creating $DOTFILE_DIR/dot/bin"
-    mkdir $DOTFILE_DIR/dot/bin
+    mkdir "$DOTFILE_DIR/dot/bin"
   fi
 
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
