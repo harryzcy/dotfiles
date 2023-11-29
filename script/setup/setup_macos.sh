@@ -120,7 +120,12 @@ configure_dot_bin() {
 EOT
   fi
   chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+
   create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
+
+  create_symlink \
+    "/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate" \
+    "$DOTFILE_DIR/dot/bin/msupdate"
 }
 
 configure_hammerspoon() {
