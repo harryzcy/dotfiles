@@ -33,6 +33,8 @@ install_tools:dev() {
       ./"${KREW}" install krew
   )
 
+  run_apt_install cloc
+
   pipx install httpie
 }
 
