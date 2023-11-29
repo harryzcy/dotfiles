@@ -59,6 +59,7 @@ install_tools:node() {
   nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
   nvm_latest=${nvm_latest##*/}
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
+  # shellcheck disable=SC1091
   [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
   nvm install --lts
   nvm use --lts
@@ -110,17 +111,22 @@ install_software() {
 configure_dot_bin() {
   if [ ! -d "$DOTFILE_DIR/dot/bin" ]; then
     echo "creating $DOTFILE_DIR/dot/bin"
-    mkdir $DOTFILE_DIR/dot/bin
+    mkdir "$DOTFILE_DIR/dot/bin"
   fi
 
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
     cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
 #!/usr/bin/env zsh
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "\$@"
 EOT
   fi
   chmod +x "$DOTFILE_DIR/dot/bin/chrome"
+
   create_symlink "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" "$DOTFILE_DIR/dot/bin/code"
+
+  create_symlink \
+    "/Library/Application Support/Microsoft/MAU2.0/Microsoft AutoUpdate.app/Contents/MacOS/msupdate" \
+    "$DOTFILE_DIR/dot/bin/msupdate"
 }
 
 configure_hammerspoon() {
