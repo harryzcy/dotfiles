@@ -33,6 +33,8 @@ install_tools:dev() {
       ./"${KREW}" install krew
   )
 
+  run_apt_install cloc
+
   pipx install httpie
 }
 
@@ -51,5 +53,5 @@ if [[ "${NO_INSTALL}" != "true" ]]; then
     install_tools:dev
   fi
 fi
-configure_git ${src_dir}
-configure_zsh ${src_dir}
+configure_git "${src_dir}"
+configure_zsh "${src_dir}"
