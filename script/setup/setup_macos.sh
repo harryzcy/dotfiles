@@ -59,6 +59,7 @@ install_tools:node() {
   nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
   nvm_latest=${nvm_latest##*/}
   curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
+  # shellcheck disable=SC1091
   [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
   nvm install --lts
   nvm use --lts
@@ -116,7 +117,7 @@ configure_dot_bin() {
   if [ ! -f "$DOTFILE_DIR/dot/bin/chrome" ]; then
     cat >"$DOTFILE_DIR/dot/bin/chrome" <<EOT
 #!/usr/bin/env zsh
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "\$@"
 EOT
   fi
   chmod +x "$DOTFILE_DIR/dot/bin/chrome"
