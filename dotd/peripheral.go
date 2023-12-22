@@ -18,15 +18,12 @@ type commandOutput struct {
 	stderr []byte
 }
 
-func runCommand(path string, args ...string) (*commandOutput, error) {
+func runCommand(name string, args ...string) (*commandOutput, error) {
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
-	cmd := exec.Cmd{
-		Path:   path,
-		Args:   args,
-		Stdout: stdout,
-		Stderr: stderr,
-	}
+	cmd := exec.Command(name, args...)
+	cmd.Stdout = stdout
+	cmd.Stderr = stderr
 	err := cmd.Run()
 	if err != nil {
 		return nil, err

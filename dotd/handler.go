@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 // ping returns a pong message
 func ping(w http.ResponseWriter, r *http.Request) {
@@ -11,11 +14,13 @@ func ping(w http.ResponseWriter, r *http.Request) {
 func ejectDisks(w http.ResponseWriter, r *http.Request) {
 	running, err := isTMRunning()
 	if err != nil {
+		fmt.Println(err)
 		fail(w)
 		return
 	}
 	if running {
 		if err = stopTMBackup(); err != nil {
+			fmt.Println(err)
 			fail(w)
 			return
 		}
