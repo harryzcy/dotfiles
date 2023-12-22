@@ -41,13 +41,14 @@ func getPlistField(content, field string) (interface{}, error) {
 		line = strings.TrimSpace(line)
 		if line == "{" {
 			inBlock = true
+			continue
 		} else if line == "}" {
 			inBlock = false
 		}
 
 		if inBlock {
 			trimmed := strings.TrimRight(line, ";")
-			parts := strings.SplitN(trimmed, ";", 2)
+			parts := strings.SplitN(trimmed, "=", 2)
 			if len(parts) != 2 {
 				return nil, ErrMalformedPlist
 			}
