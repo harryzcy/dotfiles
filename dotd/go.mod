@@ -1,3 +1,3 @@
 module github.com/harryzcy/dotfiles/dotd
 
-go 1.21.4
+go 1.21
