@@ -12,6 +12,7 @@ const (
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", ping)
+	mux.HandleFunc("/disks/eject", ejectDisks)
 
 	server := http.Server{
 		Addr:    ADDR,
