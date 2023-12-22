@@ -25,6 +25,15 @@ func ejectDisks(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+	mountPath, err := getTMMountPoint()
+	if err != nil {
+		fmt.Println(err)
+		fail(w)
+		return
+	}
+	if mountPath != "" {
+		ejectDisk(mountPath)
+	}
 
 	success(w)
 }

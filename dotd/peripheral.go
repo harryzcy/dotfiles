@@ -8,9 +8,10 @@ import (
 )
 
 var (
-	ErrMalformedPlist  = errors.New("malformed plist content")
-	ErrUnexpectedValue = errors.New("unexpected value")
-	ErrNotFound        = errors.New("not found")
+	ErrMalformedContent = errors.New("malformed content")
+	ErrUnexpectedValue  = errors.New("unexpected value")
+	ErrNotFound         = errors.New("not found")
+	ErrMountPathEmpty   = errors.New("mount path is empty")
 )
 
 type commandOutput struct {
@@ -48,9 +49,9 @@ func getPlistField(content, field string) (interface{}, error) {
 
 		if inBlock {
 			trimmed := strings.TrimRight(line, ";")
-			parts := strings.SplitN(trimmed, "=", 2)
+			parts := strings.Split(trimmed, "=")
 			if len(parts) != 2 {
-				return nil, ErrMalformedPlist
+				return nil, ErrMalformedContent
 			}
 			if strings.TrimSpace(parts[0]) != field {
 				continue
@@ -90,5 +91,32 @@ func isTMRunning() (bool, error) {
 
 func stopTMBackup() error {
 	_, err := runCommand("tmutil", "stopbackup")
+	return err
+}
+
+func getTMMountPoint() (string, error) {
+	output, err := runCommand("tmutil", "destinationinfo")
+	if err != nil {
+		return "", err
+	}
+
+	for _, line := range strings.Split(string(output.stdout), "\n") {
+		if strings.Contains(line, "Mount Points") {
+			parts := strings.Split(line, ":")
+			if len(parts) != 2 {
+				return "", ErrMalformedContent
+			}
+			mountPath := strings.TrimSpace(parts[1])
+			return mountPath, nil
+		}
+	}
+	return "", nil
+}
+
+func ejectDisk(mountPath string) error {
+	if mountPath != "" {
+		return ErrMountPathEmpty
+	}
+	_, err := runCommand("diskutil", "eject", mountPath)
 	return err
 }
