@@ -7,7 +7,7 @@ import (
 
 // ping returns a pong message
 func ping(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("pong\n"))
+	_, _ = w.Write([]byte("pong\n"))
 }
 
 // ejectDisks ejects all external disks
@@ -20,28 +20,29 @@ func ejectDisks(w http.ResponseWriter, r *http.Request) {
 	}
 	if running {
 		if err = stopTMBackup(); err != nil {
-			fmt.Println(err)
 			fail(w)
 			return
 		}
 	}
 	mountPath, err := getTMMountPoint()
 	if err != nil {
-		fmt.Println(err)
 		fail(w)
 		return
 	}
 	if mountPath != "" {
-		ejectDisk(mountPath)
+		if err := ejectDisk(mountPath); err != nil {
+			fail(w)
+			return
+		}
 	}
 
 	success(w)
 }
 
 func success(w http.ResponseWriter) {
-	w.Write([]byte("{\"status\":\"success\"}"))
+	_, _ = w.Write([]byte("{\"status\":\"success\"}"))
 }
 
 func fail(w http.ResponseWriter) {
-	w.Write([]byte("{\"status\":\"error\"}"))
+	_, _ = w.Write([]byte("{\"status\":\"error\"}"))
 }
