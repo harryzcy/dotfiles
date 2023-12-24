@@ -1,8 +1,13 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
+	"log"
 	"net/http"
+	"os/signal"
+	"syscall"
 	"time"
 )
 
@@ -24,5 +29,20 @@ func main() {
 
 	fmt.Println("Listening on " + ADDR)
 
-	server.ListenAndServe()
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("listen and serve returned err: %v", err)
+		}
+	}()
+
+	<-ctx.Done()
+	log.Println("got interruption signal")
+	if err := server.Shutdown(context.TODO()); err != nil {
+		log.Printf("server shutdown returned an err: %v\n", err)
+	}
+
+	log.Println("final")
 }
