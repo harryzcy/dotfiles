@@ -29,3 +29,7 @@ jobs:
             echo "NVM_DIR is set incorrectly"
             exit 1
           fi
+
+  go-lint:
+    name: Go Lint
+    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@main
