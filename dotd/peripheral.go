@@ -101,7 +101,7 @@ func getTMMountPoint() (string, error) {
 	}
 
 	for _, line := range strings.Split(string(output.stdout), "\n") {
-		if strings.Contains(line, "Mount Points") {
+		if strings.Contains(line, "Mount Point") {
 			parts := strings.Split(line, ":")
 			if len(parts) != 2 {
 				return "", ErrMalformedContent
@@ -114,7 +114,7 @@ func getTMMountPoint() (string, error) {
 }
 
 func ejectDisk(mountPath string) error {
-	if mountPath != "" {
+	if mountPath == "" {
 		return ErrMountPathEmpty
 	}
 	_, err := runCommand("diskutil", "eject", mountPath)
