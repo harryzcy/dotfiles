@@ -54,7 +54,7 @@ func ejectDisks(logger *zap.Logger) http.HandlerFunc {
 			return
 		}
 		if mountPath != "" {
-			if err := ejectDisk(mountPath); err != nil {
+			if err := ejectDisk(logger, mountPath); err != nil {
 				logger.Error("failed to eject disk", zap.Error(err))
 				fail(w)
 				return
