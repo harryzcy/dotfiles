@@ -21,8 +21,8 @@ func main() {
 	logger, _ := getLogger()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", ping(logger))
-	mux.HandleFunc("/disks/eject", ejectDisks(logger))
+	mux.HandleFunc("/ping", accessGuard(logger, ping))
+	mux.HandleFunc("/disks/eject", accessGuard(logger, ejectDisks(logger)))
 
 	server := http.Server{
 		Addr:         ADDR,

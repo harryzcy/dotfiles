@@ -7,13 +7,9 @@ import (
 )
 
 // ping returns a pong message
-func ping(logger *zap.Logger) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		logger.Info("request received", zap.String("path", r.URL.Path))
-
-		w.Header().Set("Content-Type", "text/plain")
-		_, _ = w.Write([]byte("pong\n"))
-	}
+func ping(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	_, _ = w.Write([]byte("pong\n"))
 }
 
 // ejectDisks ejects all external disks
@@ -63,15 +59,4 @@ func ejectDisks(logger *zap.Logger) http.HandlerFunc {
 
 		success(w)
 	}
-}
-
-func success(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json")
-	_, _ = w.Write([]byte("{\"status\":\"success\"}"))
-}
-
-func fail(w http.ResponseWriter) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusInternalServerError)
-	_, _ = w.Write([]byte("{\"status\":\"error\"}"))
 }
