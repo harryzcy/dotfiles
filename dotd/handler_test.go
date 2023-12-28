@@ -7,12 +7,15 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"go.uber.org/zap"
 )
 
 func TestPing(t *testing.T) {
+	logger, _ := zap.NewDevelopment()
+
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest("GET", "/ping", nil)
-	ping(w, r)
+	ping(logger)(w, r)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, "pong\n", w.Body.String())
