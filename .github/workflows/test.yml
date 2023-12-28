@@ -100,3 +100,4 @@ jobs:
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: dotd
+      latest: 1
