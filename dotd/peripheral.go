@@ -3,9 +3,10 @@ package main
 import (
 	"bytes"
 	"errors"
-	"fmt"
 	"os/exec"
 	"strings"
+
+	"go.uber.org/zap"
 )
 
 var (
@@ -116,13 +117,14 @@ func parseTMMountPoint(stdout string) (string, error) {
 	return "", ErrNotFound
 }
 
-func ejectDisk(mountPath string) error {
+func ejectDisk(logger *zap.Logger, mountPath string) error {
 	if mountPath == "" {
 		return ErrMountPathEmpty
 	}
 	out, err := runCommand("diskutil", "eject", mountPath)
 	if err != nil {
-		fmt.Print(string(out.stderr))
+		logger.Error("failed to eject disk", zap.Error(err), zap.String("stdout", string(out.stdout)), zap.String("stderr", string(out.stderr)))
+		return err
 	}
 	return err
 }
