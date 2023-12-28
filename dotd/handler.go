@@ -7,6 +7,7 @@ import (
 
 // ping returns a pong message
 func ping(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
 	_, _ = w.Write([]byte("pong\n"))
 }
 
@@ -51,9 +52,12 @@ func ejectDisks(w http.ResponseWriter, r *http.Request) {
 }
 
 func success(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
 	_, _ = w.Write([]byte("{\"status\":\"success\"}"))
 }
 
 func fail(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusInternalServerError)
 	_, _ = w.Write([]byte("{\"status\":\"error\"}"))
 }
