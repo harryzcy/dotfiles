@@ -45,7 +45,7 @@ func TestParseTMMountPoint(t *testing.T) {
 			stdout: `====================================================
 Name          : TM
 Kind          : Local
-ID            : AAAAAAAA-XXXX-4FB1-XXXX-XXXXXXXXXXXX`,
+ID            : AAAAAAAA-XXXX-XXXX-XXXX-XXXXXXXXXXXX`,
 			want: "",
 			err:  ErrNotFound,
 		},
