@@ -3,22 +3,26 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"go.uber.org/zap"
 )
 
-const (
-	ADDR = ":2315"
+var (
+	PORT = "2315"
+	ADDR = ":" + PORT
 )
 
 func main() {
+	logger, _ := getLogger()
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", ping)
-	mux.HandleFunc("/disks/eject", ejectDisks)
+	mux.HandleFunc("/ping", ping(logger))
+	mux.HandleFunc("/disks/eject", ejectDisks(logger))
 
 	server := http.Server{
 		Addr:         ADDR,
@@ -27,22 +31,22 @@ func main() {
 		WriteTimeout: 5 * time.Second,
 	}
 
-	fmt.Println("Listening on " + ADDR)
-
 	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stop()
 
 	go func() {
+		logger.Sugar().Infow("starting server", "port", PORT)
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			log.Fatalf("listen and serve returned err: %v", err)
 		}
+		logger.Sugar().Infow("server started", "port", PORT)
 	}()
 
 	<-ctx.Done()
-	log.Println("got interruption signal")
+	logger.Info("got interruption signal, shutting down server")
 	if err := server.Shutdown(context.TODO()); err != nil {
-		log.Printf("server shutdown returned an err: %v\n", err)
+		logger.Error("server shutdown failed", zap.Error(err))
 	}
 
-	log.Println("final")
+	logger.Info("server shutdown successfully")
 }
