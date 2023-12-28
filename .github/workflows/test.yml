@@ -25,10 +25,12 @@ jobs:
               - '**'
               - '!linux'
               - '!script/**/**_linux.sh'
+              - '!dotd'
             linux:
               - '**'
               - '!macos'
               - '!script/**/**_macos.sh'
+              - '!dotd'
 
       - name: Print outputs
         run: |
