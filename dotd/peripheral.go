@@ -100,7 +100,11 @@ func getTMMountPoint() (string, error) {
 		return "", err
 	}
 
-	for _, line := range strings.Split(string(output.stdout), "\n") {
+	return parseTMMountPoint(string(output.stdout))
+}
+
+func parseTMMountPoint(stdout string) (string, error) {
+	for _, line := range strings.Split(stdout, "\n") {
 		if strings.Contains(line, "Mount Point") {
 			parts := strings.Split(line, ":")
 			if len(parts) != 2 {
@@ -110,7 +114,8 @@ func getTMMountPoint() (string, error) {
 			return mountPath, nil
 		}
 	}
-	return "", nil
+
+	return "", ErrNotFound
 }
 
 func ejectDisk(mountPath string) error {
