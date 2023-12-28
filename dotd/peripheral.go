@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"os/exec"
 	"strings"
 )
@@ -26,14 +27,11 @@ func runCommand(name string, args ...string) (*commandOutput, error) {
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 	err := cmd.Run()
-	if err != nil {
-		return nil, err
-	}
 
 	return &commandOutput{
 		stdout: stdout.Bytes(),
 		stderr: stderr.Bytes(),
-	}, nil
+	}, err
 }
 
 func getPlistField(content, field string) (interface{}, error) {
@@ -122,6 +120,9 @@ func ejectDisk(mountPath string) error {
 	if mountPath == "" {
 		return ErrMountPathEmpty
 	}
-	_, err := runCommand("diskutil", "eject", mountPath)
+	out, err := runCommand("diskutil", "eject", mountPath)
+	if err != nil {
+		fmt.Print(string(out.stderr))
+	}
 	return err
 }
