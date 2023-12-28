@@ -94,3 +94,10 @@ jobs:
           fi
           make test
         shell: zsh {0}
+
+  go:
+    name: Go Test
+    uses: harryzcy/github-actions/.github/workflows/go.yml@main
+    with:
+      working-directory: dotd
+      latest: 1
