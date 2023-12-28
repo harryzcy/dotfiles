@@ -23,6 +23,17 @@ func ejectDisks(w http.ResponseWriter, r *http.Request) {
 			fail(w)
 			return
 		}
+
+		for {
+			running, err = isTMRunning()
+			if err != nil {
+				fail(w)
+				return
+			}
+			if !running {
+				break
+			}
+		}
 	}
 	mountPath, err := getTMMountPoint()
 	if err != nil {
