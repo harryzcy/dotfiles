@@ -72,6 +72,11 @@ sls() {
   sls $@
 }
 
+ncu() {
+  lazy_load_nvm
+  ncu $@
+}
+
 # Kubectl
 chk3s() {
   if [ -n "$1" ] && [ $1 = "-h" ]; then
