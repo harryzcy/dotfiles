@@ -74,11 +74,17 @@ func accessGuard(logger *zap.Logger, fn http.HandlerFunc) http.HandlerFunc {
 
 func success(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
-	_, _ = w.Write([]byte("{\"status\":\"success\"}"))
+	_, err := w.Write([]byte("{\"status\":\"success\"}"))
+	if err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+	}
 }
 
 func fail(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusInternalServerError)
-	_, _ = w.Write([]byte("{\"status\":\"error\"}"))
+	_, err := w.Write([]byte("{\"status\":\"error\"}"))
+	if err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+	}
 }

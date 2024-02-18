@@ -18,7 +18,10 @@ var (
 )
 
 func main() {
-	logger, _ := getLogger()
+	logger, err := getLogger()
+	if err != nil {
+		log.Fatalf("failed to get logger: %v", err)
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", accessGuard(logger, ping))
