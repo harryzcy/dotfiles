@@ -7,7 +7,7 @@ import (
 )
 
 // ping returns a pong message
-func ping(w http.ResponseWriter, r *http.Request) {
+func ping(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	w.Write([]byte("pong\n"))
 }
