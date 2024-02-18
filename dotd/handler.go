@@ -9,7 +9,10 @@ import (
 // ping returns a pong message
 func ping(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
-	w.Write([]byte("pong\n"))
+	_, err := w.Write([]byte("pong\n"))
+	if err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+	}
 }
 
 // ejectDisks ejects all external disks
