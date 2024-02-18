@@ -17,7 +17,8 @@ jobs:
       macos_any_changed: ${{ steps.changed-files.outputs.macos_any_changed }}
       linux_any_changed: ${{ steps.changed-files.outputs.linux_any_changed }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Get changed files
         id: changed-files
