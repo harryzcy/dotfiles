@@ -11,6 +11,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   golang
+  helm
   python
   pip
   dotenv
