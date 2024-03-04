@@ -1,7 +1,9 @@
 {
   "extends": [
     "config:recommended",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    ":pinDependencies",
+    ":automergeMinor"
   ],
   "labels": [
     "dependencies"
