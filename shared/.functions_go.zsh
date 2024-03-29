@@ -8,7 +8,7 @@ install_go() {
     return 1
   fi
 
-  if sudo -n true 2>/dev/null; then 
+  if sudo -n true 2>/dev/null; then
     # sudo is available
   else
     # request sudo password
@@ -39,6 +39,10 @@ install_go() {
 
   url="https://go.dev/dl/go${version}.${os}-${arch}.tar.gz"
   echo "Downloading $url"
+
+  if [ -z "${DOWNLOAD_DIR}" ]; then
+    local DOWNLOAD_DIR="$HOME"
+  fi
 
   file="${DOWNLOAD_DIR}/go${version}.${os}-${arch}.tar.gz"
   curl -L "$url" -o "$file"
