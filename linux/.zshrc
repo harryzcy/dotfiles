@@ -40,6 +40,8 @@ fi
 
 if [[ "$IS_DEV_MACHINE" = true ]]; then
   source $DOTFILE_DIR/linux/dev.environments.zsh
+else
+  export DOWNLOAD_DIR="$HOME"
 fi
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
