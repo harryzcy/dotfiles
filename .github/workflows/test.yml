@@ -18,6 +18,8 @@ jobs:
       linux_any_changed: ${{ steps.changed-files.outputs.linux_any_changed }}
     steps:
       - uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+        with:
+          egress-policy: audit
 
       - name: Checkout
         uses: actions/checkout@v4
