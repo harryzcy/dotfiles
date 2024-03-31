@@ -1,6 +1,6 @@
 {
   "extends": [
-    "config:recommended",
+    "config:best-practices",
     ":disableDependencyDashboard",
     ":pinDependencies",
     ":automergeMinor"
@@ -8,20 +8,14 @@
   "labels": [
     "dependencies"
   ],
-  "packageRules": [
-    {
-      "matchPackagePatterns": [
-        "*"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "automerge": true,
-      "groupName": "all non-major dependencies",
-      "groupSlug": "all-non-major"
-    }
+  "lockFileMaintenance": {
+    "enabled": true,
+    "labels": [
+      "dependencies",
+      "skip-changelog"
+    ]
+  },
+  "postUpdateOptions": [
+    "gomodTidy"
   ]
 }
