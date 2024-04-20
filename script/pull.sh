@@ -31,7 +31,7 @@ for repo in $repositories; do
     echo $branch
     if [ ${branch} = "main" ]; then
       git -C "$repo_path" pull
-      git -C "$repo_path" fetch --all --prune --jobs=10
+      git -C "$repo_path" fetch --all --prune
     fi
     echo
   fi
