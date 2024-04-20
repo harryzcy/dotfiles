@@ -7,6 +7,8 @@ alias tm='dot tm'
 alias goto='dot goto'
 alias reload='dot reload'
 alias repo='dot repo'
+alias pull='dot pull'
+alias pl='dot pull'
 
 # gh
 alias ghp='gh pr'
