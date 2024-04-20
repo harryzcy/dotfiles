@@ -11,6 +11,7 @@ _dot() {
     'goto:goto repository'
     'code:open repository in VSCode'
     'tm:time machine utilities'
+    'pull:pull repositories'
   )
   _describe 'command' subcmds
 }

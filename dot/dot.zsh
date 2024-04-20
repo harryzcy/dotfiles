@@ -45,6 +45,8 @@ dot() {
     code $dir
   elif [ ${command} = "tm" ]; then
     ${DOTFILE_DIR}/script/tm.sh "$@"
+  elif [ ${command} = "pull" ]; then
+    ${DOTFILE_DIR}/script/pull.sh
   else
     echo "dot: unknown command"
     return 1
