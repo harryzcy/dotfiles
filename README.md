@@ -26,3 +26,4 @@
 - `dot goto`: goto repository directory
 - `dot code`: open repository in Visual Studio Code
 - `dot tm`: time machine utilities for macOS
+- `dot pull`: keep local repositories up-to-date
