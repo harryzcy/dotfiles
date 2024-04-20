@@ -3,12 +3,23 @@
 repositories=(
   act-images
   action-bark
+  artifact-store
   docker-sally
+  docker-pypiserver
+  dotfiles
   harryzcy.github.io
+  github-actions
+  go-apple-strings
+  gmg
+  konfig
   mailbox
   mailbox-browser
   mailbox-cli
+  renovate-config
   notion-cli
+  nodop
+  scheduler
+  snuuze
 )
 
 for repo in $repositories; do
