@@ -2,6 +2,14 @@
 
 repo_name=$1
 
+if [ -z "${repo_name}" ]; then
+  echo "dot: repository name required"
+  return 1
+elif [ "${repo_name}" = "." ]; then
+  echo "$(pwd)"
+  return
+fi
+
 (
   if [ $ZSH_VERSION ]; then
     setopt sh_word_split
