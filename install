@@ -16,6 +16,11 @@ if ! command_exists git; then
     fi
 fi
 
-git clone https://github.com/harryzcy/dotfiles.git $HOME/dotfiles
+if [ -d "$HOME/dotfiles" ]; then
+    echo "dotfiles already exists"
+    exit 1
+fi
 
-bash $HOME/dotfiles/script/setup.sh
+git clone https://github.com/harryzcy/dotfiles.git "$HOME/dotfiles"
+
+bash "$HOME/dotfiles/script/setup.sh"
