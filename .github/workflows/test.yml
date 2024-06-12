@@ -22,7 +22,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Get changed files
         id: changed-files
@@ -74,7 +74,7 @@ jobs:
           rm -rf /Users/runner/.gitconfig /Users/runner/.gitignore_global
 
       - name: Checkout
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Install using Makefile on macOS
         if: startsWith(matrix.os, 'macos') && needs.detect-files.outputs.macos_any_changed == 'true'
