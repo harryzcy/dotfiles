@@ -1,3 +1,8 @@
+# general
+alias c='clear'
+alias r='reload'
+alias reload='source ~/.zshrc'
+
 # ansible
 alias a='ansible'
 alias ap='ansible-playbook'
