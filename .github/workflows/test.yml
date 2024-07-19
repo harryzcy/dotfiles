@@ -111,6 +111,9 @@ jobs:
 
   go:
     name: Go Test
+    permissions:
+      contents: read
+      id-token: write
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: dotd
