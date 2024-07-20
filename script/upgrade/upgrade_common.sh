@@ -25,19 +25,17 @@ upgrade_zsh() {
 upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
-  # upgrade nvm
-  nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
-  nvm_latest=${nvm_latest##*/}
-  # ensure nvm doesn't modify .zshrc
-  PROFILE=/dev/null zsh -c 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash'
+  asdf update
+  asdf plugin update --all
 
   # upgrade node
-  node_latest=$(nvm ls-remote --no-colors | grep -i 'latest' | tail -n 1 | awk '{print $1}')
-  node_current=$(nvm current)
+  node_latest=$(asdf latest nodejs)
+  node_current=$(asdf current nodejs | awk '{print $2}')
   if [ "$node_latest" != "$node_current" ]; then
     echo "upgrading node"
-    nvm install "$node_latest"
-    nvm uninstall "$node_current"
+    asdf install nodejs latest
+    asdf global nodejs latest
+    asdf uninstall nodejs "$node_current"
 
     # reinstall global packages
     npm install -g "${node_packaegs[@]}"

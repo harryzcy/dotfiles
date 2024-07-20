@@ -59,3 +59,16 @@ configure_git() {
     cp ${src_dir}/git/.gitignore_global $HOME/.gitignore_global
   fi
 }
+
+install_tools:node() {
+  if [[ ! -d "$HOME/.asdf" ]]; then
+    echo "installing asdf"
+    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
+  fi
+
+  . "$HOME/.asdf/asdf.sh"
+  asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+
+  asdf install nodejs latest
+  asdf global nodejs latest
+}

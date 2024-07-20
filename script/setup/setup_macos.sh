@@ -33,7 +33,7 @@ install_tools() {
   install_tools:argcomplete # needed for autocompletion for ansible
   run_brew_install helm
   run_brew_install kubectl
-
+  run_brew_install gawk # required by asdf
   install_tools:node
 
   # krew
@@ -47,22 +47,6 @@ install_tools() {
       tar zxvf "${KREW}.tar.gz" &&
       ./"${KREW}" install krew
   )
-}
-
-install_tools:node() {
-  if [[ -f "$HOME/.nvm/nvm.sh" ]]; then
-    echo "nvm is already installed"
-    return
-  fi
-
-  echo "installing node"
-  nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
-  nvm_latest=${nvm_latest##*/}
-  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
-  # shellcheck disable=SC1091
-  [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-  nvm install --lts
-  nvm use --lts
 }
 
 install_tools:argcomplete() {
