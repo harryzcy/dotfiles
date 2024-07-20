@@ -33,7 +33,7 @@ install_tools() {
   install_tools:argcomplete # needed for autocompletion for ansible
   run_brew_install helm
   run_brew_install kubectl
-
+  run_brew_install gawk # required by asdf
   install_tools:node
 
   # krew

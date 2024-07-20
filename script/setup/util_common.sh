@@ -66,12 +66,9 @@ install_tools:node() {
     git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
   fi
 
-  # echo "installing node"
-  # nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
-  # nvm_latest=${nvm_latest##*/}
-  # curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
-  # # shellcheck disable=SC1091
-  # [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-  # nvm install --lts
-  # nvm use --lts
+  . "$HOME/.asdf/asdf.sh"
+  asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+
+  asdf install nodejs latest
+  asdf global nodejs latest
 }
