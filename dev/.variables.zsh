@@ -17,4 +17,4 @@ export EDITOR="vim"
 HOMEBREW_EDITOR="code"
 
 # asdf
-export ASDF_CONFIG_FILE="$DOTFILES/dev/.asdfrc"
+export ASDF_CONFIG_FILE="$DOTFILE_DIR/dev/.asdfrc"
