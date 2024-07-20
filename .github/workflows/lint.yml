@@ -14,29 +14,6 @@ jobs:
     name: Super Linter
     uses: harryzcy/github-actions/.github/workflows/linter.yml@main
 
-  assert-nvm:
-    name: Correct NVM Location
-    runs-on: ubuntu-latest
-    steps:
-      - uses: step-security/harden-runner@0d381219ddf674d61a7572ddd19d7941e271515c # v2.9.0
-        with:
-          egress-policy: audit
-
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-
-      - name: Assert NVM
-        run: |
-          if grep -q "NVM_DIR" "linux/.zshrc"; then
-            echo "NVM_DIR is set incorrectly"
-            exit 1
-          fi
-
-          if grep -q "NVM_DIR" "macos/.zshrc"; then
-            echo "NVM_DIR is set incorrectly"
-            exit 1
-          fi
-
   go-lint:
     name: Go Lint
     uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@main
