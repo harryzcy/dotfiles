@@ -38,6 +38,11 @@ install_tools:dev() {
   run_apt_install jq
   install_tools:node
 
+  if ! command -v pipx &>/dev/null; then
+    echo "installing pipx"
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+  fi
   pipx install httpie
 }
 
