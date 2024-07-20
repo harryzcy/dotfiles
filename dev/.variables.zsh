@@ -15,3 +15,6 @@ export EDITOR="vim"
 
 # HomeBrew
 HOMEBREW_EDITOR="code"
+
+# asdf
+export ASDF_CONFIG_FILE="$DOTFILES/dev/.asdfrc"
