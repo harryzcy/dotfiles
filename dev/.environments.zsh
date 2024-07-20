@@ -31,52 +31,6 @@ conda() {
   conda $@
 }
 
-# Node & nvm
-# nvm
-lazy_load_nvm() {
-  unset -f npm node nvm npx yarn sls ncu
-  export NVM_DIR=~/.nvm
-  [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-  # add nvm to the end instead of the beginning
-  export PATH="$(nvm_strip_path "${PATH}" "/bin"):$(dirname "$(which node)")"
-}
-
-npm() {
-  lazy_load_nvm
-  npm $@
-}
-
-node() {
-  lazy_load_nvm
-  node $@
-}
-
-nvm() {
-  lazy_load_nvm
-  nvm $@
-}
-
-npx() {
-  lazy_load_nvm
-  npx $@
-}
-
-yarn() {
-  lazy_load_nvm
-  yarn $@
-}
-
-sls() {
-  lazy_load_nvm
-  sls $@
-}
-
-ncu() {
-  lazy_load_nvm
-  ncu $@
-}
-
 # Kubectl
 chk3s() {
   if [ -n "$1" ] && [ $1 = "-h" ]; then

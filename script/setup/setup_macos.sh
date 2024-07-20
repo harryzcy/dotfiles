@@ -49,22 +49,6 @@ install_tools() {
   )
 }
 
-install_tools:node() {
-  if [[ -f "$HOME/.nvm/nvm.sh" ]]; then
-    echo "nvm is already installed"
-    return
-  fi
-
-  echo "installing node"
-  nvm_latest=$(curl -q -w "%{url_effective}\\n" -L -s -S https://latest.nvm.sh -o /dev/null)
-  nvm_latest=${nvm_latest##*/}
-  curl -o- "https://raw.githubusercontent.com/nvm-sh/nvm/${nvm_latest}/install.sh" | bash
-  # shellcheck disable=SC1091
-  [ -s "$HOME/.nvm/nvm.sh" ] && . "$HOME/.nvm/nvm.sh"
-  nvm install --lts
-  nvm use --lts
-}
-
 install_tools:argcomplete() {
   if ! command -v register-python-argcomplete &>/dev/null; then
     echo "installing argcomplete"

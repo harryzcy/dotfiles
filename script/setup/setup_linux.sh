@@ -19,6 +19,7 @@ install_tools() {
   echo "installing tools"
   run_apt_install git
   run_apt_install zsh
+  install_tools:node
 }
 
 install_tools:dev() {
