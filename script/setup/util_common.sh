@@ -63,7 +63,8 @@ configure_git() {
 install_tools:node() {
   if [[ ! -d "$HOME/.asdf" ]]; then
     echo "installing asdf"
-    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch v0.14.0
+    tag=$(curl -s https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r '.tag_name')
+    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch "$tag"
   fi
 
   . "$HOME/.asdf/asdf.sh"
