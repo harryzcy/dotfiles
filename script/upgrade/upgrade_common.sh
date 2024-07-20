@@ -33,7 +33,8 @@ upgrade_node() {
   node_current=$(asdf current nodejs | awk '{print $2}')
   if [ "$node_latest" != "$node_current" ]; then
     echo "upgrading node"
-    asdf install nodejs "$node_latest"
+    asdf install nodejs latest
+    asdf global nodejs latest
     asdf uninstall nodejs "$node_current"
 
     # reinstall global packages
