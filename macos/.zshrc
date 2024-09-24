@@ -53,7 +53,6 @@ path=(
   /opt/homebrew/opt/libpq/bin          # Postgres
   $HOME/.cargo/bin                     # Rust
   $HOME/Library/Python/3.11/bin        # Python
-  /usr/local/smlnj/bin                 # SML/NJ
   $DOTFILE_DIR/dot/bin                 # dot
 )
 export PATH
