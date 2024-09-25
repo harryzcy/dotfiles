@@ -10,6 +10,7 @@ plugins=(
   web-search
   zsh-autosuggestions
   zsh-syntax-highlighting
+  asdf
   golang
   helm
   python

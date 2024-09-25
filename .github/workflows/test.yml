@@ -17,7 +17,7 @@ jobs:
       macos_any_changed: ${{ steps.changed-files.outputs.macos_any_changed }}
       linux_any_changed: ${{ steps.changed-files.outputs.linux_any_changed }}
     steps:
-      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
@@ -26,7 +26,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4 # v44.5.5
+        uses: tj-actions/changed-files@e9772d140489982e0e3704fea5ee93d536f1e275 # v45.0.1
         with:
           files_yaml: |
             macos:
@@ -58,7 +58,7 @@ jobs:
             dev: false
 
     steps:
-      - uses: step-security/harden-runner@17d0e2bd7d51742c71671bd19fa12bdc9d40a3d6 # v2.8.1
+      - uses: step-security/harden-runner@5c7944e73c4c2a096b17a9cb74d65b6c2bbafbde # v2.9.1
         with:
           egress-policy: audit
 
@@ -111,6 +111,9 @@ jobs:
 
   go:
     name: Go Test
+    permissions:
+      contents: read
+      id-token: write
     uses: harryzcy/github-actions/.github/workflows/go.yml@main
     with:
       working-directory: dotd
