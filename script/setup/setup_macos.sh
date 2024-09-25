@@ -61,14 +61,13 @@ install_software() {
 
   arch=$(uname -m)
 
+  notion_url="https://www.notion.so/desktop/mac-universal/download"
   if [ "$arch" = "arm64" ]; then
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
-    notion_url="https://www.notion.so/desktop/apple-silicon/download"
     zoom_url="https://zoom.us/client/latest/Zoom.pkg"
     docker_url="https://desktop.docker.com/mac/stable/arm64/Docker.dmg"
   else
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
-    notion_url="https://www.notion.so/desktop/mac/download"
     zoom_url="https://zoom.us/client/latest/Zoom.pkg?archType=arm64"
     docker_url="https://desktop.docker.com/mac/stable/amd64/Docker.dmg"
   fi
