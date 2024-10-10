@@ -4,9 +4,12 @@ repositories=(
   act-images
   action-bark
   artifact-store
-  docker-sally
+  class-notes
+  docker-excalidraw
   docker-pypiserver
+  docker-sally
   dotfiles
+  harryzcy
   harryzcy.github.io
   github-actions
   go-apple-strings
