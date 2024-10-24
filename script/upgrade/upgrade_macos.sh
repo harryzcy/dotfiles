@@ -11,4 +11,3 @@ upgrade_brew() {
 upgrade_zsh
 upgrade_brew
 upgrade_krex
-upgrade_node
