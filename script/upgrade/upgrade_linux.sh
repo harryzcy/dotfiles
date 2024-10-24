@@ -2,6 +2,13 @@
 
 set -o pipefail
 
+node_packaegs=(
+  npm-check-updates
+  serverless
+  wrangler
+  yarn
+)
+
 upgrade_apt() {
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade

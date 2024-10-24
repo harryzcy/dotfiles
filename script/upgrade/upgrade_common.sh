@@ -1,12 +1,5 @@
 #!/usr/bin/env zsh
 
-node_packaegs=(
-  npm-check-updates
-  serverless
-  wrangler
-  yarn
-)
-
 upgrade_zsh() {
   # upgrade oh-my-zsh
   if [ -z "$ZSH" ]; then
