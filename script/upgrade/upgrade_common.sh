@@ -1,12 +1,5 @@
 #!/usr/bin/env zsh
 
-node_packaegs=(
-  npm-check-updates
-  serverless
-  wrangler
-  yarn
-)
-
 upgrade_zsh() {
   # upgrade oh-my-zsh
   if [ -z "$ZSH" ]; then
@@ -20,26 +13,6 @@ upgrade_zsh() {
   echo "updating zsh-syntax-highlighting"
   git -C $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting pull >/dev/null
 
-}
-
-upgrade_node() {
-  source $DOTFILE_DIR/dev/.environments.zsh
-
-  asdf update
-  asdf plugin update --all
-
-  # upgrade node
-  node_latest=$(asdf latest nodejs)
-  node_current=$(asdf current nodejs | awk '{print $2}')
-  if [ "$node_latest" != "$node_current" ]; then
-    echo "upgrading node"
-    asdf install nodejs latest
-    asdf global nodejs latest
-    asdf uninstall nodejs "$node_current"
-
-    # reinstall global packages
-    npm install -g "${node_packaegs[@]}"
-  fi
 }
 
 upgrade_krex() {
