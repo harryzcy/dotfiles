@@ -19,7 +19,6 @@ check_softwares() {
   check_directory "/Applications/Keka.app"
   check_directory "/Applications/iTerm.app"
   check_directory "/Applications/IINA.app"
-  check_directory "/Applications/zoom.us.app"
   check_directory "/Applications/Docker.app"
 }
 
