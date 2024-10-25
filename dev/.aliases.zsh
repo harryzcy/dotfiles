@@ -33,5 +33,10 @@ git_main_branch() {
   echo ${default_branch:-main}
 }
 
+gfaa() {
+  fetch_all_out=$(gfa)
+  echo "$fetch_all_out"
+}
+
 # kubectl
 alias kak="kubectl apply -k"
