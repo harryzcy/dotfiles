@@ -34,7 +34,6 @@ install_tools() {
   run_brew_install helm
   run_brew_install kubectl
   run_brew_install gawk # required by asdf
-  install_tools:node
 
   # krew
   (

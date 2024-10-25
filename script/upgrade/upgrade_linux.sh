@@ -2,9 +2,36 @@
 
 set -o pipefail
 
+node_packaegs=(
+  npm-check-updates
+  serverless
+  wrangler
+  yarn
+)
+
 upgrade_apt() {
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
+}
+
+upgrade_node() {
+  source $DOTFILE_DIR/dev/.environments.zsh
+
+  asdf update
+  asdf plugin update --all
+
+  # upgrade node
+  node_latest=$(asdf latest nodejs)
+  node_current=$(asdf current nodejs | awk '{print $2}')
+  if [ "$node_latest" != "$node_current" ]; then
+    echo "upgrading node"
+    asdf install nodejs latest
+    asdf global nodejs latest
+    asdf uninstall nodejs "$node_current"
+
+    # reinstall global packages
+    npm install -g "${node_packaegs[@]}"
+  fi
 }
 
 upgrade_awscli() {
