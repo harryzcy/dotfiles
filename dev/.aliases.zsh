@@ -23,6 +23,7 @@ alias ghpco='gh pr checkout'
 alias ghps='gh pr status'
 alias ghauto='gh pr merge --auto'
 alias ghr='gh repo'
+alias ghrc='gh repo clone'
 
 # git
 # git_main_branch is used by git plugin for `gcm` alias
