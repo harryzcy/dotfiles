@@ -1,24 +1,39 @@
 #!/bin/bash
 
-command_exists() {
-    command -v "$1" &>/dev/null
-}
-
-if ! command_exists git; then
-    if command_exists apt-get; then
-        sudo apt-get update
-        sudo apt-get install -y git
-    elif command_exists brew; then
-        brew install git
-    else
-        echo "Please install git first"
-        exit 1
-    fi
+if [ -d "$HOME/dotfiles" ]; then
+  echo "dotfiles already exists"
+  exit 1
 fi
 
-if [ -d "$HOME/dotfiles" ]; then
-    echo "dotfiles already exists"
+command_exists() {
+  command -v "$1" &>/dev/null
+}
+
+is_mac=false
+if [[ -f "/usr/bin/xcode-select" ]]; then
+  is_mac=true
+  xcode_select_path=$(xcode-select -p)
+  if [[ -n "$xcode_select_path" ]]; then
+    xcode-select --install
+  fi
+fi
+
+if [[ "$is_mac" == "true" ]]; then
+  if ! command_exists brew; then
+    # TODO: install brew
+  fi
+fi
+
+if ! command_exists git; then
+  if command_exists apt-get; then
+    sudo apt-get update
+    sudo apt-get install -y git
+  elif command_exists brew; then
+    brew install git
+  else
+    echo "Please install git first"
     exit 1
+  fi
 fi
 
 git clone https://github.com/harryzcy/dotfiles.git "$HOME/dotfiles"
