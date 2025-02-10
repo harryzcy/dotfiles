@@ -32,7 +32,7 @@ install_tools:node() {
   asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
   asdf install nodejs latest
-  asdf global nodejs latest
+  asdf set --home nodejs latest
 }
 
 install_tools:dev() {
