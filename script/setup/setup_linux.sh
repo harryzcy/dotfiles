@@ -19,6 +19,8 @@ install_tools() {
   echo "installing tools"
   run_apt_install git
   run_apt_install zsh
+
+  install_homebrew
 }
 
 install_tools:node() {
