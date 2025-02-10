@@ -1,6 +1,10 @@
 # Go
-export GOROOT=/usr/local/go
-export GOPATH=$HOME/go
+export GOROOT="/usr/local/go"
+export GOPATH="$HOME/go"
+
+source $DOTFILE_DIR/dev/.aliases.zsh
+source $DOTFILE_DIR/dev/.variables.zsh
+source $DOTFILE_DIR/dev/.environments.zsh
 
 path=(
 	/usr/local/go/bin # Go
@@ -9,16 +13,13 @@ path=(
 	$GOPATH/bin                              # Go
 	$HOME/.local/bin                         # pipx
 	$HOME/.krew/bin                          # kubectl krew
-	/home/linuxbrew/.linuxbrew/bin           # HomeBrew
+  /home/linuxbrew/.linuxbrew/bin           # HomeBrew
+	$ASDF_DATA_DIR/shims                     # asdf
 	/usr/local/texlive/2023/bin/x86_64-linux # TeXLive
 )
 export PATH
 
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
 PROMPT=$(echo "$PROMPT" | perl -pe 's/^\(base\)\s*//')
-
-source $DOTFILE_DIR/dev/.aliases.zsh
-source $DOTFILE_DIR/dev/.variables.zsh
-source $DOTFILE_DIR/dev/.environments.zsh
 
 export DOT_REPO_PATH="${HOME}/Projects:${HOME}/Projects/telepresence"

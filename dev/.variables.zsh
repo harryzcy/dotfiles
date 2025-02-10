@@ -18,3 +18,4 @@ HOMEBREW_EDITOR="code"
 
 # asdf
 export ASDF_CONFIG_FILE="$DOTFILE_DIR/dev/.asdfrc"
+export ASDF_DATA_DIR="$HOME/.asdf"

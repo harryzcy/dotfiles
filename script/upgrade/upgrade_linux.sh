@@ -17,7 +17,6 @@ upgrade_apt() {
 upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
-  asdf update
   asdf plugin update --all
 
   # upgrade node
