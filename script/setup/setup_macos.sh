@@ -8,13 +8,6 @@ install_xcode_select() {
   fi
 }
 
-install_homebrew() {
-  if ! command -v brew &>/dev/null; then
-    echo "installing homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-}
-
 install_tools() {
   echo "installing tools for macOS"
   run_brew_install git

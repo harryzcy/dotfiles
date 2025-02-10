@@ -13,6 +13,7 @@ path=(
 	$GOPATH/bin                              # Go
 	$HOME/.local/bin                         # pipx
 	$HOME/.krew/bin                          # kubectl krew
+  /home/linuxbrew/.linuxbrew/bin           # HomeBrew
 	$ASDF_DATA_DIR/shims                     # asdf
 	/usr/local/texlive/2023/bin/x86_64-linux # TeXLive
 )
