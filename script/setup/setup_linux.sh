@@ -21,6 +21,7 @@ install_tools() {
   run_apt_install zsh
 
   install_homebrew
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 }
 
 install_tools:node() {
@@ -47,7 +48,6 @@ install_tools:dev() {
   )
 
   run_apt_install cloc
-  run_apt_install dirmngr gpg curl gawk # needed for asdf
   run_apt_install jq
   install_tools:node
 
