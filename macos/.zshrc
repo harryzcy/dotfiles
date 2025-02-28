@@ -65,3 +65,7 @@ source $platform_dir/.completion.zsh
 source $DOTFILE_DIR/dev/.aliases.zsh
 source $DOTFILE_DIR/dev/.variables.zsh
 source $DOTFILE_DIR/dev/.environments.zsh
+
+if [[ -f "$HOME/.zshrc.local" ]]; then
+  source $HOME/.zshrc.local
+fi
