@@ -7,6 +7,8 @@ check_tools() {
   if [[ "${IS_DEV_MACHINE}" = "true" ]]; then
     echo "Running tests for dev machines"
     check_command http
+    check_command brew
+    check_command asdf
   fi
 }
 

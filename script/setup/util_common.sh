@@ -59,3 +59,10 @@ configure_git() {
     cp ${src_dir}/git/.gitignore_global $HOME/.gitignore_global
   fi
 }
+
+install_homebrew() {
+  if ! command -v brew &>/dev/null; then
+    echo "installing homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+}

@@ -19,20 +19,20 @@ install_tools() {
   echo "installing tools"
   run_apt_install git
   run_apt_install zsh
+
+  install_homebrew
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 }
 
 install_tools:node() {
   if [[ ! -d "$HOME/.asdf" ]]; then
-    echo "installing asdf"
-    tag=$(curl -s https://api.github.com/repos/asdf-vm/asdf/releases/latest | jq -r '.tag_name')
-    git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch "$tag"
+    brew install asdf
   fi
 
-  . "$HOME/.asdf/asdf.sh"
   asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
   asdf install nodejs latest
-  asdf global nodejs latest
+  asdf set --home nodejs latest
 }
 
 install_tools:dev() {
@@ -48,7 +48,6 @@ install_tools:dev() {
   )
 
   run_apt_install cloc
-  run_apt_install dirmngr gpg curl gawk # needed for asdf
   run_apt_install jq
   install_tools:node
 
