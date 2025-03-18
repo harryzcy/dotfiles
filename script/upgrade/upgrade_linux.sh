@@ -18,6 +18,8 @@ upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
   asdf plugin update --all
+  # update node-build
+  asdf cmd nodejs update-nodebuild
 
   # upgrade node
   node_latest=$(asdf latest nodejs)
