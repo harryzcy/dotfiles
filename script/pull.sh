@@ -5,9 +5,7 @@ repositories=(
   action-bark
   artifact-store
   class-notes
-  docker-excalidraw
-  docker-pypiserver
-  docker-sally
+  container-images
   dotfiles
   harryzcy
   harryzcy.github.io
