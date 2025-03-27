@@ -45,10 +45,7 @@ upgrade_python() {
     uv python install "$latest_version"
     uv python uninstall "$current_version"
   fi
-  uv tool install ansible-lint
-  uv tool install httpie
-  uv tool install hashin
-  uv tool install pip-tools
+  uv tool upgrade --all
 }
 
 upgrade_awscli() {
