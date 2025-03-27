@@ -61,7 +61,17 @@ upgrade_awscli() {
   fi
 }
 
-upgrade_golanglint() {
+upgrade_go() {
+  echo "upgrading go"
+  current_version=$(go version | awk '{print $3}' | cut -c 3-)
+  latest_version=$(curl -s https://go.dev/VERSION?m=text | cut -c 3-)
+  echo "current version: $current_version"
+  echo "latest version: $latest_version"
+  if [ "$current_version" != "$latest_version" ]; then
+    source "$DOTFILE_DIR/shared/.functions_go.zsh"
+    install_go "$latest_version"
+  fi
+
   echo "upgrading golangci-lint"
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
 }
@@ -77,7 +87,7 @@ upgrade_zsh
 # dev machine
 if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_awscli
-  upgrade_golanglint
+  upgrade_go
   upgrade_krex
   upgrade_rust
   upgrade_node
