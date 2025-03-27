@@ -56,6 +56,7 @@ install_tools:dev() {
     python3 -m pip install --user pipx
     python3 -m pipx ensurepath
   fi
+  pipx install pip
   pipx install httpie
 }
 
