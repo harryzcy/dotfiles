@@ -27,7 +27,7 @@ upgrade_node() {
   if [ "$node_latest" != "$node_current" ]; then
     echo "upgrading node"
     asdf install nodejs latest
-    asdf global nodejs latest
+    asdf set --home nodejs latest
     asdf uninstall nodejs "$node_current"
 
     # reinstall global packages
