@@ -35,6 +35,21 @@ install_tools:node() {
   asdf set --home nodejs latest
 }
 
+install_tools:python() {
+  if ! command -v uv &>/dev/null; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    uv python install
+  fi
+
+  if ! command -v pipx &>/dev/null; then
+    echo "installing pipx"
+    python3 -m pip install --user pipx
+    python3 -m pipx ensurepath
+  fi
+  pipx install pip
+  pipx install httpie
+}
+
 install_tools:dev() {
   (
     set -x
@@ -50,14 +65,7 @@ install_tools:dev() {
   run_apt_install cloc
   run_apt_install jq
   install_tools:node
-
-  if ! command -v pipx &>/dev/null; then
-    echo "installing pipx"
-    python3 -m pip install --user pipx
-    python3 -m pipx ensurepath
-  fi
-  pipx install pip
-  pipx install httpie
+  install_tools:python
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
