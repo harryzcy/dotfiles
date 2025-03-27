@@ -41,13 +41,7 @@ install_tools:python() {
     uv python install
   fi
 
-  if ! command -v pipx &>/dev/null; then
-    echo "installing pipx"
-    python3 -m pip install --user pipx
-    python3 -m pipx ensurepath
-  fi
-  pipx install pip
-  pipx install httpie
+  uv tool install httpie
 }
 
 install_tools:dev() {
