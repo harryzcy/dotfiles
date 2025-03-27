@@ -41,7 +41,10 @@ install_tools:python() {
     uv python install
   fi
 
+  uv tool install ansible-lint
   uv tool install httpie
+  uv tool install hashin
+  uv tool install pip-tools
 }
 
 install_tools:dev() {
