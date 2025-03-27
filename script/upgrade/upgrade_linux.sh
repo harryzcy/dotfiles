@@ -35,6 +35,22 @@ upgrade_node() {
   fi
 }
 
+upgrade_python() {
+  uv self update
+  python_path=$(uv python list --only-installed --managed-python | head -n 1 | awk '{print $2}')
+  current_version=$("$python_path" --version | awk '{print $2}')
+  latest_version=$(curl -s https://endoflife.date/api/python.json | jq -r '.[0].latest')
+  if [ "$current_version" != "$latest_version" ]; then
+    echo "upgrading python"
+    uv python install "$latest_version"
+    uv python uninstall "$current_version"
+  fi
+  uv tool install ansible-lint
+  uv tool install httpie
+  uv tool install hashin
+  uv tool install pip-tools
+}
+
 upgrade_awscli() {
   current_version=$(aws --version 2>&1 | awk '{print $1}' | cut -d/ -f2)
   latest_version=$(curl -s https://api.github.com/repos/aws/aws-cli/tags | jq -r '.[0].name')
@@ -68,4 +84,5 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_krex
   upgrade_rust
   upgrade_node
+  upgrade_python
 fi
