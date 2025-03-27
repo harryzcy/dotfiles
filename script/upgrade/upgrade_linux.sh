@@ -48,11 +48,6 @@ upgrade_awscli() {
   fi
 }
 
-upgrade_pipx() {
-  echo "upgrading pipx packages"
-  pipx upgrade-all
-}
-
 upgrade_golanglint() {
   echo "upgrading golangci-lint"
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
@@ -69,7 +64,6 @@ upgrade_zsh
 # dev machine
 if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_awscli
-  upgrade_pipx
   upgrade_golanglint
   upgrade_krex
   upgrade_rust
