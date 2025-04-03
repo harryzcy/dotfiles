@@ -64,7 +64,7 @@ upgrade_awscli() {
 upgrade_go() {
   echo "upgrading go"
   current_version=$(go version | awk '{print $3}' | cut -c 3-)
-  latest_version=$(curl -s https://go.dev/VERSION?m=text | cut -c 3-)
+  latest_version=$(curl -s 'https://go.dev/VERSION?m=text' | head -n 1 | cut -c 3-)
   echo "current version: $current_version"
   echo "latest version: $latest_version"
   if [ "$current_version" != "$latest_version" ]; then
