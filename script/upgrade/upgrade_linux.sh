@@ -2,7 +2,7 @@
 
 set -o pipefail
 
-node_packaegs=(
+node_packages=(
   npm-check-updates
   serverless
   wrangler
@@ -31,7 +31,8 @@ upgrade_node() {
     asdf uninstall nodejs "$node_current"
 
     # reinstall global packages
-    npm install -g "${node_packaegs[@]}"
+    npm install -g "${node_packages[@]}"
+    asdf reshim # https://github.com/asdf-vm/asdf-nodejs/issues/421
   fi
 }
 
