@@ -32,6 +32,7 @@ upgrade_node() {
 
     # reinstall global packages
     npm install -g "${node_packaegs[@]}"
+    asdf reshim # https://github.com/asdf-vm/asdf-nodejs/issues/421
   fi
 }
 
