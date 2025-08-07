@@ -4,6 +4,7 @@ repositories=(
   act-images
   action-bark
   artifact-store
+  boring-repos
   class-notes
   container-images
   dotfiles
