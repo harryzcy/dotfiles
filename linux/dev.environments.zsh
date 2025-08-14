@@ -21,7 +21,7 @@ path=(
 export PATH
 
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
-eval "$(bazelisk completion bash)
+eval "$(bazelisk completion bash)"
 PROMPT=$(echo "$PROMPT" | perl -pe 's/^\(base\)\s*//')
 
 export DOT_REPO_PATH="${HOME}/Projects:${HOME}/Projects/telepresence"
