@@ -16,6 +16,7 @@ path=(
 	/home/linuxbrew/.linuxbrew/bin           # HomeBrew
 	$ASDF_DATA_DIR/shims                     # asdf
 	/usr/local/texlive/2023/bin/x86_64-linux # TeXLive
+	$DOTFILE_DIR/dot/bin                     # dot
 )
 export PATH
 
