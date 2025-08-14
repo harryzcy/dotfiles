@@ -22,6 +22,11 @@ install_tools() {
 
   install_homebrew
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  latest_version=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | jq -r .tag_name)
+  curl -L "https://github.com/bazelbuild/bazelisk/releases/download/$latest_version/bazelisk-linux-amd64" -o "$DOTFILE_DIR/dot/bin/bazelisk"
+  chmod +x "$DOTFILE_DIR/dot/bin/bazelisk"
 }
 
 install_tools:node() {
