@@ -9,6 +9,8 @@ if [[ -z "$IS_DEV_MACHINE" ]]; then
   elif [[ "$os" == 'linux' ]]; then
     if [[ "$(hostname -s)" = gpu-* ]]; then
       IS_DEV_MACHINE=true
+    elif [[ "$(hostname -s)" = "lab-0" ]]; then
+      IS_DEV_MACHINE=true
     fi
   fi
 fi
