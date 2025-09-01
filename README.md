@@ -19,6 +19,7 @@
 `dot` is the entry command for many scripts.
 
 - `dot clean`: cleanup cache
+- `dot clone`: clone repositories
 - `dot update`: update dotfiles from Git
 - `dot upgrade`: upgrade installed packages
 - `dot reload`: reload dotfiles
