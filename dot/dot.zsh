@@ -21,6 +21,8 @@ dot() {
 
   if [ ${command} = "clean" ]; then
     ${DOTFILE_DIR}/script/clean.sh
+  elif [ ${command} = "clone" ]; then
+    ${DOTFILE_DIR}/script/clone.sh
   elif [ ${command} = "update" ]; then
     git -C ${DOTFILE_DIR} pull
   elif [ ${command} = "upgrade" ]; then

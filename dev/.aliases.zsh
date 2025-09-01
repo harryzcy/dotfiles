@@ -12,6 +12,8 @@ alias tm='dot tm'
 alias goto='dot goto'
 alias reload='dot reload'
 alias repo='dot repo'
+alias clone='dot clone'
+alias cl='dot clone'
 alias pull='dot pull'
 alias pl='dot pull'
 

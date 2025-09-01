@@ -4,6 +4,7 @@ _dot() {
   local -a subcmds
   subcmds=(
     'clean:clean up cache'
+    'clone:clone repositories'
     'update:update dotfiles from Git'
     'upgrade:upgrade installed packages'
     'reload:reload dotfiles'
