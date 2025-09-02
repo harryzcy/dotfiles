@@ -21,7 +21,8 @@ path=(
 export PATH
 
 eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
-source <(bazelisk completion bash)
+# Skip completion because of bug: https://github.com/bazelbuild/bazelisk/issues/718
+# source <(bazelisk completion bash)
 PROMPT=$(echo "$PROMPT" | perl -pe 's/^\(base\)\s*//')
 
 export DOT_REPO_PATH="${HOME}/Projects:${HOME}/Projects/telepresence"
