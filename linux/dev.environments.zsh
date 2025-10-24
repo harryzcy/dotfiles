@@ -20,7 +20,9 @@ path=(
 )
 export PATH
 
-eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
+if [ -d "$HOME/miniconda3" ]; then
+	eval "$($HOME/miniconda3/bin/conda shell.zsh hook)"
+fi
 # Skip completion because of bug: https://github.com/bazelbuild/bazelisk/issues/718
 # source <(bazelisk completion bash)
 PROMPT=$(echo "$PROMPT" | perl -pe 's/^\(base\)\s*//')
