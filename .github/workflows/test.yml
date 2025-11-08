@@ -51,10 +51,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-14, ubuntu-latest]
+        os: [macos-15, macos-26, ubuntu-latest]
         dev: [true, false]
         exclude:
-          - os: macos-14
+          - os: macos-15
+            dev: false
+          - os: macos-26
             dev: false
 
     steps:
