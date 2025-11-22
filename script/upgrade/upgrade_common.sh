@@ -19,3 +19,12 @@ upgrade_krex() {
   kubectl krew update
   kubectl krew upgrade
 }
+
+upgrade_bun() {
+  echo "upgrading bun"
+  if ! command -v bun &>/dev/null; then
+    echo "bun is not installed, skipping upgrade"
+    return
+  fi
+  bun upgrade
+}

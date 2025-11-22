@@ -70,6 +70,7 @@ install_tools:dev() {
   run_apt_install jq
   install_tools:node
   install_tools:python
+  install_tools:bun
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
