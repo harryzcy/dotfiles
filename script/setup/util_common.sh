@@ -68,6 +68,7 @@ install_homebrew() {
 }
 
 install_tools:bun() {
+  BUN_INSTALL="$HOME/.bun"
   if [ -d "$BUN_INSTALL" ]; then
     echo "bun is already installed"
   else
