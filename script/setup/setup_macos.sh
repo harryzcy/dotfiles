@@ -27,6 +27,7 @@ install_tools() {
   run_brew_install helm
   run_brew_install kubectl
   run_brew_install gawk # required by asdf
+  install_tools:bun
 
   brew tap mac-cleanup/mac-cleanup-py
   run_brew_install mac-cleanup-py

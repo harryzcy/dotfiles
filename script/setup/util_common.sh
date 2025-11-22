@@ -66,3 +66,12 @@ install_homebrew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 }
+
+install_tools:bun() {
+  if [ -d "$BUN_INSTALL" ]; then
+    echo "bun is already installed"
+  else
+    echo "installing bun"
+    curl -fsSL https://bun.sh/install | bash
+  fi
+}

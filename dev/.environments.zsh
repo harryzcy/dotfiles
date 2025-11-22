@@ -3,6 +3,10 @@ if [ -f $HOME/.env ]; then
   export $(cat $HOME/.env | xargs)
 fi
 
+# Bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+
 # Python
 lazy_load_conda() {
   unset -f conda
