@@ -68,6 +68,7 @@ install_tools:dev() {
 
   run_apt_install cloc
   run_apt_install jq
+  run_apt_install minisign
   install_tools:node
   install_tools:python
   install_tools:bun
