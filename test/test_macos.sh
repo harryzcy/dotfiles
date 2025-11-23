@@ -10,6 +10,7 @@ check_tools() {
   check_command tree
   check_command wget
   check_command gpg # gnupg from brew
+  check_command minisign
 }
 
 check_softwares() {
