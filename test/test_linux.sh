@@ -9,6 +9,7 @@ check_tools() {
     check_command http
     check_command brew
     check_command asdf
+    check_command minisign
   fi
 }
 
