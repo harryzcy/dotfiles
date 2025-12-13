@@ -30,11 +30,14 @@ install_tools() {
   ln -sf "$DOTFILE_DIR/dot/bin/bazelisk" "$DOTFILE_DIR/dot/bin/bazel"
 }
 
-install_tools:node() {
+install_tools:asdf() {
   if [[ ! -d "$HOME/.asdf" ]]; then
     brew install asdf
   fi
+}
 
+install_tools:node() {
+  install_tools:asdf
   asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
   asdf install nodejs latest
@@ -52,6 +55,14 @@ install_tools:python() {
   uv tool install httpie
   uv tool install hashin
   uv tool install pip-tools
+}
+
+install_tools:terraform() {
+  install_tools:asdf
+  asdf plugin add terraform https://github.com/asdf-community/asdf-hashicorp.git
+
+  asdf install terraform latest
+  asdf set --home terraform latest
 }
 
 install_tools:dev() {
@@ -72,6 +83,7 @@ install_tools:dev() {
   install_tools:node
   install_tools:python
   install_tools:bun
+  install_tools:terraform
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then
