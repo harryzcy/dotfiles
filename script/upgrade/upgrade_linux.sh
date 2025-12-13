@@ -23,7 +23,7 @@ upgrade_node() {
 
   # upgrade node
   node_latest=$(asdf latest nodejs)
-  node_current=$(asdf current nodejs | awk '{print $2}')
+  node_current=$(asdf current nodejs --no-header | awk '{print $2}')
   if [ "$node_latest" != "$node_current" ]; then
     echo "upgrading node"
     asdf install nodejs latest
@@ -47,6 +47,22 @@ upgrade_python() {
     uv python uninstall "$current_version"
   fi
   uv tool upgrade --all
+}
+
+upgrade_terraform() {
+  source $DOTFILE_DIR/dev/.environments.zsh
+
+  asdf plugin update --all
+
+  # upgrade terraform
+  tf_latest=$(asdf latest terraform)
+  tf_current=$(asdf current terraform --no-header | awk '{print $2}')
+  if [ "$tf_latest" != "$tf_current" ]; then
+    echo "upgrading terraform"
+    asdf install terraform latest
+    asdf set --home terraform latest
+    asdf uninstall terraform "$tf_current"
+  fi
 }
 
 upgrade_awscli() {
@@ -101,4 +117,5 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_rust
   upgrade_node
   upgrade_python
+  upgrade_terraform
 fi
