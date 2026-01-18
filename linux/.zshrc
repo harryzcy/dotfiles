@@ -15,6 +15,7 @@ plugins=(
   helm
   python
   pip
+  terraform
   dotenv
   kubectl
 )
