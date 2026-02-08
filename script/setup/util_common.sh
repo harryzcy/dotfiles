@@ -76,3 +76,11 @@ install_tools:bun() {
     curl -fsSL https://bun.sh/install | bash
   fi
 }
+
+install_tools:uv() {
+  if ! command -v uv &>/dev/null; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="$HOME/.local/bin:$PATH"
+    uv python install
+  fi
+}
