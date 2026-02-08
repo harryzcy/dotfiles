@@ -23,6 +23,7 @@ install_tools() {
   run_brew_install wget
   run_brew_install gnupg
   run_brew_install ansible
+  install_tools:pipx
   install_tools:argcomplete # needed for autocompletion for ansible
   run_brew_install helm
   run_brew_install kubectl
@@ -46,10 +47,19 @@ install_tools() {
   )
 }
 
+install_tools:pipx() {
+  if ! command -v pipx &>/dev/null; then
+    echo "installing pipx"
+    run_brew_install pipx
+    pipx ensurepath
+  fi
+}
+
 install_tools:argcomplete() {
   if ! command -v register-python-argcomplete &>/dev/null; then
     echo "installing argcomplete"
-    pip3 install argcomplete
+    pipx ensurepath
+    pipx install argcomplete
   fi
 }
 
