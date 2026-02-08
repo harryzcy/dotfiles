@@ -60,15 +60,15 @@ install_software() {
 
   notion_url="https://www.notion.so/desktop/mac-universal/download"
   if [ "$arch" = "arm64" ]; then
-    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64-dmg"
     docker_url="https://desktop.docker.com/mac/stable/arm64/Docker.dmg"
   else
-    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-x64-dmg"
     docker_url="https://desktop.docker.com/mac/stable/amd64/Docker.dmg"
   fi
 
   install_dmg "Google Chrome" "https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-  install_zip "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
+  install_dmg "Visual Studio Code" "$vscode_url" "/Applications/Visual Studio Code.app/Contents/MacOS/Electron"
   install_dmg "Notion" "$notion_url" "/Applications/Notion.app/Contents/MacOS/Notion"
   install_dmg "Keka" "https://d.keka.io/" "/Applications/Keka.app/Contents/MacOS/Keka"
   install_zip "iTerm2" "https://iterm2.com/downloads/stable/latest" "/Applications/iTerm.app/Contents/MacOS/iTerm2"
