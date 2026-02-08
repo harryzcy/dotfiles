@@ -63,7 +63,7 @@ install_software() {
     vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64-dmg"
     docker_url="https://desktop.docker.com/mac/stable/arm64/Docker.dmg"
   else
-    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-dmg"
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-x64-dmg"
     docker_url="https://desktop.docker.com/mac/stable/amd64/Docker.dmg"
   fi
 
