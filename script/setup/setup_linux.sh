@@ -45,11 +45,7 @@ install_tools:node() {
 }
 
 install_tools:python() {
-  if ! command -v uv &>/dev/null; then
-    curl -LsSf https://astral.sh/uv/install.sh | sh
-    uv python install
-  fi
-
+  install_tools:uv
   uv tool install ansible-lint
   uv tool install ansible
   uv tool install httpie

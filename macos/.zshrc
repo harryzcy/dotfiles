@@ -49,6 +49,7 @@ path=(
   /opt/homebrew/bin # HomeBrew
   $path
   $GOPATH/bin                          # Go
+  $HOME/.local/bin                     # uv
   /usr/local/sbin                      # n2n
   /opt/homebrew/opt/python/libexec/bin # Python
   /opt/homebrew/opt/libpq/bin          # Postgres
