@@ -60,10 +60,10 @@ install_software() {
 
   notion_url="https://www.notion.so/desktop/mac-universal/download"
   if [ "$arch" = "arm64" ]; then
-    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64"
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-arm64-dmg"
     docker_url="https://desktop.docker.com/mac/stable/arm64/Docker.dmg"
   else
-    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin"
+    vscode_url="https://code.visualstudio.com/sha/download?build=stable&os=darwin-dmg"
     docker_url="https://desktop.docker.com/mac/stable/amd64/Docker.dmg"
   fi
 
