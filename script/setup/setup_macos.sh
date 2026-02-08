@@ -45,16 +45,9 @@ install_tools() {
   )
 }
 
-install_tools:argcomplete() {
-  if ! command -v register-python-argcomplete &>/dev/null; then
-    echo "installing argcomplete"
-    uv install argcomplete
-  fi
-}
-
 install_tools:python() {
   install_tools:uv
-  uv install argcomplete
+  uv tool install argcomplete
   uv tool install ansible-lint
   uv tool install ansible
 }
