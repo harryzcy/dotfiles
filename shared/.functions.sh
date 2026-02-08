@@ -29,6 +29,7 @@ install_zig() {
 
   if sudo -n true 2>/dev/null; then
     # sudo is available
+    echo "Sudo access is available, proceeding with installation..."
   else
     # request sudo password
     sudo -v
