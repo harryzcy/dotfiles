@@ -80,6 +80,6 @@ install_tools:bun() {
 install_tools:uv() {
   if ! command -v uv &>/dev/null; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    uv python install
+    $HOME/.local/bin/uv python install
   fi
 }
