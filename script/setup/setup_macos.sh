@@ -22,14 +22,12 @@ install_tools() {
   run_brew_install tree
   run_brew_install wget
   run_brew_install gnupg
-  install_tools:pipx
-  install_tools:argcomplete # needed for autocompletion for ansible
-  run_brew_install ansible
   run_brew_install helm
   run_brew_install kubectl
   run_brew_install gawk # required by asdf
   run_brew_install minisign
   install_tools:bun
+  install_tools:python
 
   brew tap mac-cleanup/mac-cleanup-py
   run_brew_install mac-cleanup-py
@@ -47,20 +45,18 @@ install_tools() {
   )
 }
 
-install_tools:pipx() {
-  if ! command -v pipx &>/dev/null; then
-    echo "installing pipx"
-    run_brew_install pipx
-    pipx ensurepath
-  fi
-}
-
 install_tools:argcomplete() {
   if ! command -v register-python-argcomplete &>/dev/null; then
     echo "installing argcomplete"
-    pipx ensurepath
-    pipx install argcomplete
+    uv install argcomplete
   fi
+}
+
+install_tools:python() {
+  install_tools:uv
+  uv install argcomplete
+  uv tool install ansible-lint
+  uv tool install ansible
 }
 
 install_software() {
