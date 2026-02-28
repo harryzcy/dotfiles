@@ -43,30 +43,30 @@ export GOPATH=$HOME/go
 
 export GPG_TTY=$(tty)
 
+source $platform_dir/.functions.zsh
+source $platform_dir/.completion.zsh
+source $DOTFILE_DIR/dev/.aliases.zsh
+source $DOTFILE_DIR/dev/.variables.zsh
+source $DOTFILE_DIR/dev/.environments.zsh
+
 typeset -U path
 path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
   $path
+  $BUN_INSTALL/bin                     # Bun
   $GOPATH/bin                          # Go
   $HOME/.local/bin                     # uv
   /usr/local/sbin                      # n2n
   /opt/homebrew/opt/python/libexec/bin # Python
   /opt/homebrew/opt/libpq/bin          # Postgres
   $HOME/.cargo/bin                     # Rust
-  $HOME/.bun/bin                       # Bun
   $DOTFILE_DIR/dot/bin                 # dot
 )
 export PATH
 
 # Ruby
 eval "$(rbenv init - zsh)"
-
-source $platform_dir/.functions.zsh
-source $platform_dir/.completion.zsh
-source $DOTFILE_DIR/dev/.aliases.zsh
-source $DOTFILE_DIR/dev/.variables.zsh
-source $DOTFILE_DIR/dev/.environments.zsh
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
