@@ -1,5 +1,15 @@
 {
   "extends": [
     "github>harryzcy/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "digest": {
+        "automerge": true
+      }
+    }
   ]
 }
