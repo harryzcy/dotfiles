@@ -48,7 +48,7 @@ path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
   $path
-  $HOME/.bun/bin                     # Bun
+  $HOME/.bun/bin                       # Bun
   $GOPATH/bin                          # Go
   $HOME/.local/bin                     # uv
   /usr/local/sbin                      # n2n
