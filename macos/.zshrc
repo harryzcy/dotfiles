@@ -43,12 +43,6 @@ export GOPATH=$HOME/go
 
 export GPG_TTY=$(tty)
 
-source "$platform_dir/.functions.zsh"
-source "$platform_dir/.completion.zsh"
-source "$DOTFILE_DIR/dev/.aliases.zsh"
-source "$DOTFILE_DIR/dev/.variables.zsh"
-source "$DOTFILE_DIR/dev/.environments.zsh"
-
 typeset -U path
 path=(
   /usr/local/go/bin # Go
@@ -67,6 +61,12 @@ export PATH
 
 # Ruby
 eval "$(rbenv init - zsh)"
+
+source "$platform_dir/.functions.zsh"
+source "$platform_dir/.completion.zsh"
+source "$DOTFILE_DIR/dev/.aliases.zsh"
+source "$DOTFILE_DIR/dev/.variables.zsh"
+source "$DOTFILE_DIR/dev/.environments.zsh"
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
