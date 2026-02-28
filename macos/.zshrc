@@ -48,6 +48,7 @@ path=(
   /usr/local/go/bin # Go
   /opt/homebrew/bin # HomeBrew
   $path
+  $HOME/.bun/bin                       # Bun
   $GOPATH/bin                          # Go
   $HOME/.local/bin                     # uv
   /usr/local/sbin                      # n2n
@@ -61,11 +62,11 @@ export PATH
 # Ruby
 eval "$(rbenv init - zsh)"
 
-source $platform_dir/.functions.zsh
-source $platform_dir/.completion.zsh
-source $DOTFILE_DIR/dev/.aliases.zsh
-source $DOTFILE_DIR/dev/.variables.zsh
-source $DOTFILE_DIR/dev/.environments.zsh
+source "$platform_dir/.functions.zsh"
+source "$platform_dir/.completion.zsh"
+source "$DOTFILE_DIR/dev/.aliases.zsh"
+source "$DOTFILE_DIR/dev/.variables.zsh"
+source "$DOTFILE_DIR/dev/.environments.zsh"
 
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
