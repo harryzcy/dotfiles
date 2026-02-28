@@ -12,7 +12,3 @@ eval $(register-python-argcomplete ansible-vault)
 # Kubernetes
 source <(kubectl completion zsh)
 source <(helm completion zsh)
-
-# Bun
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
