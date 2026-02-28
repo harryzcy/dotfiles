@@ -43,11 +43,11 @@ export GOPATH=$HOME/go
 
 export GPG_TTY=$(tty)
 
-source $platform_dir/.functions.zsh
-source $platform_dir/.completion.zsh
-source $DOTFILE_DIR/dev/.aliases.zsh
-source $DOTFILE_DIR/dev/.variables.zsh
-source $DOTFILE_DIR/dev/.environments.zsh
+source "$platform_dir/.functions.zsh"
+source "$platform_dir/.completion.zsh"
+source "$DOTFILE_DIR/dev/.aliases.zsh"
+source "$DOTFILE_DIR/dev/.variables.zsh"
+source "$DOTFILE_DIR/dev/.environments.zsh"
 
 typeset -U path
 path=(
