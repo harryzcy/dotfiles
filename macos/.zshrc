@@ -54,6 +54,7 @@ path=(
   /opt/homebrew/opt/python/libexec/bin # Python
   /opt/homebrew/opt/libpq/bin          # Postgres
   $HOME/.cargo/bin                     # Rust
+  $HOME/.bun/bin                       # Bun
   $DOTFILE_DIR/dot/bin                 # dot
 )
 export PATH
