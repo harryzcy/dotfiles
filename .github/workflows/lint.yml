@@ -12,10 +12,10 @@ permissions:
 jobs:
   super-linter:
     name: Super Linter
-    uses: harryzcy/github-actions/.github/workflows/linter.yml@81aad314153d8b8fd8dc8cfa277e1a2f637992fa # main
+    uses: harryzcy/github-actions/.github/workflows/linter.yml@454561de2c2e5938ee91113753d92166a5dba935 # main
 
   go-lint:
     name: Go Lint
-    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@81aad314153d8b8fd8dc8cfa277e1a2f637992fa # main
+    uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@454561de2c2e5938ee91113753d92166a5dba935 # main
     with:
       working-directory: dotd
