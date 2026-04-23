@@ -18,7 +18,7 @@ local app2Ime = {
   {'/System/Library/CoreServices/Spotlight.app', 'English'},
   {'/Applications/System Preferences.app', 'English'},
   {'/Applications/Visual Studio Code.app', 'English'},
-  {'/Applications/Wechat.app', 'Chinese'},
+  {'/Applications/WeChat.app', 'Chinese'},
 }
 
 function updateFocusAppInputMethod()
