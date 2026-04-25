@@ -1,12 +1,12 @@
 local function Chinese()
-  hs.console.printStyledtext("swithcing to Chinese")
+  hs.console.printStyledtext("switching to Chinese")
   if hs.keycodes.currentSourceID() ~= "com.apple.inputmethod.SCIM.ITABC" then
     hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
   end
 end
 
 local function English()
-  hs.console.printStyledtext("swithcing to English")
+  hs.console.printStyledtext("switching to English")
   if hs.keycodes.currentSourceID() ~= "com.apple.keylayout.US" then
     hs.keycodes.currentSourceID("com.apple.keylayout.US")
   end
