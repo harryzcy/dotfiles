@@ -49,6 +49,8 @@ dot() {
     ${DOTFILE_DIR}/script/tm.sh "$@"
   elif [ ${command} = "pull" ]; then
     ${DOTFILE_DIR}/script/pull.sh
+  elif [ ${command} = "lookup" ]; then
+    ${DOTFILE_DIR}/script/lookup.sh "$@"
   else
     echo "dot: unknown command"
     return 1
