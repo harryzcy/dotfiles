@@ -13,6 +13,7 @@ _dot() {
     'code:open repository in VSCode'
     'tm:time machine utilities'
     'pull:pull repositories'
+    'lookup:lookup oh-my-zsh plugins'
   )
   _describe 'command' subcmds
 }
