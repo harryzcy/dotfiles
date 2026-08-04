@@ -61,6 +61,12 @@ install_tools:terraform() {
   asdf set --home terraform latest
 }
 
+install_tools:gh() {
+  # gh in the apt archive is frozen at the ubuntu release version,
+  # so install from GitHub releases instead
+  install_gh "$(gh_latest_version)"
+}
+
 install_tools:dev() {
   (
     set -x
@@ -76,6 +82,7 @@ install_tools:dev() {
   run_apt_install cloc
   run_apt_install jq
   run_apt_install minisign
+  install_tools:gh
   install_tools:node
   install_tools:python
   install_tools:bun

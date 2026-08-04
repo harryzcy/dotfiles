@@ -85,6 +85,17 @@ upgrade_bazelisk() {
   chmod +x "$DOTFILE_DIR/dot/bin/bazelisk"
 }
 
+upgrade_gh() {
+  # check the managed binary directly, an apt-installed gh may shadow it on PATH
+  current_version=$("$DOTFILE_DIR/dot/bin/gh" --version 2>/dev/null | head -n 1 | awk '{print $3}')
+  latest_version=$(gh_latest_version)
+
+  if [ "$current_version" != "$latest_version" ]; then
+    echo "upgrading gh"
+    install_gh "$latest_version"
+  fi
+}
+
 upgrade_go() {
   echo "upgrading go"
   current_version=$(go version | awk '{print $3}' | cut -c 3-)
@@ -111,6 +122,7 @@ upgrade_zsh
 # dev machine
 if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_awscli
+  upgrade_gh
   upgrade_go
   upgrade_krex
   upgrade_bazelisk
