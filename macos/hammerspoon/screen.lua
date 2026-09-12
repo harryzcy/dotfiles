@@ -44,6 +44,10 @@ function moveMouseScreen(position)
   hs.eventtap.leftClick(center)
 end
 
+-- seconds to let a Space animation settle; raise if the window lands on the
+-- wrong display
+local fullscreenTransitionDelay = 0.4
+
 function moveWindowToScreen(win, screen)
   if not win:isFullScreen() then
     win:moveToScreen(screen, false, true)
@@ -55,9 +59,9 @@ function moveWindowToScreen(win, screen)
   win:setFullScreen(false)
   hs.timer.waitWhile(function() return win:isFullScreen() end, function()
     -- the flag clears before the Space animation finishes
-    hs.timer.doAfter(0.4, function()
+    hs.timer.doAfter(fullscreenTransitionDelay, function()
       win:moveToScreen(screen, false, true)
-      hs.timer.doAfter(0.4, function() win:setFullScreen(true) end)
+      hs.timer.doAfter(fullscreenTransitionDelay, function() win:setFullScreen(true) end)
     end)
   end, 0.05)
 end
