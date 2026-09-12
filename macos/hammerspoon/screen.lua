@@ -44,14 +44,14 @@ function moveMouseScreen(position)
   hs.eventtap.leftClick(center)
 end
 
--- A native fullscreen window lives in its own Space, and Spaces belong to a
--- display, so moveToScreen is a no-op on one. Leave fullscreen, move, re-enter.
 function moveWindowToScreen(win, screen)
   if not win:isFullScreen() then
     win:moveToScreen(screen, false, true)
     return
   end
 
+  -- A native fullscreen window lives in its own Space, and Spaces belong to a
+  -- display, so moveToScreen is a no-op on one. Leave fullscreen, move, re-enter.
   win:setFullScreen(false)
   hs.timer.waitWhile(function() return win:isFullScreen() end, function()
     -- the flag clears before the Space animation finishes
