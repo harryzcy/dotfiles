@@ -61,6 +61,14 @@ install_tools:terraform() {
   asdf set --home terraform latest
 }
 
+install_tools:opentofu() {
+  install_tools:asdf
+  asdf plugin add opentofu https://github.com/virtualroot/asdf-opentofu.git
+
+  asdf install opentofu latest
+  asdf set --home opentofu latest
+}
+
 install_tools:gh() {
   # gh in the apt archive is frozen at the ubuntu release version,
   # so install from GitHub releases instead
@@ -87,6 +95,7 @@ install_tools:dev() {
   install_tools:python
   install_tools:bun
   install_tools:terraform
+  install_tools:opentofu
 }
 
 if [[ "${CODESPACES}" == 'true' ]]; then

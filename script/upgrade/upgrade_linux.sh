@@ -65,6 +65,22 @@ upgrade_terraform() {
   fi
 }
 
+upgrade_opentofu() {
+  source $DOTFILE_DIR/dev/.environments.zsh
+
+  asdf plugin update --all
+
+  # upgrade opentofu
+  tofu_latest=$(asdf latest opentofu)
+  tofu_current=$(asdf current opentofu --no-header | awk '{print $2}')
+  if [ "$tofu_latest" != "$tofu_current" ]; then
+    echo "upgrading opentofu"
+    asdf install opentofu latest
+    asdf set --home opentofu latest
+    asdf uninstall opentofu "$tofu_current"
+  fi
+}
+
 upgrade_awscli() {
   current_version=$(aws --version 2>&1 | awk '{print $1}' | cut -d/ -f2)
   latest_version=$(curl -s https://api.github.com/repos/aws/aws-cli/tags | jq -r '.[0].name')
@@ -130,4 +146,5 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_node
   upgrade_python
   upgrade_terraform
+  upgrade_opentofu
 fi
