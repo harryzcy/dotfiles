@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 detect_os() {
   unamestr=$(uname)
   if [[ "$unamestr" == 'Linux' ]]; then
@@ -5,7 +7,7 @@ detect_os() {
   elif [[ "$unamestr" == 'Darwin' ]]; then
     echo "macos"
   else
-    echo "unsupported platform: $platform"
+    echo "unsupported platform: $unamestr"
     exit 1
   fi
 }
@@ -17,7 +19,7 @@ detect_arch() {
   elif [[ "$arch" == 'aarch64' ]]; then
     arch='arm64'
   fi
-  echo $arch
+  echo "$arch"
 }
 
 gh_latest_version() {

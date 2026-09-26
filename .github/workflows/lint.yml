@@ -14,6 +14,10 @@ jobs:
     name: Super Linter
     uses: harryzcy/github-actions/.github/workflows/linter.yml@5eaf925875721488eed093142fde35b53b8e6865 # main
 
+  shell-lint:
+    name: Shell Lint
+    uses: harryzcy/github-actions/.github/workflows/shell-lint.yml@0fe0d1a958dade977a117fc31618e05d81f2784f # main
+
   go-lint:
     name: Go Lint
     uses: harryzcy/github-actions/.github/workflows/golangci-lint.yml@5eaf925875721488eed093142fde35b53b8e6865 # main
