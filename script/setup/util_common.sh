@@ -17,8 +17,8 @@ configure_zsh() {
 
   # Set ZSH as the default shell
   # Skip this when running in GitHub Codespace, it's configured via setting
-  if [ "$(basename ${SHELL})" != "zsh" ] && [ "${CODESPACES}" != "true" ]; then
-    chsh -s $(which zsh)
+  if [ "$(basename "${SHELL}")" != "zsh" ] && [ "${CODESPACES}" != "true" ]; then
+    chsh -s "$(which zsh)"
   fi
 
   # install oh-my-zsh
@@ -30,19 +30,19 @@ configure_zsh() {
   # init zshrc
   if [[ -e $HOME/.zshrc || -L $HOME/.zshrc ]]; then
     echo "backup $HOME/.zshrc to $HOME/.zshrc.bak"
-    mv $HOME/.zshrc $HOME/.zshrc.bak
+    mv "$HOME/.zshrc" "$HOME/.zshrc.bak"
   fi
-  create_symlink ${src_dir}/.zshrc $HOME/.zshrc
+  create_symlink "${src_dir}/.zshrc" "$HOME/.zshrc"
 
   # install plugins
   if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions ]]; then
     echo "installing zsh-autosuggestions"
-    git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
   fi
 
   if [[ ! -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
     echo "installing zsh-syntax-highlighting"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
   fi
 }
 
@@ -51,12 +51,12 @@ configure_git() {
 
   if [[ ! -f $HOME/.gitconfig ]]; then
     echo "creating .gitconfig"
-    cp ${src_dir}/git/.gitconfig $HOME/.gitconfig
+    cp "${src_dir}/git/.gitconfig" "$HOME/.gitconfig"
   fi
 
   if [[ ! -f $HOME/.gitignore_global ]]; then
     echo "creating .gitignore_global"
-    cp ${src_dir}/git/.gitignore_global $HOME/.gitignore_global
+    cp "${src_dir}/git/.gitignore_global" "$HOME/.gitignore_global"
   fi
 }
 

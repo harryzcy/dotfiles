@@ -20,7 +20,7 @@ fi
 
 if [[ "$is_mac" == "true" ]]; then
   if ! command_exists brew; then
-    # TODO: install brew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 fi
 

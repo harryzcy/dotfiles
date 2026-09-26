@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
+# shellcheck source-path=SCRIPTDIR
 
 set -o pipefail
 
 # change to the directory of this script
 current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-cd ${current}
+cd "${current}" || exit 1
 
-export DOTFILE_DIR=$(dirname ${current})
-source ${DOTFILE_DIR}/shared/.functions.sh
+DOTFILE_DIR=$(dirname "${current}")
+export DOTFILE_DIR
+# shellcheck source=../shared/.functions.sh
+source "${DOTFILE_DIR}/shared/.functions.sh"
 
 os=$(detect_os)
 arch=$(detect_arch)
