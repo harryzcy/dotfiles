@@ -37,15 +37,38 @@ install_go() {
     return 1
   fi
 
-  url="https://go.dev/dl/go${version}.${os}-${arch}.tar.gz"
-  echo "Downloading $url"
+  tarball_name="go${version}.${os}-${arch}.tar.gz"
+  url="https://dl.google.com/go/${tarball_name}"
+
+  expected_sha256=$(curl -fsSL "${url}.sha256")
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "Failed to fetch checksum for $tarball_name"
+    return 1
+  fi
 
   if [ -z "${DOWNLOAD_DIR}" ]; then
     local DOWNLOAD_DIR="$HOME"
   fi
 
-  file="${DOWNLOAD_DIR}/go${version}.${os}-${arch}.tar.gz"
-  curl -L "$url" -o "$file"
+  file="${DOWNLOAD_DIR}/${tarball_name}"
+  echo "Downloading $url"
+  if ! curl -fL "$url" -o "$file"; then
+    echo "Failed to download $url"
+    rm -f "$file"
+    return 1
+  fi
+
+  if command -v sha256sum &>/dev/null; then
+    actual_sha256=$(sha256sum "$file" | awk '{print $1}')
+  else
+    actual_sha256=$(shasum -a 256 "$file" | awk '{print $1}')
+  fi
+  if [[ "$actual_sha256" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for $tarball_name"
+    rm "$file"
+    return 1
+  fi
+  echo "Successfully fetched and verified $tarball_name"
 
   echo "Extracting $file"
   sudo rm -rf /usr/local/go
