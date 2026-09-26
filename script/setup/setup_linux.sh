@@ -90,7 +90,7 @@ install_tools:dev() {
   run_apt_install cloc
   run_apt_install jq
   run_apt_install minisign
-  run_apt_install gpg
+  run_apt_install gnupg
   install_tools:gh
   install_tools:node
   install_tools:python
