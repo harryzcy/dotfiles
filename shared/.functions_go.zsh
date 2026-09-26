@@ -37,6 +37,15 @@ install_go() {
     return 1
   fi
 
+  if command -v sha256sum &>/dev/null; then
+    sha256_cmd=(sha256sum)
+  elif command -v shasum &>/dev/null; then
+    sha256_cmd=(shasum -a 256)
+  else
+    echo "sha256sum or shasum is required to verify the download"
+    return 1
+  fi
+
   tarball_name="go${version}.${os}-${arch}.tar.gz"
   url="https://dl.google.com/go/${tarball_name}"
 
@@ -58,11 +67,7 @@ install_go() {
     return 1
   fi
 
-  if command -v sha256sum &>/dev/null; then
-    actual_sha256=$(sha256sum "$file" | awk '{print $1}')
-  else
-    actual_sha256=$(shasum -a 256 "$file" | awk '{print $1}')
-  fi
+  actual_sha256=$("${sha256_cmd[@]}" "$file" | awk '{print $1}')
   if [[ "$actual_sha256" != "$expected_sha256" ]]; then
     echo "Checksum verification failed for $tarball_name"
     rm "$file"
