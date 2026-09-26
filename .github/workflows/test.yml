@@ -2,6 +2,8 @@ name: Test
 
 on:
   push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -116,7 +118,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
-    uses: harryzcy/github-actions/.github/workflows/go.yml@5eaf925875721488eed093142fde35b53b8e6865 # main
+    uses: harryzcy/github-actions/.github/workflows/go.yml@0fe0d1a958dade977a117fc31618e05d81f2784f # main
     with:
       working-directory: dotd
       latest: 1
