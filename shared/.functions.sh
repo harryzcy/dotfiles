@@ -20,6 +20,11 @@ detect_arch() {
   echo "$arch"
 }
 
+# version_gt <a> <b> succeeds if version a is newer than version b
+version_gt() {
+  [ "$1" != "$2" ] && [ "$(printf '%s\n' "$1" "$2" | sort -V | tail -n 1)" = "$1" ]
+}
+
 gh_latest_version() {
   url="https://api.github.com/repos/cli/cli/releases/latest"
   if [ -z "$GITHUB_TOKEN" ]; then
