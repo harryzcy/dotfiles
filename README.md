@@ -20,11 +20,12 @@
 
 - `dot clean`: cleanup cache
 - `dot clone`: clone repositories
-- `dot update`: update dotfiles from Git
-- `dot upgrade`: upgrade installed packages
+- `dot code`: open repository in Visual Studio Code
+- `dot goto`: goto repository directory
+- `dot lookup`: open the docs for an oh-my-zsh plugin
+- `dot pull`: keep local repositories up-to-date
 - `dot reload`: reload dotfiles
 - `dot repo`: print repository path
-- `dot goto`: goto repository directory
-- `dot code`: open repository in Visual Studio Code
 - `dot tm`: time machine utilities for macOS
-- `dot pull`: keep local repositories up-to-date
+- `dot update`: update dotfiles from Git
+- `dot upgrade`: upgrade installed packages
