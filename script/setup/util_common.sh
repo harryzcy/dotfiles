@@ -18,7 +18,7 @@ configure_zsh() {
   # Set ZSH as the default shell
   # Skip this when running in GitHub Codespace, it's configured via setting
   if [ "$(basename "${SHELL}")" != "zsh" ] && [ "${CODESPACES}" != "true" ]; then
-    chsh -s "$(which zsh)"
+    chsh -s "$(command -v zsh)"
   fi
 
   # install oh-my-zsh

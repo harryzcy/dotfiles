@@ -33,10 +33,10 @@ check_sym_link() {
 }
 
 # change to the directory of this script
-current=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
-cd ${current}
+current=$(cd -P -- "$(dirname -- "$0")" && pwd -P) || exit 1
+cd "${current}" || exit 1
 
-base_dir=$(dirname ${current})
+base_dir=$(dirname "${current}")
 
 source ./test_common.sh
 
@@ -47,7 +47,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
 elif [[ "$unamestr" == 'Darwin' ]]; then
   source ./test_macos.sh
 else
-  echo "unsupported platform: $platform"
+  echo "unsupported platform: $unamestr"
   exit 1
 fi
 
