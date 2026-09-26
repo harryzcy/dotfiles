@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# shellcheck source=SCRIPTDIR/.keys.sh
+source "$DOTFILE_DIR/shared/.keys.sh"
+
 detect_os() {
   unamestr=$(uname)
   if [[ "$unamestr" == 'Linux' ]]; then
@@ -98,7 +101,6 @@ install_zig() {
     local DOWNLOAD_DIR="$HOME"
   fi
 
-  pubkey="RWSGOq2NVecA2UPNdBUZykf1CCb147pkmdtYxgb3Ti+JO/wCYvhbAb/U"
   tarball_name="zig-${arch}-${os}-${version}.tar.xz"
   mirror="$(curl -s https://ziglang.org/download/community-mirrors.txt | head -n 1)"
   tarball_url="${mirror}/${tarball_name}"
@@ -112,7 +114,7 @@ install_zig() {
   fi
 
   curl -sL "${tarball_url}.minisig" -o "${filepath}.minisig"
-  minisign -Vm "${filepath}" -P "$pubkey" -x "${filepath}.minisig"
+  minisign -Vm "${filepath}" -P "$ZIG_MINISIGN_PUBLIC_KEY" -x "${filepath}.minisig"
   success=$?
   if [ $success -ne 0 ]; then
     echo "Signature verification failed for $tarball_name"

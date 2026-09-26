@@ -1,11 +1,11 @@
 # .functions_go.zsh
 # Functions related to Go
 
+source "$DOTFILE_DIR/shared/.keys.sh"
+
 verify_go_signature() {
   local file=$1
   local signature_url=$2
-  # primary key of Google's Linux package signing key, which signs Go releases
-  local fingerprint="EB4C1BFD4F042F6DDDCCEC917721F63BD38B4796"
 
   local gpg_dir
   gpg_dir=$(mktemp -d)
@@ -13,7 +13,7 @@ verify_go_signature() {
     curl -fsSL "$signature_url" -o "${gpg_dir}/go.asc" &&
     gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" "${gpg_dir}/key.asc" &&
     gpgv --homedir "$gpg_dir" --status-fd 1 --keyring "${gpg_dir}/key.gpg" "${gpg_dir}/go.asc" "$file" 2>/dev/null |
-    awk -v fpr="$fingerprint" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
+    awk -v fpr="$GO_SIGNING_KEY_FINGERPRINT" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
   local result=$?
   rm -rf "$gpg_dir"
   return $result
