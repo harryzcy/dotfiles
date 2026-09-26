@@ -9,12 +9,16 @@ dot() {
     echo
     echo "Commands:"
     echo "  clean   clean up cache"
-    echo "  update  update dotfiles from Git"
-    echo "  upgrade upgrade installed packages"
+    echo "  clone   clone repositories"
+    echo "  code    open repository in VSCode"
+    echo "  goto    goto repository"
+    echo "  lookup  lookup oh-my-zsh plugins"
+    echo "  pull    pull repositories"
     echo "  reload  reload dotfiles"
     echo "  repo    print repository path"
-    echo "  goto    goto repository"
     echo "  tm      time machine utilities"
+    echo "  update  update dotfiles from Git"
+    echo "  upgrade upgrade installed packages"
     return 1
   fi
   shift
