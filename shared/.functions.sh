@@ -7,16 +7,14 @@ detect_os() {
   elif [[ "$unamestr" == 'Darwin' ]]; then
     echo "macos"
   else
-    echo "unsupported platform: $unamestr"
-    exit 1
+    echo "unsupported platform: $unamestr" >&2
+    return 1
   fi
 }
 
 detect_arch() {
   arch=$(uname -m)
-  if [[ "$arch" == 'aar64' ]]; then
-    arch='arm64'
-  elif [[ "$arch" == 'aarch64' ]]; then
+  if [[ "$arch" == 'aarch64' ]]; then
     arch='arm64'
   fi
   echo "$arch"
