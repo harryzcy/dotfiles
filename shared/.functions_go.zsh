@@ -1,6 +1,24 @@
 # .functions_go.zsh
 # Functions related to Go
 
+source "$DOTFILE_DIR/shared/.keys.sh"
+
+verify_go_signature() {
+  local file=$1
+  local signature_url=$2
+
+  local gpg_dir
+  gpg_dir=$(mktemp -d)
+  curl -fsSL "https://dl.google.com/linux/linux_signing_key.pub" -o "${gpg_dir}/key.asc" &&
+    curl -fsSL "$signature_url" -o "${gpg_dir}/go.asc" &&
+    gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" "${gpg_dir}/key.asc" &&
+    gpgv --homedir "$gpg_dir" --status-fd 1 --keyring "${gpg_dir}/key.gpg" "${gpg_dir}/go.asc" "$file" 2>/dev/null |
+    awk -v fpr="$GOOGLE_LINUX_SIGNING_KEY_FINGERPRINT" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
+  local result=$?
+  rm -rf "$gpg_dir"
+  return $result
+}
+
 install_go() {
   version=$1
   if [ -z "$version" ]; then
@@ -37,15 +55,61 @@ install_go() {
     return 1
   fi
 
-  url="https://go.dev/dl/go${version}.${os}-${arch}.tar.gz"
-  echo "Downloading $url"
+  if command -v sha256sum &>/dev/null; then
+    sha256_cmd=(sha256sum)
+  elif command -v shasum &>/dev/null; then
+    sha256_cmd=(shasum -a 256)
+  else
+    echo "sha256sum or shasum is required to verify the download"
+    return 1
+  fi
+
+  if ! command -v gpg &>/dev/null || ! command -v gpgv &>/dev/null; then
+    echo "gpg and gpgv are required to verify the download"
+    return 1
+  fi
+
+  tarball_name="go${version}.${os}-${arch}.tar.gz"
+  url="https://dl.google.com/go/${tarball_name}"
+
+  expected_sha256=$(curl -fsSL "${url}.sha256")
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]]; then
+    echo "Failed to fetch checksum for $tarball_name"
+    return 1
+  fi
 
   if [ -z "${DOWNLOAD_DIR}" ]; then
     local DOWNLOAD_DIR="$HOME"
   fi
 
-  file="${DOWNLOAD_DIR}/go${version}.${os}-${arch}.tar.gz"
-  curl -L "$url" -o "$file"
+  file="${DOWNLOAD_DIR}/${tarball_name}"
+  echo "Downloading $url"
+  if ! curl -fL "$url" -o "$file"; then
+    echo "Failed to download $url"
+    rm -f "$file"
+    return 1
+  fi
+
+  actual_sha256=$("${sha256_cmd[@]}" "$file" | awk '{print $1}')
+  if [[ "$actual_sha256" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for $tarball_name"
+    rm "$file"
+    return 1
+  fi
+
+  if ! verify_go_signature "$file" "${url}.asc"; then
+    echo "Signature verification failed for $tarball_name"
+    rm "$file"
+    return 1
+  fi
+
+  archive_version=$(tar -xzOf "$file" go/VERSION 2>/dev/null | head -n 1)
+  if [[ "$archive_version" != "go${version}" ]]; then
+    echo "Archive contains ${archive_version:-no version}, expected go${version}"
+    rm "$file"
+    return 1
+  fi
+  echo "Successfully fetched and verified $tarball_name"
 
   echo "Extracting $file"
   sudo rm -rf /usr/local/go

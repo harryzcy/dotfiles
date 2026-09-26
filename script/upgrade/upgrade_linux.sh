@@ -118,7 +118,7 @@ upgrade_go() {
   latest_version=$(curl -s 'https://go.dev/VERSION?m=text' | head -n 1 | cut -c 3-)
   echo "current version: $current_version"
   echo "latest version: $latest_version"
-  if [ "$current_version" != "$latest_version" ]; then
+  if version_gt "$latest_version" "$current_version"; then
     source "$DOTFILE_DIR/shared/.functions_go.zsh"
     install_go "$latest_version"
   fi
