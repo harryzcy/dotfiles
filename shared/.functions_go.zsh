@@ -13,7 +13,7 @@ verify_go_signature() {
     curl -fsSL "$signature_url" -o "${gpg_dir}/go.asc" &&
     gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" "${gpg_dir}/key.asc" &&
     gpgv --homedir "$gpg_dir" --status-fd 1 --keyring "${gpg_dir}/key.gpg" "${gpg_dir}/go.asc" "$file" 2>/dev/null |
-    awk -v fpr="$GO_SIGNING_KEY_FINGERPRINT" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
+    awk -v fpr="$GOOGLE_LINUX_SIGNING_KEY_FINGERPRINT" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
   local result=$?
   rm -rf "$gpg_dir"
   return $result
