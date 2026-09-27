@@ -28,6 +28,19 @@ version_gt() {
   [ "$1" != "$2" ] && [ "$(printf '%s\n' "$1" "$2" | sort -V | tail -n 1)" = "$1" ]
 }
 
+# file_sha256 <file> prints the sha256 of file
+file_sha256() {
+  if command -v sha256sum &>/dev/null; then
+    sha256sum "$1" | awk '{print $1}'
+  elif command -v shasum &>/dev/null; then
+    # macOS before 15 has shasum but not sha256sum
+    shasum -a 256 "$1" | awk '{print $1}'
+  else
+    echo "sha256sum or shasum is required to verify the download" >&2
+    return 1
+  fi
+}
+
 # verify_gpg_signature <file> <signature file> <armored public key> <primary key fingerprint>
 # succeeds only if the signature was made by the key with that primary fingerprint
 verify_gpg_signature() {
@@ -112,8 +125,7 @@ install_bazelisk() {
     rm -rf "${tmp_dir}"
     return 1
   fi
-  actual_sha256=$(sha256sum "${tmp_dir}/bazelisk" | awk '{print $1}')
-  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$actual_sha256" != "$expected_sha256" ]]; then
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$(file_sha256 "${tmp_dir}/bazelisk")" != "$expected_sha256" ]]; then
     echo "Checksum verification failed for ${binary_name}"
     rm -rf "${tmp_dir}"
     return 1
@@ -124,6 +136,42 @@ install_bazelisk() {
   ln -sf "$DOTFILE_DIR/dot/bin/bazelisk" "$DOTFILE_DIR/dot/bin/bazel"
   rm -rf "${tmp_dir}"
   echo "bazelisk installed to $DOTFILE_DIR/dot/bin/bazelisk"
+}
+
+install_krew() {
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')
+  archive_name="krew-${os}_${arch}.tar.gz"
+
+  # take the download URL and checksum from krew-index, which is reviewed separately from releases
+  index_url="https://raw.githubusercontent.com/kubernetes-sigs/krew-index/master/plugins/krew.yaml"
+  local url expected_sha256
+  read -r url expected_sha256 < <(curl -fsSL "$index_url" | awk -v name="/${archive_name}" '
+    $2 == "uri:" { uri = $3 }
+    $1 == "sha256:" && substr(uri, length(uri) - length(name) + 1) == name { print uri, $2; exit }')
+  if [ -z "$url" ] || [ -z "$expected_sha256" ]; then
+    echo "Failed to find ${archive_name} in ${index_url}"
+    return 1
+  fi
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading ${url}"
+  if ! curl -fsSL "$url" -o "${tmp_dir}/${archive_name}"; then
+    echo "Failed to download ${url}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  if [[ "$(file_sha256 "${tmp_dir}/${archive_name}")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  tar -xzf "${tmp_dir}/${archive_name}" -C "${tmp_dir}" &&
+    "${tmp_dir}/krew-${os}_${arch}" install krew
+  local result=$?
+  rm -rf "${tmp_dir}"
+  return $result
 }
 
 install_zig() {

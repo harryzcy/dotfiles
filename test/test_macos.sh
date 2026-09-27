@@ -11,6 +11,7 @@ check_tools() {
   check_command wget
   check_command gpg # gnupg from brew
   check_command minisign
+  check_file "$HOME/.krew/bin/kubectl-krew"
 }
 
 check_softwares() {
