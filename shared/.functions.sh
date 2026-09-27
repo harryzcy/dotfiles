@@ -125,8 +125,7 @@ install_bazelisk() {
     rm -rf "${tmp_dir}"
     return 1
   fi
-  actual_sha256=$(sha256sum "${tmp_dir}/bazelisk" | awk '{print $1}')
-  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$actual_sha256" != "$expected_sha256" ]]; then
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$(file_sha256 "${tmp_dir}/bazelisk")" != "$expected_sha256" ]]; then
     echo "Checksum verification failed for ${binary_name}"
     rm -rf "${tmp_dir}"
     return 1
