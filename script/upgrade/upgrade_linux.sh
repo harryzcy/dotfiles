@@ -82,15 +82,35 @@ upgrade_opentofu() {
 }
 
 upgrade_awscli() {
-  current_version=$(aws --version 2>&1 | awk '{print $1}' | cut -d/ -f2)
+  current_version=$(aws --version 2>/dev/null | awk '{print $1}' | cut -d/ -f2)
   latest_version=$(curl -s https://api.github.com/repos/aws/aws-cli/tags | jq -r '.[0].name')
 
-  if [ "$current_version" != "$latest_version" ]; then
+  if version_gt "$latest_version" "$current_version"; then
     echo "upgrading awscli"
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/awscliv2.zip"
-    unzip -o "$HOME/awscliv2.zip" -d "$HOME" >/dev/null
-    sudo "$HOME/aws/install" --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
-    rm -rf "$HOME/awscliv2.zip" "$HOME/aws"
+    tmp_dir=$(mktemp -d)
+    zip_url="https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${latest_version}.zip"
+    if ! curl -fsSL "$zip_url" -o "$tmp_dir/awscliv2.zip" ||
+      ! curl -fsSL "${zip_url}.sig" -o "$tmp_dir/awscliv2.zip.sig"; then
+      echo "Failed to download $zip_url"
+      rm -rf "$tmp_dir"
+      return 1
+    fi
+    if ! verify_gpg_signature "$tmp_dir/awscliv2.zip" "$tmp_dir/awscliv2.zip.sig" "$AWS_CLI_PUBLIC_KEY" "$AWS_CLI_KEY_FINGERPRINT"; then
+      echo "Signature verification failed for $zip_url"
+      rm -rf "$tmp_dir"
+      return 1
+    fi
+
+    unzip -q "$tmp_dir/awscliv2.zip" -d "$tmp_dir"
+    # the signature doesn't cover the file name, so check the version inside the archive
+    archive_version=$("$tmp_dir/aws/dist/aws" --version 2>&1 | awk '{print $1}' | cut -d/ -f2)
+    if [ "$archive_version" != "$latest_version" ]; then
+      echo "Archive contains awscli ${archive_version:-unknown}, expected $latest_version"
+      rm -rf "$tmp_dir"
+      return 1
+    fi
+    sudo "$tmp_dir/aws/install" --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+    rm -rf "$tmp_dir"
   fi
 }
 

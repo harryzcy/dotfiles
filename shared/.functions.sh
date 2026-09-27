@@ -28,6 +28,29 @@ version_gt() {
   [ "$1" != "$2" ] && [ "$(printf '%s\n' "$1" "$2" | sort -V | tail -n 1)" = "$1" ]
 }
 
+# verify_gpg_signature <file> <signature file> <armored public key> <primary key fingerprint>
+# succeeds only if the signature was made by the key with that primary fingerprint
+verify_gpg_signature() {
+  local file=$1
+  local signature=$2
+  local public_key=$3
+  local fingerprint=$4
+
+  if ! command -v gpg &>/dev/null || ! command -v gpgv &>/dev/null; then
+    echo "gpg and gpgv are required to verify signatures"
+    return 1
+  fi
+
+  local gpg_dir
+  gpg_dir=$(mktemp -d)
+  gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" <<<"$public_key" &&
+    gpgv --homedir "$gpg_dir" --status-fd 1 --keyring "${gpg_dir}/key.gpg" "$signature" "$file" 2>/dev/null |
+    awk -v fpr="$fingerprint" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
+  local result=$?
+  rm -rf "$gpg_dir"
+  return $result
+}
+
 gh_latest_version() {
   url="https://api.github.com/repos/cli/cli/releases/latest"
   if [ -z "$GITHUB_TOKEN" ]; then
