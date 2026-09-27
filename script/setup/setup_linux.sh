@@ -87,7 +87,6 @@ install_tools:dev() {
   run_apt_install gnupg
   install_tools:gh
   install_bazelisk
-  ln -sf "$DOTFILE_DIR/dot/bin/bazelisk" "$DOTFILE_DIR/dot/bin/bazel"
   install_tools:node
   install_tools:python
   install_tools:bun

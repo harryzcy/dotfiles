@@ -98,6 +98,7 @@ install_bazelisk() {
 
   mkdir -p "$DOTFILE_DIR/dot/bin"
   install -m 755 "${tmp_dir}/bazelisk" "$DOTFILE_DIR/dot/bin/bazelisk"
+  ln -sf "$DOTFILE_DIR/dot/bin/bazelisk" "$DOTFILE_DIR/dot/bin/bazel"
   rm -rf "${tmp_dir}"
   echo "bazelisk installed to $DOTFILE_DIR/dot/bin/bazelisk"
 }
