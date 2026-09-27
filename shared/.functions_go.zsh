@@ -7,15 +7,13 @@ verify_go_signature() {
   local file=$1
   local signature_url=$2
 
-  local gpg_dir
-  gpg_dir=$(mktemp -d)
-  curl -fsSL "https://dl.google.com/linux/linux_signing_key.pub" -o "${gpg_dir}/key.asc" &&
-    curl -fsSL "$signature_url" -o "${gpg_dir}/go.asc" &&
-    gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" "${gpg_dir}/key.asc" &&
-    gpgv --homedir "$gpg_dir" --status-fd 1 --keyring "${gpg_dir}/key.gpg" "${gpg_dir}/go.asc" "$file" 2>/dev/null |
-    awk -v fpr="$GOOGLE_LINUX_SIGNING_KEY_FINGERPRINT" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }'
+  local public_key signature
+  signature=$(mktemp)
+  public_key=$(curl -fsSL "https://dl.google.com/linux/linux_signing_key.pub") &&
+    curl -fsSL "$signature_url" -o "$signature" &&
+    verify_gpg_signature "$file" "$signature" "$public_key" "$GOOGLE_LINUX_SIGNING_KEY_FINGERPRINT"
   local result=$?
-  rm -rf "$gpg_dir"
+  rm -f "$signature"
   return $result
 }
 
