@@ -102,7 +102,6 @@ upgrade_awscli() {
     fi
 
     unzip -q "$tmp_dir/awscliv2.zip" -d "$tmp_dir"
-    # the signature doesn't cover the file name, so check the version inside the archive
     archive_version=$("$tmp_dir/aws/dist/aws" --version 2>&1 | awk '{print $1}' | cut -d/ -f2)
     if [ "$archive_version" != "$latest_version" ]; then
       echo "Archive contains awscli ${archive_version:-unknown}, expected $latest_version"
