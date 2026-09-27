@@ -107,6 +107,47 @@ install_gh() {
   echo "gh ${version} installed to $DOTFILE_DIR/dot/bin/gh"
 }
 
+golangci_lint_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/golangci/golangci-lint/releases/latest | sed 's|.*/tag/v||'
+}
+
+# install_golangci_lint <version> <bin dir>
+install_golangci_lint() {
+  version=$1
+  bin_dir=$2
+  if [ -z "$version" ] || [ -z "$bin_dir" ]; then
+    echo "Usage: install_golangci_lint <version> <bin dir>"
+    return 1
+  fi
+
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+  name="golangci-lint-${version}-${os}-${arch}"
+  base_url="https://github.com/golangci/golangci-lint/releases/download/v${version}"
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading ${base_url}/${name}.tar.gz"
+  if ! (cd "${tmp_dir}" &&
+    curl -fsSL -O "${base_url}/${name}.tar.gz" -O "${base_url}/golangci-lint-${version}-checksums.txt"); then
+    echo "Failed to download ${name}.tar.gz"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  # the checksum file names each archive with its version, so this also checks the version
+  expected_sha256=$(awk -v name="${name}.tar.gz" '$2 == name { print $1 }' "${tmp_dir}/golangci-lint-${version}-checksums.txt")
+  if [ -z "$expected_sha256" ] || [[ "$(file_sha256 "${tmp_dir}/${name}.tar.gz")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${name}.tar.gz"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  tar -xzf "${tmp_dir}/${name}.tar.gz" -C "${tmp_dir}"
+  mkdir -p "$bin_dir"
+  install -m 755 "${tmp_dir}/${name}/golangci-lint" "${bin_dir}/golangci-lint"
+  rm -rf "${tmp_dir}"
+  echo "golangci-lint ${version} installed to ${bin_dir}/golangci-lint"
+}
+
 install_bazelisk() {
   if [[ "$(detect_os)" != "linux" ]]; then
     echo "install_bazelisk only supports linux"
