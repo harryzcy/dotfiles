@@ -114,11 +114,17 @@ install_zig() {
   fi
 
   curl -sL "${tarball_url}.minisig" -o "${filepath}.minisig"
-  minisign -Vm "${filepath}" -P "$ZIG_MINISIGN_PUBLIC_KEY" -x "${filepath}.minisig"
+  trusted_comment=$(minisign -Vm "${filepath}" -P "$ZIG_MINISIGN_PUBLIC_KEY" -x "${filepath}.minisig" -Q)
   success=$?
   if [ $success -ne 0 ]; then
     echo "Signature verification failed for $tarball_name"
-    rm "$DOWNLOAD_DIR/${tarball_name}"
+    rm "${filepath}" "${filepath}.minisig"
+    return 1
+  fi
+  # verify the trusted comment names the requested filename
+  if ! tr -s '[:space:]' '\n' <<<"$trusted_comment" | grep -qxF "file:${tarball_name}"; then
+    echo "Signature is for a different file than $tarball_name: $trusted_comment"
+    rm "${filepath}" "${filepath}.minisig"
     return 1
   fi
   rm "${filepath}.minisig"
