@@ -71,6 +71,37 @@ install_gh() {
   echo "gh ${version} installed to $DOTFILE_DIR/dot/bin/gh"
 }
 
+install_bazelisk() {
+  if [[ "$(detect_os)" != "linux" ]]; then
+    echo "install_bazelisk only supports linux"
+    return 1
+  fi
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+
+  tmp_dir=$(mktemp -d)
+  binary_name="bazelisk-linux-${arch}"
+  url="https://github.com/bazelbuild/bazelisk/releases/latest/download/${binary_name}"
+
+  echo "Downloading ${url}"
+  if ! curl -fsSL "$url" -o "${tmp_dir}/bazelisk" ||
+    ! expected_sha256=$(curl -fsSL "${url}.sha256"); then
+    echo "Failed to download ${binary_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  actual_sha256=$(sha256sum "${tmp_dir}/bazelisk" | awk '{print $1}')
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$actual_sha256" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${binary_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/bazelisk" "$DOTFILE_DIR/dot/bin/bazelisk"
+  rm -rf "${tmp_dir}"
+  echo "bazelisk installed to $DOTFILE_DIR/dot/bin/bazelisk"
+}
+
 install_zig() {
   version=$1
   if [ -z "$version" ]; then

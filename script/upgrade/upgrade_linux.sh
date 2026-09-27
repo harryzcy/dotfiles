@@ -96,9 +96,7 @@ upgrade_awscli() {
 
 upgrade_bazelisk() {
   echo "upgrading bazelisk"
-  latest_version=$(curl -s https://api.github.com/repos/bazelbuild/bazelisk/releases/latest | jq -r .tag_name)
-  curl -L "https://github.com/bazelbuild/bazelisk/releases/download/$latest_version/bazelisk-linux-amd64" -o "$DOTFILE_DIR/dot/bin/bazelisk"
-  chmod +x "$DOTFILE_DIR/dot/bin/bazelisk"
+  install_bazelisk
 }
 
 upgrade_gh() {

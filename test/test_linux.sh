@@ -11,6 +11,7 @@ check_tools() {
     check_command asdf
     check_command gh
     check_command minisign
+    check_command bazelisk
     check_command gpg
   fi
 }
