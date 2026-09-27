@@ -53,15 +53,6 @@ install_go() {
     return 1
   fi
 
-  if command -v sha256sum &>/dev/null; then
-    sha256_cmd=(sha256sum)
-  elif command -v shasum &>/dev/null; then
-    sha256_cmd=(shasum -a 256)
-  else
-    echo "sha256sum or shasum is required to verify the download"
-    return 1
-  fi
-
   if ! command -v gpg &>/dev/null || ! command -v gpgv &>/dev/null; then
     echo "gpg and gpgv are required to verify the download"
     return 1
@@ -88,8 +79,7 @@ install_go() {
     return 1
   fi
 
-  actual_sha256=$("${sha256_cmd[@]}" "$file" | awk '{print $1}')
-  if [[ "$actual_sha256" != "$expected_sha256" ]]; then
+  if [[ "$(file_sha256 "$file")" != "$expected_sha256" ]]; then
     echo "Checksum verification failed for $tarball_name"
     rm "$file"
     return 1
