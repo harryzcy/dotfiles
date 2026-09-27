@@ -26,5 +26,9 @@ upgrade_bun() {
     echo "bun is not installed, skipping upgrade"
     return
   fi
-  bun upgrade
+  current_version=$(bun --version 2>/dev/null)
+  latest_version=$(bun_latest_version)
+  if version_gt "$latest_version" "$current_version"; then
+    install_bun "$latest_version"
+  fi
 }

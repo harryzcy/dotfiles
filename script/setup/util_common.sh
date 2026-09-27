@@ -73,7 +73,7 @@ install_tools:bun() {
     echo "bun is already installed"
   else
     echo "installing bun"
-    curl -fsSL https://bun.sh/install | bash
+    install_bun "$(bun_latest_version)"
   fi
 }
 
