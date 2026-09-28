@@ -203,6 +203,68 @@ install_bazelisk() {
   echo "bazelisk installed to $DOTFILE_DIR/dot/bin/bazelisk"
 }
 
+cosign_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/sigstore/cosign/releases/latest | sed 's|.*/tag/v||'
+}
+
+install_cosign() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_cosign <version>"
+    return 1
+  fi
+
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+  binary_name="cosign-${os}-${arch}"
+  base_url="https://github.com/sigstore/cosign/releases/download/v${version}"
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading ${base_url}/${binary_name}"
+  if ! (cd "${tmp_dir}" &&
+    curl -fsSL -O "${base_url}/${binary_name}" &&
+    curl -fsSL -O "${base_url}/${binary_name}.sigstore.json" &&
+    curl -fsSL -O "${base_url}/cosign_checksums.txt"); then
+    echo "Failed to download ${binary_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  expected_sha256=$(awk -v name="$binary_name" '$2 == name { print $1 }' "${tmp_dir}/cosign_checksums.txt")
+  if [ -z "$expected_sha256" ] || [[ "$(file_sha256 "${tmp_dir}/${binary_name}")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${binary_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  # a first install has nothing to check the signature with, but an upgrade can use the installed cosign
+  if command -v cosign &>/dev/null; then
+    if ! cosign verify-blob --bundle "${tmp_dir}/${binary_name}.sigstore.json" \
+      --certificate-identity=keyless@projectsigstore.iam.gserviceaccount.com \
+      --certificate-oidc-issuer=https://accounts.google.com \
+      "${tmp_dir}/${binary_name}" &>/dev/null; then
+      echo "Signature verification failed for ${binary_name}"
+      rm -rf "${tmp_dir}"
+      return 1
+    fi
+  else
+    echo "Skipping signature verification because cosign is not installed yet"
+  fi
+
+  chmod +x "${tmp_dir}/${binary_name}"
+  # the checksum file doesn't name the version, so check the version inside the binary
+  binary_version=$("${tmp_dir}/${binary_name}" version 2>&1 | awk '$1 == "GitVersion:" { print $2 }')
+  if [ "$binary_version" != "v${version}" ]; then
+    echo "Binary is cosign ${binary_version:-unknown}, expected v${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/${binary_name}" "$DOTFILE_DIR/dot/bin/cosign"
+  rm -rf "${tmp_dir}"
+  echo "cosign ${version} installed to $DOTFILE_DIR/dot/bin/cosign"
+}
+
 install_krew() {
   os=$(uname | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')
