@@ -64,6 +64,30 @@ verify_gpg_signature() {
   return $result
 }
 
+# verify_gpg_clearsigned <signed file> <armored public key> <primary key fingerprint>
+# prints only the signed content, and succeeds only if the key with that primary fingerprint signed it
+verify_gpg_clearsigned() {
+  local signed_file=$1
+  local public_key=$2
+  local fingerprint=$3
+
+  if ! command -v gpg &>/dev/null || ! command -v gpgv &>/dev/null; then
+    echo "gpg and gpgv are required to verify signatures" >&2
+    return 1
+  fi
+
+  local gpg_dir result=1
+  gpg_dir=$(mktemp -d)
+  if gpg --homedir "$gpg_dir" --dearmor --output "${gpg_dir}/key.gpg" <<<"$public_key" &&
+    gpgv --homedir "$gpg_dir" --status-fd 3 --keyring "${gpg_dir}/key.gpg" --output "${gpg_dir}/content" "$signed_file" 3>"${gpg_dir}/status" 2>/dev/null &&
+    awk -v fpr="$fingerprint" '$2 == "VALIDSIG" && $NF == fpr { found = 1 } END { exit !found }' "${gpg_dir}/status"; then
+    cat "${gpg_dir}/content"
+    result=0
+  fi
+  rm -rf "$gpg_dir"
+  return $result
+}
+
 gh_latest_version() {
   url="https://api.github.com/repos/cli/cli/releases/latest"
   if [ -z "$GITHUB_TOKEN" ]; then
@@ -345,4 +369,76 @@ install_zig() {
   tar -C "/usr/local/zig" -xf "${filepath}" --strip-components=1
   rm "${filepath}"
   echo "Zig ${version} installed to /usr/local/zig"
+}
+
+bun_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/oven-sh/bun/releases/latest | sed 's|.*/tag/bun-v||'
+}
+
+install_bun() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_bun <version>"
+    return 1
+  fi
+
+  case "$(uname -s)-$(uname -m)" in
+  Linux-x86_64) target="linux-x64" ;;
+  Linux-aarch64 | Linux-arm64) target="linux-aarch64" ;;
+  Darwin-x86_64) target="darwin-x64" ;;
+  Darwin-arm64) target="darwin-aarch64" ;;
+  *)
+    echo "Unsupported platform: $(uname -s) $(uname -m)"
+    return 1
+    ;;
+  esac
+  # same build selection as https://bun.sh/install
+  if [[ "$target" == "darwin-x64" && "$(sysctl -n sysctl.proc_translated 2>/dev/null)" == "1" ]]; then
+    target="darwin-aarch64" # running under Rosetta
+  elif [[ "$target" == "darwin-x64" ]] && ! sysctl -a | grep machdep.cpu | grep -q AVX2; then
+    target="darwin-x64-baseline"
+  elif [[ "$target" == "linux-x64" ]] && ! grep -q avx2 /proc/cpuinfo; then
+    target="linux-x64-baseline"
+  fi
+
+  tmp_dir=$(mktemp -d)
+  zip_name="bun-${target}.zip"
+  base_url="https://github.com/oven-sh/bun/releases/download/bun-v${version}"
+
+  echo "Downloading ${base_url}/${zip_name}"
+  if ! curl -fsSL "${base_url}/${zip_name}" -o "${tmp_dir}/${zip_name}" ||
+    ! curl -fsSL "${base_url}/SHASUMS256.txt.asc" -o "${tmp_dir}/SHASUMS256.txt.asc"; then
+    echo "Failed to download ${zip_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  if ! checksums=$(verify_gpg_clearsigned "${tmp_dir}/SHASUMS256.txt.asc" "$BUN_PUBLIC_KEY" "$BUN_KEY_FINGERPRINT"); then
+    echo "Signature verification failed for SHASUMS256.txt.asc"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  expected_sha256=$(awk -v name="$zip_name" '$2 == name { print $1 }' <<<"$checksums")
+  if [ -z "$expected_sha256" ] || [[ "$(file_sha256 "${tmp_dir}/${zip_name}")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${zip_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  unzip -q "${tmp_dir}/${zip_name}" -d "${tmp_dir}"
+  # the signed checksums don't name the version, so check the version inside the archive
+  archive_version=$("${tmp_dir}/bun-${target}/bun" --version 2>/dev/null)
+  if [ "$archive_version" != "$version" ]; then
+    echo "Archive contains bun ${archive_version:-unknown}, expected ${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  bun_dir="${BUN_INSTALL:-$HOME/.bun}"
+  mkdir -p "${bun_dir}/bin"
+  install -m 755 "${tmp_dir}/bun-${target}/bun" "${bun_dir}/bin/bun"
+  ln -sf bun "${bun_dir}/bin/bunx"
+  rm -rf "${tmp_dir}"
+  # zsh completions, sourced from dev/.environments.zsh
+  SHELL=zsh IS_BUN_AUTO_UPDATE=true "${bun_dir}/bin/bun" completions &>/dev/null || true
+  echo "bun ${version} installed to ${bun_dir}/bin/bun"
 }

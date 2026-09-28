@@ -44,3 +44,22 @@ c0HWlNQrns2s3CTyYwZSiSlYe9ApeLwhjDo8NhbFuCAy61l6O5UsR4AfZxx/rGKv
 E91G7bb0hOb/cA==
 =knv7
 -----END PGP PUBLIC KEY BLOCK-----"
+
+# bun releases, from https://keys.openpgp.org; the fingerprint is pinned in bun's official Dockerfiles,
+# e.g. https://github.com/oven-sh/bun/blob/main/dockerhub/debian/Dockerfile
+BUN_KEY_FINGERPRINT="F3DCC08A8572C0749B3E18888EAB4D40A7B22B59"
+BUN_PUBLIC_KEY="-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: F3DC C08A 8572 C074 9B3E  1888 8EAB 4D40 A7B2 2B59
+Comment: Robobun <robobun@oven.sh>
+
+xjMEY9GQFhYJKwYBBAHaRw8BAQdAkppAqaXl0RkROz6NfdvlwYd2UuUVfHLk2NNY
+IzEdnT/NGVJvYm9idW4gPHJvYm9idW5Ab3Zlbi5zaD7CkwQTFgoAOxYhBPPcwIqF
+csB0mz4YiI6rTUCnsitZBQJj0ZAWAhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4H
+AheAAAoJEI6rTUCnsitZ96UBAMvwCLD6Ud1RZkpvvnGUU+idHt2hcNmYU2d0XxDI
+HQ0rAQCA9VFOtjZefQkfhDzgIgnEEdSFXaMiyY+D+LP8awNMCs44BGPRkBYSCisG
+AQQBl1UBBQEBB0BpfePYSOEx8PihYkNXjlK5YT89CGHjEK5etleaB9i6OwMBCAfC
+eAQYFgoAIBYhBPPcwIqFcsB0mz4YiI6rTUCnsitZBQJj0ZAWAhsMAAoJEI6rTUCn
+sitZvhAA/j4SQxOCLheRG86A2181WAP4qLS1qxSw+fCf28DgiPfbAQCL0kcel+M9
+qbRIlMnwn6TwlQgN9w1qqlSnA9CbKXT9Aw==
+=zRMz
+-----END PGP PUBLIC KEY BLOCK-----"
