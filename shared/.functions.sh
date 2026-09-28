@@ -215,6 +215,71 @@ install_krew() {
   return $result
 }
 
+uv_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/astral-sh/uv/releases/latest | sed 's|.*/tag/||'
+}
+
+install_uv() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_uv <version>"
+    return 1
+  fi
+
+  case "$(uname -s)-$(uname -m)" in
+  Linux-x86_64) target="x86_64-unknown-linux-gnu" ;;
+  Linux-aarch64 | Linux-arm64) target="aarch64-unknown-linux-gnu" ;;
+  Darwin-x86_64) target="x86_64-apple-darwin" ;;
+  Darwin-arm64) target="aarch64-apple-darwin" ;;
+  *)
+    echo "Unsupported platform: $(uname -s) $(uname -m)"
+    return 1
+    ;;
+  esac
+
+  tmp_dir=$(mktemp -d)
+  archive_name="uv-${target}.tar.gz"
+  url="https://github.com/astral-sh/uv/releases/download/${version}/${archive_name}"
+
+  echo "Downloading ${url}"
+  if ! curl -fsSL "$url" -o "${tmp_dir}/${archive_name}" ||
+    ! expected_sha256=$(curl -fsSL "${url}.sha256" | awk '{print $1}'); then
+    echo "Failed to download ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$(file_sha256 "${tmp_dir}/${archive_name}")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  # gh attestation verify needs a login even for public repos: https://github.com/cli/cli/issues/11803
+  if command -v gh &>/dev/null && gh auth status &>/dev/null; then
+    if ! gh attestation verify "${tmp_dir}/${archive_name}" --repo astral-sh/uv >/dev/null; then
+      echo "Attestation verification failed for ${archive_name}"
+      rm -rf "${tmp_dir}"
+      return 1
+    fi
+  else
+    echo "Skipping attestation verification because gh is not logged in"
+  fi
+
+  tar -xzf "${tmp_dir}/${archive_name}" -C "${tmp_dir}"
+  # the checksum file doesn't name the version, so check the version inside the archive
+  archive_version=$("${tmp_dir}/uv-${target}/uv" --version 2>/dev/null | awk '{print $2}')
+  if [ "$archive_version" != "$version" ]; then
+    echo "Archive contains uv ${archive_version:-unknown}, expected ${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$HOME/.local/bin"
+  install -m 755 "${tmp_dir}/uv-${target}/uv" "${tmp_dir}/uv-${target}/uvx" "$HOME/.local/bin/"
+  rm -rf "${tmp_dir}"
+  echo "uv ${version} installed to $HOME/.local/bin/uv"
+}
+
 install_zig() {
   version=$1
   if [ -z "$version" ]; then
