@@ -70,6 +70,8 @@ install_tools:gh() {
 }
 
 install_tools:dev() {
+  # later steps use tools installed to dot/bin, e.g. the opentofu plugin looks for cosign
+  export PATH="$DOTFILE_DIR/dot/bin:$PATH"
   install_krew
   run_apt_install cloc
   run_apt_install jq
@@ -77,6 +79,7 @@ install_tools:dev() {
   run_apt_install gnupg
   install_tools:gh
   install_bazelisk
+  install_cosign "$(cosign_latest_version)"
   install_tools:node
   install_tools:python
   install_tools:bun

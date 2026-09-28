@@ -70,6 +70,15 @@ upgrade_terraform() {
   fi
 }
 
+upgrade_cosign() {
+  current_version=$(cosign version 2>&1 | awk '$1 == "GitVersion:" { print $2 }' | sed 's/^v//')
+  latest_version=$(cosign_latest_version)
+  if version_gt "$latest_version" "$current_version"; then
+    echo "upgrading cosign"
+    install_cosign "$latest_version"
+  fi
+}
+
 upgrade_opentofu() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
@@ -172,5 +181,6 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_node
   upgrade_python
   upgrade_terraform
+  upgrade_cosign
   upgrade_opentofu
 fi
