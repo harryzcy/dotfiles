@@ -12,6 +12,24 @@ create_symlink() {
   fi
 }
 
+# install_ohmyzsh clones oh-my-zsh the same way its install.sh does,
+# without replacing .zshrc, changing the login shell or starting a new shell
+install_ohmyzsh() {
+  (
+    # keep files out of group and other write, like install.sh, so compinit doesn't warn
+    umask g-w,o-w
+    git clone --quiet --depth=1 --branch master \
+      -c core.eol=lf \
+      -c core.autocrlf=false \
+      -c fsck.zeroPaddedFilemode=ignore \
+      -c fetch.fsck.zeroPaddedFilemode=ignore \
+      -c receive.fsck.zeroPaddedFilemode=ignore \
+      -c oh-my-zsh.remote=origin \
+      -c oh-my-zsh.branch=master \
+      https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+  )
+}
+
 configure_zsh() {
   src_dir=$1
 
@@ -24,7 +42,7 @@ configure_zsh() {
   # install oh-my-zsh
   if [[ ! -d $HOME/.oh-my-zsh ]]; then
     echo "installing oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    install_ohmyzsh
   fi
 
   # init zshrc
