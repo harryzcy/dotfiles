@@ -37,7 +37,12 @@ upgrade_node() {
 }
 
 upgrade_python() {
-  uv self update
+  uv_current=$(uv --version 2>/dev/null | awk '{print $2}')
+  uv_latest=$(uv_latest_version)
+  if version_gt "$uv_latest" "$uv_current"; then
+    echo "upgrading uv"
+    install_uv "$uv_latest"
+  fi
   python_path=$(uv python list --only-installed --managed-python | head -n 1 | awk '{print $2}')
   current_version=$("$python_path" --version | awk '{print $2}')
   latest_version=$(curl -s https://endoflife.date/api/python.json | jq -r '.[0].latest')

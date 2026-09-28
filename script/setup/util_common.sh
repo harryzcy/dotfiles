@@ -79,7 +79,7 @@ install_tools:bun() {
 
 install_tools:uv() {
   if ! command -v uv &>/dev/null; then
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+    install_uv "$(uv_latest_version)" || return 1
     export PATH="$HOME/.local/bin:$PATH"
     uv python install
   fi
