@@ -145,8 +145,12 @@ upgrade_go() {
     install_go "$latest_version"
   fi
 
-  echo "upgrading golangci-lint"
-  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin
+  lint_current=$(golangci-lint version --short 2>/dev/null)
+  lint_latest=$(golangci_lint_latest_version)
+  if version_gt "$lint_latest" "$lint_current"; then
+    echo "upgrading golangci-lint"
+    install_golangci_lint "$lint_latest" "$(go env GOPATH)/bin"
+  fi
 }
 
 upgrade_rust() {
