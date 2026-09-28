@@ -12,11 +12,10 @@ create_symlink() {
   fi
 }
 
-# install_ohmyzsh clones oh-my-zsh the same way its install.sh does,
-# without replacing .zshrc, changing the login shell or starting a new shell
+# clone oh-my-zsh like its install.sh, without the rest of the setup
 install_ohmyzsh() {
   (
-    # keep files out of group and other write, like install.sh, so compinit doesn't warn
+    # no group or other write, so compinit doesn't warn
     umask g-w,o-w
     git clone --quiet --depth=1 --branch master \
       -c core.eol=lf \
