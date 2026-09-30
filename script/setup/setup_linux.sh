@@ -19,14 +19,11 @@ install_tools() {
   echo "installing tools"
   run_apt_install git
   run_apt_install zsh
-
-  install_homebrew
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 }
 
 install_tools:asdf() {
-  if [[ ! -d "$HOME/.asdf" ]]; then
-    brew install asdf
+  if ! command -v asdf &>/dev/null; then
+    install_asdf "$(asdf_latest_version)"
   fi
 }
 

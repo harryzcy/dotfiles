@@ -203,6 +203,56 @@ install_bazelisk() {
   echo "bazelisk installed to $DOTFILE_DIR/dot/bin/bazelisk"
 }
 
+asdf_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/asdf-vm/asdf/releases/latest | sed 's|.*/tag/v||'
+}
+
+install_asdf() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_asdf <version>"
+    return 1
+  fi
+
+  if [[ "$(detect_os)" != "linux" ]]; then
+    echo "install_asdf only supports linux"
+    return 1
+  fi
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+
+  tmp_dir=$(mktemp -d)
+  archive_name="asdf-v${version}-linux-${arch}.tar.gz"
+  url="https://github.com/asdf-vm/asdf/releases/download/v${version}/${archive_name}"
+
+  echo "Downloading ${url}"
+  if ! curl -fsSL "$url" -o "${tmp_dir}/${archive_name}" ||
+    ! expected_md5=$(curl -fsSL "${url}.md5"); then
+    echo "Failed to download ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  # asdf publishes only md5 checksums
+  if [[ ! "$expected_md5" =~ ^[0-9a-f]{32}$ ]] || [[ "$(md5sum "${tmp_dir}/${archive_name}" | awk '{print $1}')" != "$expected_md5" ]]; then
+    echo "Checksum verification failed for ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  tar -xzf "${tmp_dir}/${archive_name}" -C "${tmp_dir}"
+  # the checksum file doesn't name the version, so check the version inside the binary
+  binary_version=$("${tmp_dir}/asdf" version 2>/dev/null | awk '{print $1}')
+  if [ "$binary_version" != "v${version}" ]; then
+    echo "Binary is asdf ${binary_version:-unknown}, expected v${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/asdf" "$DOTFILE_DIR/dot/bin/asdf"
+  rm -rf "${tmp_dir}"
+  echo "asdf ${version} installed to $DOTFILE_DIR/dot/bin/asdf"
+}
+
 cosign_latest_version() {
   curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/sigstore/cosign/releases/latest | sed 's|.*/tag/v||'
 }
