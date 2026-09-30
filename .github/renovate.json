@@ -1,5 +1,22 @@
 {
   "extends": [
     "github>harryzcy/renovate-config"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Homebrew install script pinned to a commit",
+      "managerFilePatterns": [
+        "/^install$/",
+        "/^script/setup/util_common\\.sh$/"
+      ],
+      "matchStrings": [
+        "https://raw\\.githubusercontent\\.com/Homebrew/install/(?<currentDigest>[0-9a-f]{40})/install\\.sh"
+      ],
+      "depNameTemplate": "Homebrew/install",
+      "packageNameTemplate": "https://github.com/Homebrew/install",
+      "currentValueTemplate": "master",
+      "datasourceTemplate": "git-refs"
+    }
   ]
 }
