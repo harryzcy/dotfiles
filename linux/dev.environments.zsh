@@ -15,7 +15,6 @@ path=(
 	$HOME/.local/bin                         # uv
 	$HOME/.krew/bin                          # kubectl krew
 	$ASDF_DATA_DIR/shims                     # asdf
-	/home/linuxbrew/.linuxbrew/bin           # HomeBrew
 	/usr/local/texlive/2023/bin/x86_64-linux # TeXLive
 	/usr/local/zig                           # Zig
 	$DOTFILE_DIR/dot/bin                     # dot

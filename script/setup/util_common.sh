@@ -77,13 +77,6 @@ configure_git() {
   fi
 }
 
-install_homebrew() {
-  if ! command -v brew &>/dev/null; then
-    echo "installing homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  fi
-}
-
 install_tools:bun() {
   BUN_INSTALL="$HOME/.bun"
   if [ -d "$BUN_INSTALL" ]; then
