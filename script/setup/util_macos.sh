@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+install_homebrew() {
+  if ! command -v brew &>/dev/null; then
+    echo "installing homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+}
+
 run_brew_install() {
   package_name=$1
 
