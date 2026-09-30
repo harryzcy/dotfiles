@@ -550,7 +550,7 @@ install_bun() {
   install -m 755 "${tmp_dir}/bun-${target}/bun" "${bun_dir}/bin/bun"
   ln -sf bun "${bun_dir}/bin/bunx"
   rm -rf "${tmp_dir}"
-  # zsh completions, sourced from dev/.environments.zsh
-  SHELL=zsh IS_BUN_AUTO_UPDATE=true "${bun_dir}/bin/bun" completions &>/dev/null || true
+  # zsh completions, sourced from dev/.environments.zsh; writing them to a file keeps bun from editing .zshrc
+  SHELL=zsh "${bun_dir}/bin/bun" completions >"${bun_dir}/_bun" 2>/dev/null || true
   echo "bun ${version} installed to ${bun_dir}/bin/bun"
 }
