@@ -18,5 +18,17 @@
       "currentValueTemplate": "main",
       "datasourceTemplate": "git-refs"
     }
+  ],
+  "packageRules": [
+    {
+      "description": "Homebrew/install moves several times a week, so bump it monthly",
+      "matchDepNames": [
+        "Homebrew/install"
+      ],
+      "schedule": [
+        "* * 1 * *"
+      ],
+      "updateNotScheduled": false
+    }
   ]
 }
