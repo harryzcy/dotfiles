@@ -15,7 +15,7 @@
       ],
       "depNameTemplate": "Homebrew/install",
       "packageNameTemplate": "https://github.com/Homebrew/install",
-      "currentValueTemplate": "master",
+      "currentValueTemplate": "main",
       "datasourceTemplate": "git-refs"
     }
   ]
