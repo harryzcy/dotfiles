@@ -77,14 +77,6 @@ configure_git() {
   fi
 }
 
-install_homebrew() {
-  if ! command -v brew &>/dev/null; then
-    echo "installing homebrew"
-    # pinned to a Homebrew/install commit, which Renovate updates
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/0a396a4ee5b538f409de666af904fa0570b53949/install.sh)"
-  fi
-}
-
 install_tools:bun() {
   BUN_INSTALL="$HOME/.bun"
   if [ -d "$BUN_INSTALL" ]; then

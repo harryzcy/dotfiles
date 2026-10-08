@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+install_homebrew() {
+  if ! command -v brew &>/dev/null; then
+    echo "installing homebrew"
+    # pinned to a Homebrew/install commit, which Renovate updates
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/0a396a4ee5b538f409de666af904fa0570b53949/install.sh)"
+  fi
+}
+
 run_brew_install() {
   package_name=$1
 

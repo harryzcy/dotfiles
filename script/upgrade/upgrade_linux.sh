@@ -14,6 +14,16 @@ upgrade_apt() {
   sudo DEBIAN_FRONTEND=noninteractive apt-get -yq upgrade
 }
 
+upgrade_asdf() {
+  # check the managed binary directly, a Homebrew-installed asdf may shadow it on PATH
+  current_version=$("$DOTFILE_DIR/dot/bin/asdf" version 2>/dev/null | awk '{print $1}' | sed 's/^v//')
+  latest_version=$(asdf_latest_version)
+  if version_gt "$latest_version" "$current_version"; then
+    echo "upgrading asdf"
+    install_asdf "$latest_version"
+  fi
+}
+
 upgrade_node() {
   source $DOTFILE_DIR/dev/.environments.zsh
 
@@ -67,6 +77,15 @@ upgrade_terraform() {
     asdf install terraform latest
     asdf set --home terraform latest
     asdf uninstall terraform "$tf_current"
+  fi
+}
+
+upgrade_cosign() {
+  current_version=$(cosign version 2>&1 | awk '$1 == "GitVersion:" { print $2 }' | sed 's/^v//')
+  latest_version=$(cosign_latest_version)
+  if version_gt "$latest_version" "$current_version"; then
+    echo "upgrading cosign"
+    install_cosign "$latest_version"
   fi
 }
 
@@ -169,8 +188,10 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_krex
   upgrade_bazelisk
   upgrade_rust
+  upgrade_asdf
   upgrade_node
   upgrade_python
   upgrade_terraform
+  upgrade_cosign
   upgrade_opentofu
 fi
