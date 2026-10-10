@@ -46,9 +46,6 @@ end
 
 -- seconds to wait for a Space transition before giving up
 local spaceTransitionTimeout = 3
--- seconds to let a moved window settle before re-entering fullscreen; asking
--- right after the move doesn't take
-local refullscreenDelay = 0.5
 
 -- Runs action once predicate holds; gives up silently after the timeout.
 local function waitUntil(predicate, action)
@@ -113,10 +110,8 @@ function moveWindowToScreen(win, screen)
   end, function()
     win:moveToScreen(screen, false, true, 0)
     waitUntil(function()
-      return win:screen():getID() == screen:getID()
-    end, function()
-      hs.timer.doAfter(refullscreenDelay, function() win:setFullScreen(true) end)
-    end)
+      return win:screen():id() == screen:id()
+    end, function() win:setFullScreen(true) end)
   end)
 end
 
