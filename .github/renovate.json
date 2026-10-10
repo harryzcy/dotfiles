@@ -1,5 +1,19 @@
 {
   "extends": [
     "github>harryzcy/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "commitMessagePrefix": "[ci]"
+    },
+    {
+      "matchManagers": [
+        "gomod"
+      ],
+      "commitMessagePrefix": "[dotd]"
+    }
   ]
 }
