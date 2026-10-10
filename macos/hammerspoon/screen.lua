@@ -96,8 +96,14 @@ end
 local function enterFullScreen(win, attempts)
   win:setFullScreen(true)
   hs.timer.doAfter(1, function()
-    if not win:isFullScreen() and attempts > 1 then
+    if win:isFullScreen() then
+      return
+    end
+    if attempts > 1 then
+      hs.console.printStyledtext("fullscreen didn't take, retrying (" .. (attempts - 1) .. " left)")
       enterFullScreen(win, attempts - 1)
+    else
+      hs.console.printStyledtext("fullscreen didn't take, giving up")
     end
   end)
 end
