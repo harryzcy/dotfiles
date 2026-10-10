@@ -3,7 +3,8 @@
 install_homebrew() {
   if ! command -v brew &>/dev/null; then
     echo "installing homebrew"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # pinned to a Homebrew/install commit, which Renovate updates
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/0a396a4ee5b538f409de666af904fa0570b53949/install.sh)"
   fi
 }
 
