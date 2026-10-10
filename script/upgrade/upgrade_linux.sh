@@ -54,12 +54,16 @@ upgrade_python() {
     install_uv "$uv_latest"
   fi
   python_path=$(uv python list --only-installed --managed-python | head -n 1 | awk '{print $2}')
-  current_version=$("$python_path" --version | awk '{print $2}')
   latest_version=$(curl -s https://endoflife.date/api/python.json | jq -r '.[0].latest')
-  if [ "$current_version" != "$latest_version" ]; then
-    echo "upgrading python"
+  if [ -z "$python_path" ]; then
+    echo "installing python"
     uv python install "$latest_version"
-    uv python uninstall "$current_version"
+  else
+    current_version=$("$python_path" --version | awk '{print $2}')
+    if [ "$current_version" != "$latest_version" ]; then
+      echo "upgrading python"
+      uv python install "$latest_version" && uv python uninstall "$current_version"
+    fi
   fi
   uv tool upgrade --all
 }
