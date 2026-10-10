@@ -92,10 +92,12 @@ local function anyStillOnScreen(ids, win, screen)
 end
 
 -- Entering fullscreen right after a move sometimes doesn't take, so check
--- once the animation is over and retry.
+local fullscreenRetryInterval = 0.5
+local fullscreenAttempts = 6
+
 local function enterFullScreen(win, attempts)
   win:setFullScreen(true)
-  hs.timer.doAfter(1, function()
+  hs.timer.doAfter(fullscreenRetryInterval, function()
     if win:isFullScreen() then
       return
     end
@@ -128,7 +130,7 @@ function moveWindowToScreen(win, screen)
     win:moveToScreen(screen, false, true, 0)
     waitUntil(function()
       return win:screen():id() == screen:id()
-    end, function() enterFullScreen(win, 3) end)
+    end, function() enterFullScreen(win, fullscreenAttempts) end)
   end)
 end
 
