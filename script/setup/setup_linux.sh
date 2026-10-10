@@ -38,7 +38,7 @@ install_tools:node() {
 install_tools:python() {
   install_tools:uv
   uv tool install ansible-lint
-  uv tool install ansible
+  uv tool install ansible --with-executables-from ansible-core
   uv tool install httpie
   uv tool install hashin
   uv tool install pip-tools
