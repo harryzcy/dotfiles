@@ -91,6 +91,25 @@ local function anyStillOnScreen(ids, win, screen)
   return false
 end
 
+-- Entering fullscreen right after a move sometimes doesn't take, so check
+local fullscreenRetryInterval = 0.5
+local fullscreenAttempts = 6
+
+local function enterFullScreen(win, attempts)
+  win:setFullScreen(true)
+  hs.timer.doAfter(fullscreenRetryInterval, function()
+    if win:isFullScreen() then
+      return
+    end
+    if attempts > 1 then
+      hs.console.printStyledtext("fullscreen didn't take, retrying (" .. (attempts - 1) .. " left)")
+      enterFullScreen(win, attempts - 1)
+    else
+      hs.console.printStyledtext("fullscreen didn't take, giving up")
+    end
+  end)
+end
+
 function moveWindowToScreen(win, screen)
   if not win:isFullScreen() then
     win:moveToScreen(screen, false, true)
@@ -111,7 +130,7 @@ function moveWindowToScreen(win, screen)
     win:moveToScreen(screen, false, true, 0)
     waitUntil(function()
       return win:screen():id() == screen:id()
-    end, function() win:setFullScreen(true) end)
+    end, function() enterFullScreen(win, fullscreenAttempts) end)
   end)
 end
 
