@@ -29,3 +29,5 @@
 - `dot tm`: time machine utilities for macOS
 - `dot update`: update dotfiles from Git
 - `dot upgrade`: upgrade installed packages
+
+`clean`, `clone`, `pull`, `update` and `upgrade` also append their output to `~/.dot/dot.log`.
