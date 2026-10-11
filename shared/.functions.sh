@@ -375,6 +375,56 @@ install_kubectl() {
   echo "kubectl ${version} installed to $DOTFILE_DIR/dot/bin/kubectl"
 }
 
+helm_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/helm/helm/releases/latest | sed 's|.*/tag/v||'
+}
+
+install_helm() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_helm <version>"
+    return 1
+  fi
+
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+  archive_name="helm-v${version}-${os}-${arch}.tar.gz"
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading https://get.helm.sh/${archive_name}"
+  if ! curl -fsSL "https://get.helm.sh/${archive_name}" -o "${tmp_dir}/${archive_name}" ||
+    ! curl -fsSL "https://github.com/helm/helm/releases/download/v${version}/${archive_name}.asc" -o "${tmp_dir}/${archive_name}.asc"; then
+    echo "Failed to download ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  local verified=false fingerprint
+  for fingerprint in "${HELM_KEY_FINGERPRINTS[@]}"; do
+    if verify_gpg_signature "${tmp_dir}/${archive_name}" "${tmp_dir}/${archive_name}.asc" "$HELM_PUBLIC_KEYS" "$fingerprint"; then
+      verified=true
+      break
+    fi
+  done
+  if [ "$verified" != true ]; then
+    echo "Signature verification failed for ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  tar -xzf "${tmp_dir}/${archive_name}" -C "${tmp_dir}"
+  binary_version=$("${tmp_dir}/${os}-${arch}/helm" version --template '{{.Version}}' 2>/dev/null)
+  if [ "$binary_version" != "v${version}" ]; then
+    echo "Archive contains helm ${binary_version:-unknown}, expected v${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/${os}-${arch}/helm" "$DOTFILE_DIR/dot/bin/helm"
+  rm -rf "${tmp_dir}"
+  echo "helm ${version} installed to $DOTFILE_DIR/dot/bin/helm"
+}
+
 install_krew() {
   os=$(uname | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')

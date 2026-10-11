@@ -78,6 +78,7 @@ install_tools:dev() {
   install_bazelisk
   install_cosign "$(cosign_latest_version)"
   install_kubectl "$(kubectl_latest_version)"
+  install_helm "$(helm_latest_version)"
   install_tools:node
   install_tools:python
   install_tools:bun

@@ -150,6 +150,15 @@ upgrade_kubectl() {
   fi
 }
 
+upgrade_helm() {
+  current_version=$("$DOTFILE_DIR/dot/bin/helm" version --template '{{.Version}}' 2>/dev/null | sed 's/^v//')
+  latest_version=$(helm_latest_version)
+  if version_gt "$latest_version" "$current_version"; then
+    echo "upgrading helm"
+    install_helm "$latest_version"
+  fi
+}
+
 upgrade_bazelisk() {
   echo "upgrading bazelisk"
   install_bazelisk
@@ -199,6 +208,7 @@ if [[ "$IS_DEV_MACHINE" = true ]]; then
   upgrade_gh
   upgrade_go
   upgrade_kubectl
+  upgrade_helm
   upgrade_krex
   upgrade_bazelisk
   upgrade_rust

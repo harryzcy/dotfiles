@@ -8,6 +8,7 @@ check_tools() {
     echo "Running tests for dev machines"
     check_command http
     check_command kubectl
+    check_command helm
     check_file "$HOME/.krew/bin/kubectl-krew"
     check_command asdf
     check_command gh
