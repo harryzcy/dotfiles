@@ -348,7 +348,6 @@ install_kubectl() {
     return 1
   fi
 
-  # the checksum is served next to the binary, so the signature is what ties it to the k8s release process
   if command -v cosign &>/dev/null; then
     if ! cosign verify-blob --signature "${tmp_dir}/kubectl.sig" --certificate "${tmp_dir}/kubectl.cert" \
       --certificate-identity=krel-staging@k8s-releng-prod.iam.gserviceaccount.com \

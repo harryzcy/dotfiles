@@ -142,7 +142,6 @@ upgrade_awscli() {
 }
 
 upgrade_kubectl() {
-  # check the managed binary directly, a manually installed kubectl may shadow it on PATH
   current_version=$("$DOTFILE_DIR/dot/bin/kubectl" version --client 2>/dev/null | awk '$1 == "Client" && $2 == "Version:" { print $3 }' | sed 's/^v//')
   latest_version=$(kubectl_latest_version)
   if [ "$current_version" != "$latest_version" ]; then
