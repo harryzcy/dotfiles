@@ -16,12 +16,7 @@ upgrade_apt() {
 
 upgrade_asdf() {
   # check the managed binary directly, a Homebrew-installed asdf may shadow it on PATH
-  current_version=$("$DOTFILE_DIR/dot/bin/asdf" version 2>/dev/null | awk '{print $1}' | sed 's/^v//')
-  latest_version=$(asdf_latest_version)
-  if version_gt "$latest_version" "$current_version"; then
-    echo "upgrading asdf"
-    install_asdf "$latest_version"
-  fi
+  upgrade_release asdf "$("$DOTFILE_DIR/dot/bin/asdf" version 2>/dev/null | awk '{print $1}' | sed 's/^v//')"
 }
 
 upgrade_node() {
@@ -47,12 +42,7 @@ upgrade_node() {
 }
 
 upgrade_python() {
-  uv_current=$(uv --version 2>/dev/null | awk '{print $2}')
-  uv_latest=$(uv_latest_version)
-  if version_gt "$uv_latest" "$uv_current"; then
-    echo "upgrading uv"
-    install_uv "$uv_latest"
-  fi
+  upgrade_release uv "$(uv --version 2>/dev/null | awk '{print $2}')"
   python_path=$(uv python list --only-installed --managed-python | head -n 1 | awk '{print $2}')
   latest_version=$(curl -s https://endoflife.date/api/python.json | jq -r '.[0].latest')
   if [ -z "$python_path" ]; then
@@ -85,12 +75,7 @@ upgrade_terraform() {
 }
 
 upgrade_cosign() {
-  current_version=$(cosign version 2>&1 | awk '$1 == "GitVersion:" { print $2 }' | sed 's/^v//')
-  latest_version=$(cosign_latest_version)
-  if version_gt "$latest_version" "$current_version"; then
-    echo "upgrading cosign"
-    install_cosign "$latest_version"
-  fi
+  upgrade_release cosign "$(cosign version 2>&1 | awk '$1 == "GitVersion:" { print $2 }' | sed 's/^v//')"
 }
 
 upgrade_opentofu() {
@@ -142,21 +127,11 @@ upgrade_awscli() {
 }
 
 upgrade_kubectl() {
-  current_version=$("$DOTFILE_DIR/dot/bin/kubectl" version --client 2>/dev/null | awk '$1 == "Client" && $2 == "Version:" { print $3 }' | sed 's/^v//')
-  latest_version=$(kubectl_latest_version)
-  if [ "$current_version" != "$latest_version" ]; then
-    echo "upgrading kubectl"
-    install_kubectl "$latest_version"
-  fi
+  upgrade_release kubectl "$("$DOTFILE_DIR/dot/bin/kubectl" version --client 2>/dev/null | awk '$1 == "Client" && $2 == "Version:" { print $3 }' | sed 's/^v//')"
 }
 
 upgrade_helm() {
-  current_version=$("$DOTFILE_DIR/dot/bin/helm" version --template '{{.Version}}' 2>/dev/null | sed 's/^v//')
-  latest_version=$(helm_latest_version)
-  if version_gt "$latest_version" "$current_version"; then
-    echo "upgrading helm"
-    install_helm "$latest_version"
-  fi
+  upgrade_release helm "$("$DOTFILE_DIR/dot/bin/helm" version --template '{{.Version}}' 2>/dev/null | sed 's/^v//')"
 }
 
 upgrade_bazelisk() {
@@ -166,13 +141,7 @@ upgrade_bazelisk() {
 
 upgrade_gh() {
   # check the managed binary directly, an apt-installed gh may shadow it on PATH
-  current_version=$("$DOTFILE_DIR/dot/bin/gh" --version 2>/dev/null | head -n 1 | awk '{print $3}')
-  latest_version=$(gh_latest_version)
-
-  if [ "$current_version" != "$latest_version" ]; then
-    echo "upgrading gh"
-    install_gh "$latest_version"
-  fi
+  upgrade_release gh "$("$DOTFILE_DIR/dot/bin/gh" --version 2>/dev/null | head -n 1 | awk '{print $3}')"
 }
 
 upgrade_go() {
@@ -186,12 +155,7 @@ upgrade_go() {
     install_go "$latest_version"
   fi
 
-  lint_current=$(golangci-lint version --short 2>/dev/null)
-  lint_latest=$(golangci_lint_latest_version)
-  if version_gt "$lint_latest" "$lint_current"; then
-    echo "upgrading golangci-lint"
-    install_golangci_lint "$lint_latest" "$(go env GOPATH)/bin"
-  fi
+  upgrade_release golangci_lint "$(golangci-lint version --short 2>/dev/null)" "$(go env GOPATH)/bin"
 }
 
 upgrade_rust() {
