@@ -8,7 +8,15 @@ _dot_log() {
   shift
   mkdir -p "${log_file:h}"
   print -r -- "==> $(date '+%Y-%m-%d %H:%M:%S') dot $label" >> "$log_file"
-  "$@" 2>&1 | tee -a "$log_file"
+  if [[ -t 1 ]]; then
+    # tee hides the terminal from git, so force its color and strip it from the log
+    {
+      GIT_CONFIG_PARAMETERS="${GIT_CONFIG_PARAMETERS:+$GIT_CONFIG_PARAMETERS }'color.ui=always'" \
+        "$@" 2>&1 | tee /dev/fd/3 | sed -E $'s/\e\\[[0-9;]*[mK]//g' >> "$log_file"
+    } 3>&1
+  else
+    "$@" 2>&1 | tee -a "$log_file"
+  fi
 }
 
 dot() {
