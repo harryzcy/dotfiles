@@ -63,15 +63,13 @@ _dot() {
             )
             _describe 'gh command' gh_cmds
           elif [[ $words[2] == done ]]; then
-            local -a done_flags
-            done_flags=(
-              '--dry-run:list what would be marked done, without asking'
-              '--yes:mark all without asking per repository'
-              '-y:mark all without asking per repository'
-              '--verbose:print each API request'
-              '-v:print each API request'
-            )
-            _describe 'flag' done_flags
+            # make "done" the command word so _arguments sees only its flags
+            shift words
+            (( CURRENT-- ))
+            _arguments \
+              '--dry-run[list what would be marked done, without asking]' \
+              '(-y --yes)'{-y,--yes}'[mark all without asking per repository]' \
+              '(-v --verbose)'{-v,--verbose}'[print each API request]'
           fi
           ;;
         lookup)
