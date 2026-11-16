@@ -24,8 +24,11 @@ mark_merged_done() {
   done < <(_gh_api --paginate 'notifications?all=true&per_page=50' \
     --jq '.[] | select(.subject.type == "PullRequest") | [.id, .subject.url, .repository.full_name, .subject.title] | @tsv')
 
-  # look up merge state in batches with GraphQL instead of one request per PR
-  local -a merged
+  local tmp_dir
+  tmp_dir=$(mktemp -d) || return 1
+  trap "rm -rf '$tmp_dir'" EXIT
+
+  # look up merge state in parallel batches with GraphQL instead of one request per PR
   local i j query
   for ((i = 1; i <= $#ids; i += 50)); do
     query="query {"
@@ -33,9 +36,12 @@ mark_merged_done() {
       query+=" p$j: repository(owner: \"${repos[j]%%/*}\", name: \"${repos[j]#*/}\") { pullRequest(number: ${numbers[j]}) { merged } }"
     done
     query+=" }"
-    merged+=($(gh api graphql -f query="$query" \
-      --jq '.data | to_entries[] | select(.value.pullRequest.merged) | .key | ltrimstr("p")' 2>/dev/null))
+    gh api graphql -f query="$query" \
+      --jq '.data | to_entries[] | select(.value.pullRequest.merged) | .key | ltrimstr("p")' \
+      >"$tmp_dir/merged.$i" 2>/dev/null &
   done
+  wait
+  local -a merged=($(cat "$tmp_dir"/merged.*(N) | sort -n))
 
   if [ $#merged -eq 0 ]; then
     echo "No notifications for merged pull requests"
@@ -50,6 +56,17 @@ mark_merged_done() {
     (( ${+repo_items[$repo]} )) || repo_order+=("$repo")
     repo_items[$repo]+=" $i"
   done
+
+  # one background worker marks queued threads done, one at a time,
+  # so the next repository can be reviewed meanwhile
+  local queue_fd
+  if [ "$dry_run" = false ]; then
+    mkfifo "$tmp_dir/queue" || return 1
+    while read -r id; do
+      _gh_api -X DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
+    done <"$tmp_dir/queue" >"$tmp_dir/done" &
+    exec {queue_fd}>"$tmp_dir/queue"
+  fi
 
   local count=0
   for repo in $repo_order; do
@@ -69,15 +86,27 @@ mark_merged_done() {
       continue
     fi
     echo
+    count=$((count + $#items))
     for i in $items; do
-      _gh_api -X DELETE "notifications/threads/${ids[i]}" >/dev/null && count=$((count + 1))
+      echo "${ids[i]}" >&$queue_fd
     done
   done
 
   if [ "$dry_run" = true ]; then
     echo "$count notification(s) would be marked done"
-  else
-    echo "$count notification(s) marked done"
+    return 0
+  fi
+
+  # closing the queue lets the worker finish what is left, then exit
+  exec {queue_fd}>&-
+  if ((count > 0)); then
+    echo "Waiting for remaining notifications to be marked done..."
+  fi
+  wait
+  local marked=$(wc -l <"$tmp_dir/done" | tr -d ' ')
+  echo "$marked notification(s) marked done"
+  if ((marked < count)); then
+    echo "$((count - marked)) failed, possibly due to GitHub's rate limit; run again to retry"
   fi
 }
 
