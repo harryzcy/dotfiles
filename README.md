@@ -21,7 +21,7 @@
 - `dot clean`: cleanup cache
 - `dot clone`: clone repositories
 - `dot code`: open repository in Visual Studio Code
-- `dot gh done`: mark notifications for merged pull requests as done, asking per repository
+- `dot gh done`: mark notifications for merged pull requests as done, asking per repository (`-y` to skip asking)
 - `dot goto`: goto repository directory
 - `dot lookup`: open the docs for an oh-my-zsh plugin
 - `dot pull`: keep local repositories up-to-date

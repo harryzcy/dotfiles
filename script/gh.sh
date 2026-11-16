@@ -43,10 +43,17 @@ trap _interrupt INT TERM
 
 # mark notifications for merged pull requests as done, asking per repository
 mark_merged_done() {
-  local dry_run=false
-  if [ "$1" = "--dry-run" ]; then
-    dry_run=true
-  fi
+  local dry_run=false assume_yes=false arg
+  for arg in "$@"; do
+    case "$arg" in
+      --dry-run) dry_run=true ;;
+      -y | --yes) assume_yes=true ;;
+      *)
+        echo "gh done: unknown option '$arg'"
+        return 1
+        ;;
+    esac
+  done
 
   local -a ids repos numbers titles
   local id url repo title
@@ -128,11 +135,13 @@ mark_merged_done() {
       continue
     fi
 
-    if ! read -q "?Mark $#items notification(s) as done? [y/N] "; then
+    if [ "$assume_yes" = false ]; then
+      if ! read -q "?Mark $#items notification(s) as done? [y/N] "; then
+        echo
+        continue
+      fi
       echo
-      continue
     fi
-    echo
     count=$((count + $#items))
     for i in $items; do
       echo "${ids[i]}" >&$_queue_fd
@@ -163,12 +172,16 @@ if [ -z "$1" ]; then
   echo "gh: no command specified"
 
   echo "Usage:"
-  echo "  gh done [--dry-run]  mark notifications for merged pull requests as done"
+  echo "  gh done [--dry-run] [-y|--yes]  mark notifications for merged pull requests as done"
+  echo
+  echo "Options:"
+  echo "  --dry-run  list what would be marked done, without asking"
+  echo "  -y, --yes  mark all without asking per repository"
   return 1
 fi
 
 if [ "$1" = "done" ]; then
-  mark_merged_done $2
+  mark_merged_done "${@:2}"
 else
   echo "gh: unknown command"
   return 1

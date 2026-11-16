@@ -62,10 +62,14 @@ _dot() {
               'done:mark notifications for merged pull requests as done'
             )
             _describe 'gh command' gh_cmds
-          elif (( CURRENT == 3 )); then
-            case $words[2] in
-              done) _values 'flag' '--dry-run' ;;
-            esac
+          elif [[ $words[2] == done ]]; then
+            local -a done_flags
+            done_flags=(
+              '--dry-run:list what would be marked done, without asking'
+              '--yes:mark all without asking per repository'
+              '-y:mark all without asking per repository'
+            )
+            _describe 'flag' done_flags
           fi
           ;;
         lookup)
