@@ -11,11 +11,10 @@ _worker_pid=""
 _queue_fd=""
 
 _verbose=false
-# keep the original stderr for verbose logs, so callers silencing gh don't hide them
+# verbose logs go to the original stderr, so callers silencing gh don't hide them
 exec {_log_fd}>&2
 
-# _gh_api METHOD ENDPOINT [gh api options...]
-# with --verbose, logs one line per request; set _label to annotate it
+# _gh_api METHOD ENDPOINT [gh api options...]; set _label to annotate the verbose log
 _gh_api() {
   local method=$1 endpoint=$2
   shift 2
@@ -61,7 +60,6 @@ _interrupt() {
 trap _cleanup EXIT
 trap _interrupt INT TERM
 
-# mark notifications for merged pull requests as done, asking per repository
 mark_merged_done() {
   local dry_run=false assume_yes=false arg
   for arg in "$@"; do
@@ -76,8 +74,8 @@ mark_merged_done() {
     esac
   done
 
-  # page manually rather than with --paginate, so each page is its own logged request;
-  # all=true includes read notifications, and without is_done=false done ones come back too
+  # paged by hand so verbose logs each page; without is_done=false, all=true
+  # also returns notifications already marked done
   local -a ids repos numbers titles
   local id type url repo title rows page=1 n
   while :; do
@@ -97,12 +95,12 @@ mark_merged_done() {
     page=$((page + 1))
   done
 
-  # keep temp files under a dot/ prefix so leftovers are easy to trace
   local tmp_root="${TMPDIR:-/tmp}/dot"
   mkdir -p -m 700 "$tmp_root" || return 1
   _tmp_dir=$(mktemp -d "$tmp_root/gh.XXXXXX") || return 1
 
-  # look up merge state in parallel batches with GraphQL instead of one request per PR
+  # one PR erroring (e.g. a deleted repo) makes gh exit 1 and skip --jq,
+  # so parse the partial data with jq instead
   local i j query
   for ((i = 1; i <= $#ids; i += 50)); do
     query="query {"
@@ -110,9 +108,9 @@ mark_merged_done() {
       query+=" p$j: repository(owner: \"${repos[j]%%/*}\", name: \"${repos[j]#*/}\") { pullRequest(number: ${numbers[j]}) { merged } }"
     done
     query+=" }"
-    _label="PRs $i-$((j - 1))" _gh_api POST graphql -f query="$query" \
-      --jq '.data | to_entries[] | select(.value.pullRequest.merged) | .key | ltrimstr("p")' \
-      >"$_tmp_dir/merged.$i" 2>/dev/null &
+    _label="PRs $i-$((j - 1))" _gh_api POST graphql -f query="$query" 2>/dev/null |
+      jq -r '.data // {} | to_entries[] | select(.value.pullRequest.merged == true) | .key | ltrimstr("p")' \
+        >"$_tmp_dir/merged.$i" 2>/dev/null &
     _bg_pids+=($!)
   done
   wait
@@ -124,7 +122,6 @@ mark_merged_done() {
     return 0
   fi
 
-  # group by repository, keeping notification order
   local -a repo_order
   local -A repo_items
   for i in $merged; do
@@ -133,14 +130,12 @@ mark_merged_done() {
     repo_items[$repo]+=" $i"
   done
 
-  # one background worker marks queued threads done, one at a time,
-  # so the next repository can be reviewed meanwhile
+  # a background worker marks queued threads done while the next repository is reviewed
   if [ "$dry_run" = false ]; then
     mkfifo "$_tmp_dir/queue" || return 1
     {
-      # Ctrl-C reaches the whole process group; ignore it here (and in gh) and
-      # let the main script stop this worker with TERM, which only takes effect
-      # between requests so an in-flight one always finishes
+      # Ctrl-C reaches the whole process group, so ignore it here (and in gh);
+      # the main script stops the worker with TERM, checked between requests
       local stop=""
       trap - EXIT
       trap '' INT
@@ -184,7 +179,7 @@ mark_merged_done() {
     return 0
   fi
 
-  # closing the queue lets the worker finish what is left, then exit
+  # closing the queue lets the worker drain it, then exit
   exec {_queue_fd}>&-
   _queue_fd=""
   if ((count > 0)); then
