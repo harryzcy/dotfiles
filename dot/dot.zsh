@@ -30,6 +30,7 @@ dot() {
     echo "  clean   clean up cache"
     echo "  clone   clone repositories"
     echo "  code    open repository in VSCode"
+    echo "  gh      GitHub utilities"
     echo "  goto    goto repository"
     echo "  lookup  lookup oh-my-zsh plugins"
     echo "  pull    pull repositories"
@@ -72,6 +73,8 @@ dot() {
     ${DOTFILE_DIR}/script/tm.sh "$@"
   elif [ ${command} = "pull" ]; then
     _dot_log pull ${DOTFILE_DIR}/script/pull.sh
+  elif [ ${command} = "gh" ]; then
+    ${DOTFILE_DIR}/script/gh.sh "$@"
   elif [ ${command} = "lookup" ]; then
     ${DOTFILE_DIR}/script/lookup.sh "$@"
   else
