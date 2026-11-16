@@ -100,6 +100,8 @@ mark_merged_done() {
       [ -z "$id" ] && continue
       n=$((n + 1))
       [ "$type" = "PullRequest" ] || continue
+      # read collapses empty tab-separated fields, so a missing URL shifts the rest
+      [[ "$url" == */pulls/<-> ]] || continue
       ids+=("$id")
       repos+=("$repo")
       numbers+=("${url##*/}")
@@ -211,6 +213,7 @@ mark_merged_done() {
   echo "$marked notification(s) marked done"
   if ((marked < count)); then
     echo "$((count - marked)) failed; run again to retry"
+    return 1
   fi
 }
 
