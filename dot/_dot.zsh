@@ -23,6 +23,7 @@ _dot() {
         'tm:time machine utilities'
         'pull:pull repositories'
         'lookup:lookup oh-my-zsh plugins'
+        'gh:GitHub utilities'
       )
       _describe 'command' subcmds
       ;;
@@ -51,6 +52,19 @@ _dot() {
             case $words[2] in
               add) _alternative 'flags:flag:(--dry-run)' 'paths:path:_files' ;;
               rm|check) _files ;;
+            esac
+          fi
+          ;;
+        gh)
+          if (( CURRENT == 2 )); then
+            local -a gh_cmds
+            gh_cmds=(
+              'done:mark notifications for merged pull requests as done'
+            )
+            _describe 'gh command' gh_cmds
+          elif (( CURRENT == 3 )); then
+            case $words[2] in
+              done) _values 'flag' '--dry-run' ;;
             esac
           fi
           ;;
