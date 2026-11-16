@@ -3,7 +3,7 @@
 setup() {
   DOTFILE_DIR=$(cd "${BATS_TEST_DIRNAME}/../.." && pwd)
   export DOTFILE_DIR
-  # shellcheck source=../../shared/.functions.sh
+  # shellcheck source=SCRIPTDIR/../../shared/.functions.sh
   source "${DOTFILE_DIR}/shared/.functions.sh"
 }
 
