@@ -2,9 +2,44 @@
 
 api_version="2026-03-10"
 
+# global so the signal and exit traps can reach them
+_tmp_dir=""
+_bg_pids=()
+_worker_pid=""
+_queue_fd=""
+
 _gh_api() {
   gh api -H "X-GitHub-Api-Version: $api_version" "$@"
 }
+
+_cleanup() {
+  ((${#_bg_pids})) && kill $_bg_pids 2>/dev/null
+  [ -n "$_worker_pid" ] && kill -TERM $_worker_pid 2>/dev/null
+  [ -n "$_tmp_dir" ] && rm -rf "$_tmp_dir"
+}
+
+# on Ctrl-C, drop anything still queued, but let an in-flight request finish
+_interrupt() {
+  echo
+  ((${#_bg_pids})) && kill $_bg_pids 2>/dev/null
+  _bg_pids=()
+  if [ -n "$_worker_pid" ]; then
+    echo "Cancelling, letting the in-flight request finish..."
+    kill -TERM $_worker_pid 2>/dev/null
+    [ -n "$_queue_fd" ] && exec {_queue_fd}>&-
+    wait $_worker_pid 2>/dev/null
+    _worker_pid=""
+  fi
+  if [ -f "$_tmp_dir/done" ]; then
+    echo "Cancelled; $(wc -l <"$_tmp_dir/done" | tr -d ' ') notification(s) marked done"
+  else
+    echo "Cancelled"
+  fi
+  exit 130
+}
+
+trap _cleanup EXIT
+trap _interrupt INT TERM
 
 # mark notifications for merged pull requests as done, asking per repository
 mark_merged_done() {
@@ -24,9 +59,7 @@ mark_merged_done() {
   done < <(_gh_api --paginate 'notifications?all=true&per_page=50' \
     --jq '.[] | select(.subject.type == "PullRequest") | [.id, .subject.url, .repository.full_name, .subject.title] | @tsv')
 
-  local tmp_dir
-  tmp_dir=$(mktemp -d) || return 1
-  trap "rm -rf '$tmp_dir'" EXIT
+  _tmp_dir=$(mktemp -d) || return 1
 
   # look up merge state in parallel batches with GraphQL instead of one request per PR
   local i j query
@@ -38,10 +71,12 @@ mark_merged_done() {
     query+=" }"
     gh api graphql -f query="$query" \
       --jq '.data | to_entries[] | select(.value.pullRequest.merged) | .key | ltrimstr("p")' \
-      >"$tmp_dir/merged.$i" 2>/dev/null &
+      >"$_tmp_dir/merged.$i" 2>/dev/null &
+    _bg_pids+=($!)
   done
   wait
-  local -a merged=($(cat "$tmp_dir"/merged.*(N) | sort -n))
+  _bg_pids=()
+  local -a merged=($(cat "$_tmp_dir"/merged.*(N) | sort -n))
 
   if [ $#merged -eq 0 ]; then
     echo "No notifications for merged pull requests"
@@ -59,13 +94,22 @@ mark_merged_done() {
 
   # one background worker marks queued threads done, one at a time,
   # so the next repository can be reviewed meanwhile
-  local queue_fd
   if [ "$dry_run" = false ]; then
-    mkfifo "$tmp_dir/queue" || return 1
-    while read -r id; do
-      _gh_api -X DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
-    done <"$tmp_dir/queue" >"$tmp_dir/done" &
-    exec {queue_fd}>"$tmp_dir/queue"
+    mkfifo "$_tmp_dir/queue" || return 1
+    {
+      # Ctrl-C reaches the whole process group; ignore it here (and in gh) and
+      # let the main script stop this worker with TERM, which only takes effect
+      # between requests so an in-flight one always finishes
+      local stop=""
+      trap - EXIT
+      trap '' INT
+      trap 'stop=1' TERM
+      while [ -z "$stop" ] && read -r id; do
+        _gh_api -X DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
+      done
+    } <"$_tmp_dir/queue" >"$_tmp_dir/done" &
+    _worker_pid=$!
+    exec {_queue_fd}>"$_tmp_dir/queue"
   fi
 
   local count=0
@@ -88,7 +132,7 @@ mark_merged_done() {
     echo
     count=$((count + $#items))
     for i in $items; do
-      echo "${ids[i]}" >&$queue_fd
+      echo "${ids[i]}" >&$_queue_fd
     done
   done
 
@@ -98,12 +142,14 @@ mark_merged_done() {
   fi
 
   # closing the queue lets the worker finish what is left, then exit
-  exec {queue_fd}>&-
+  exec {_queue_fd}>&-
+  _queue_fd=""
   if ((count > 0)); then
-    echo "Waiting for remaining notifications to be marked done..."
+    echo "Waiting for remaining notifications to be marked done... (Ctrl-C to cancel)"
   fi
-  wait
-  local marked=$(wc -l <"$tmp_dir/done" | tr -d ' ')
+  wait $_worker_pid
+  _worker_pid=""
+  local marked=$(wc -l <"$_tmp_dir/done" | tr -d ' ')
   echo "$marked notification(s) marked done"
   if ((marked < count)); then
     echo "$((count - marked)) failed, possibly due to GitHub's rate limit; run again to retry"
