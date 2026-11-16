@@ -14,10 +14,9 @@ _verbose=false
 # keep the original stderr for verbose logs, so callers silencing gh don't hide them
 exec {_log_fd}>&2
 
-# _gh_api METHOD PATH [gh api options...]
+# _gh_api METHOD ENDPOINT [gh api options...]
 # with --verbose, logs one line per request; set _label to annotate it
 _gh_api() {
-  # not "path": zsh ties that to $PATH
   local method=$1 endpoint=$2
   shift 2
   if [ "$_verbose" = false ]; then
