@@ -1,5 +1,11 @@
 #!/usr/bin/env zsh
 
+# Temp files live in ${TMPDIR:-/tmp}/dot/gh.XXXXXX/, removed on exit and on Ctrl-C:
+#   merged.N    merged PRs found by each GraphQL batch
+#   queue       FIFO of thread IDs for the background worker
+#   done        thread IDs marked done
+#   worker.log  worker's log, printed between prompts
+
 zmodload zsh/datetime
 
 api_version="2026-03-10"
@@ -26,6 +32,18 @@ _gh_api() {
   return $rc
 }
 
+# the worker logs to a file, printed between prompts so it doesn't land on a prompt line
+_log_lines=0
+_flush_worker_log() {
+  local log="$_tmp_dir/worker.log" total
+  [ -f "$log" ] || return 0
+  total=$(wc -l <"$log" | tr -d ' ')
+  ((total > _log_lines)) || return 0
+  # stop at the last complete line, in case the worker is mid-write
+  tail -n +$((_log_lines + 1)) "$log" | head -n $((total - _log_lines)) >&2
+  _log_lines=$total
+}
+
 _cleanup() {
   ((${#_bg_pids})) && kill $_bg_pids 2>/dev/null
   [ -n "$_worker_pid" ] && kill -TERM $_worker_pid 2>/dev/null
@@ -43,6 +61,7 @@ _interrupt() {
     [ -n "$_queue_fd" ] && exec {_queue_fd}>&-
     wait $_worker_pid 2>/dev/null
     _worker_pid=""
+    _flush_worker_log
   fi
   if [ -f "$_tmp_dir/done" ]; then
     echo "Cancelled; $(wc -l <"$_tmp_dir/done" | tr -d ' ') notification(s) marked done"
@@ -138,7 +157,7 @@ mark_merged_done() {
       while [ -z "$stop" ] && read -r id; do
         _gh_api DELETE "notifications/threads/$id" --silent && echo "$id"
       done
-    } <"$_tmp_dir/queue" >"$_tmp_dir/done" &
+    } <"$_tmp_dir/queue" >"$_tmp_dir/done" 2>"$_tmp_dir/worker.log" &
     _worker_pid=$!
     exec {_queue_fd}>"$_tmp_dir/queue"
   fi
@@ -146,6 +165,7 @@ mark_merged_done() {
   local count=0
   for repo in $repo_order; do
     local -a items=(${=repo_items[$repo]})
+    _flush_worker_log
     echo "$repo:"
     for i in $items; do
       echo "  #${numbers[i]} ${titles[i]}"
@@ -180,8 +200,13 @@ mark_merged_done() {
   if ((count > 0)); then
     echo "Waiting for remaining notifications to be marked done... (Ctrl-C to cancel)"
   fi
+  while kill -0 $_worker_pid 2>/dev/null; do
+    _flush_worker_log
+    sleep 0.2
+  done
   wait $_worker_pid
   _worker_pid=""
+  _flush_worker_log
   local marked=$(wc -l <"$_tmp_dir/done" | tr -d ' ')
   echo "$marked notification(s) marked done"
   if ((marked < count)); then
