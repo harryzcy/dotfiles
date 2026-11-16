@@ -11,23 +11,18 @@ _worker_pid=""
 _queue_fd=""
 
 _verbose=false
-# verbose logs go to the original stderr, so callers silencing gh don't hide them
-exec {_log_fd}>&2
 
-# _gh_api METHOD ENDPOINT [gh api options...]; set _label to annotate the verbose log
+# _gh_api METHOD ENDPOINT [gh api options...]; set _label to annotate the log line
+# failed requests are always logged, and every request with --verbose
 _gh_api() {
-  local method=$1 endpoint=$2
+  local method=$1 endpoint=$2 start=$EPOCHREALTIME rc
   shift 2
-  if [ "$_verbose" = false ]; then
-    gh api -X "$method" -H "X-GitHub-Api-Version: $api_version" "$endpoint" "$@"
-    return
-  fi
-
-  local start=$EPOCHREALTIME rc
-  gh api -X "$method" -H "X-GitHub-Api-Version: $api_version" "$endpoint" "$@" 2>&$_log_fd
+  gh api -X "$method" -H "X-GitHub-Api-Version: $api_version" "$endpoint" "$@"
   rc=$?
-  printf '[gh] %s %s%s -> %s (%.2fs)\n' "$method" "$endpoint" "${_label:+ ($_label)}" \
-    "$( ((rc == 0)) && echo ok || echo "failed, exit $rc")" $((EPOCHREALTIME - start)) >&$_log_fd
+  if ((rc != 0)) || [ "$_verbose" = true ]; then
+    printf '[gh] %s %s%s -> %s (%.2fs)\n' "$method" "$endpoint" "${_label:+ ($_label)}" \
+      "$( ((rc == 0)) && echo ok || echo "failed, exit $rc")" $((EPOCHREALTIME - start)) >&2
+  fi
   return $rc
 }
 
@@ -108,7 +103,7 @@ mark_merged_done() {
       query+=" p$j: repository(owner: \"${repos[j]%%/*}\", name: \"${repos[j]#*/}\") { pullRequest(number: ${numbers[j]}) { merged } }"
     done
     query+=" }"
-    _label="PRs $i-$((j - 1))" _gh_api POST graphql -f query="$query" 2>/dev/null |
+    _label="PRs $i-$((j - 1))" _gh_api POST graphql -f query="$query" |
       jq -r '.data // {} | to_entries[] | select(.value.pullRequest.merged == true) | .key | ltrimstr("p")' \
         >"$_tmp_dir/merged.$i" 2>/dev/null &
     _bg_pids+=($!)
@@ -141,7 +136,7 @@ mark_merged_done() {
       trap '' INT
       trap 'stop=1' TERM
       while [ -z "$stop" ] && read -r id; do
-        _gh_api DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
+        _gh_api DELETE "notifications/threads/$id" --silent && echo "$id"
       done
     } <"$_tmp_dir/queue" >"$_tmp_dir/done" &
     _worker_pid=$!
@@ -190,7 +185,7 @@ mark_merged_done() {
   local marked=$(wc -l <"$_tmp_dir/done" | tr -d ' ')
   echo "$marked notification(s) marked done"
   if ((marked < count)); then
-    echo "$((count - marked)) failed, possibly due to GitHub's rate limit; run again to retry"
+    echo "$((count - marked)) failed; run again to retry"
   fi
 }
 
