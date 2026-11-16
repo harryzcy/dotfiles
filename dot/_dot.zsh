@@ -68,6 +68,8 @@ _dot() {
               '--dry-run:list what would be marked done, without asking'
               '--yes:mark all without asking per repository'
               '-y:mark all without asking per repository'
+              '--verbose:print each API request'
+              '-v:print each API request'
             )
             _describe 'flag' done_flags
           fi

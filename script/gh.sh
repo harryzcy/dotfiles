@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+zmodload zsh/datetime
+
 api_version="2026-03-10"
 
 # global so the signal and exit traps can reach them
@@ -8,8 +10,27 @@ _bg_pids=()
 _worker_pid=""
 _queue_fd=""
 
+_verbose=false
+# keep the original stderr for verbose logs, so callers silencing gh don't hide them
+exec {_log_fd}>&2
+
+# _gh_api METHOD PATH [gh api options...]
+# with --verbose, logs one line per request; set _label to annotate it
 _gh_api() {
-  gh api -H "X-GitHub-Api-Version: $api_version" "$@"
+  # not "path": zsh ties that to $PATH
+  local method=$1 endpoint=$2
+  shift 2
+  if [ "$_verbose" = false ]; then
+    gh api -X "$method" -H "X-GitHub-Api-Version: $api_version" "$endpoint" "$@"
+    return
+  fi
+
+  local start=$EPOCHREALTIME rc
+  gh api -X "$method" -H "X-GitHub-Api-Version: $api_version" "$endpoint" "$@" 2>&$_log_fd
+  rc=$?
+  printf '[gh] %s %s%s -> %s (%.2fs)\n' "$method" "$endpoint" "${_label:+ ($_label)}" \
+    "$( ((rc == 0)) && echo ok || echo "failed, exit $rc")" $((EPOCHREALTIME - start)) >&$_log_fd
+  return $rc
 }
 
 _cleanup() {
@@ -48,6 +69,7 @@ mark_merged_done() {
     case "$arg" in
       --dry-run) dry_run=true ;;
       -y | --yes) assume_yes=true ;;
+      -v | --verbose) _verbose=true ;;
       *)
         echo "gh done: unknown option '$arg'"
         return 1
@@ -55,16 +77,26 @@ mark_merged_done() {
     esac
   done
 
+  # page manually rather than with --paginate, so each page is its own logged request;
+  # all=true includes read notifications, and without is_done=false done ones come back too
   local -a ids repos numbers titles
-  local id url repo title
-  while IFS=$'\t' read -r id url repo title; do
-    [ -z "$id" ] && continue
-    ids+=("$id")
-    repos+=("$repo")
-    numbers+=("${url##*/}")
-    titles+=("$title")
-  done < <(_gh_api --paginate 'notifications?all=true&per_page=50' \
-    --jq '.[] | select(.subject.type == "PullRequest") | [.id, .subject.url, .repository.full_name, .subject.title] | @tsv')
+  local id type url repo title rows page=1 n
+  while :; do
+    rows=$(_gh_api GET "notifications?all=true&is_done=false&per_page=50&page=$page" \
+      --jq '.[] | [.id, .subject.type, .subject.url, .repository.full_name, .subject.title] | @tsv') || return 1
+    n=0
+    while IFS=$'\t' read -r id type url repo title; do
+      [ -z "$id" ] && continue
+      n=$((n + 1))
+      [ "$type" = "PullRequest" ] || continue
+      ids+=("$id")
+      repos+=("$repo")
+      numbers+=("${url##*/}")
+      titles+=("$title")
+    done <<<"$rows"
+    ((n < 50)) && break
+    page=$((page + 1))
+  done
 
   # keep temp files under a dot/ prefix so leftovers are easy to trace
   local tmp_root="${TMPDIR:-/tmp}/dot"
@@ -79,7 +111,7 @@ mark_merged_done() {
       query+=" p$j: repository(owner: \"${repos[j]%%/*}\", name: \"${repos[j]#*/}\") { pullRequest(number: ${numbers[j]}) { merged } }"
     done
     query+=" }"
-    gh api graphql -f query="$query" \
+    _label="PRs $i-$((j - 1))" _gh_api POST graphql -f query="$query" \
       --jq '.data | to_entries[] | select(.value.pullRequest.merged) | .key | ltrimstr("p")' \
       >"$_tmp_dir/merged.$i" 2>/dev/null &
     _bg_pids+=($!)
@@ -115,7 +147,7 @@ mark_merged_done() {
       trap '' INT
       trap 'stop=1' TERM
       while [ -z "$stop" ] && read -r id; do
-        _gh_api -X DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
+        _gh_api DELETE "notifications/threads/$id" --silent 2>/dev/null && echo "$id"
       done
     } <"$_tmp_dir/queue" >"$_tmp_dir/done" &
     _worker_pid=$!
@@ -172,11 +204,12 @@ if [ -z "$1" ]; then
   echo "gh: no command specified"
 
   echo "Usage:"
-  echo "  gh done [--dry-run] [-y|--yes]  mark notifications for merged pull requests as done"
+  echo "  gh done [--dry-run] [-y|--yes] [-v|--verbose]  mark notifications for merged pull requests as done"
   echo
   echo "Options:"
-  echo "  --dry-run  list what would be marked done, without asking"
-  echo "  -y, --yes  mark all without asking per repository"
+  echo "  --dry-run      list what would be marked done, without asking"
+  echo "  -y, --yes      mark all without asking per repository"
+  echo "  -v, --verbose  print each API request"
   return 1
 fi
 
