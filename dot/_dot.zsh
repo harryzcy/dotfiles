@@ -31,11 +31,19 @@ _dot() {
       case $words[1] in
         repo|goto|code)
           (( CURRENT == 2 )) || return
-          local -a repo_dirs
+          local -a repo_dirs repos
           repo_dirs=(${(s.:.)DOT_REPO_PATH})
-          _alternative \
-            'repositories:repository:_path_files -/ -W repo_dirs' \
-            'current:current directory:(.)'
+          if [[ $PREFIX == */* ]]; then
+            # path under a repo dir: complete as a path, keeping the slash
+            _path_files -/ -W repo_dirs
+          else
+            # bare repo name: offer names, without a trailing slash
+            repos=(${^repo_dirs}/*(N/:t))
+            repos=(${(u)repos})
+            _alternative \
+              'repositories:repository:compadd -a repos' \
+              'current:current directory:(.)'
+          fi
           ;;
         tm)
           if (( CURRENT == 2 )); then
