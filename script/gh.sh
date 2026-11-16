@@ -59,7 +59,10 @@ mark_merged_done() {
   done < <(_gh_api --paginate 'notifications?all=true&per_page=50' \
     --jq '.[] | select(.subject.type == "PullRequest") | [.id, .subject.url, .repository.full_name, .subject.title] | @tsv')
 
-  _tmp_dir=$(mktemp -d) || return 1
+  # keep temp files under a dot/ prefix so leftovers are easy to trace
+  local tmp_root="${TMPDIR:-/tmp}/dot"
+  mkdir -p -m 700 "$tmp_root" || return 1
+  _tmp_dir=$(mktemp -d "$tmp_root/gh.XXXXXX") || return 1
 
   # look up merge state in parallel batches with GraphQL instead of one request per PR
   local i j query
