@@ -315,6 +315,116 @@ install_cosign() {
   echo "cosign ${version} installed to $DOTFILE_DIR/dot/bin/cosign"
 }
 
+kubectl_latest_version() {
+  curl -fsSL https://dl.k8s.io/release/stable.txt | sed 's/^v//'
+}
+
+install_kubectl() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_kubectl <version>"
+    return 1
+  fi
+
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+  base_url="https://dl.k8s.io/release/v${version}/bin/${os}/${arch}"
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading ${base_url}/kubectl"
+  if ! (cd "${tmp_dir}" &&
+    curl -fsSL -O "${base_url}/kubectl" &&
+    curl -fsSL -O "${base_url}/kubectl.sha256" &&
+    curl -fsSL -O "${base_url}/kubectl.sig" &&
+    curl -fsSL -O "${base_url}/kubectl.cert"); then
+    echo "Failed to download kubectl"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  expected_sha256=$(cat "${tmp_dir}/kubectl.sha256")
+  if [[ ! "$expected_sha256" =~ ^[0-9a-f]{64}$ ]] || [[ "$(file_sha256 "${tmp_dir}/kubectl")" != "$expected_sha256" ]]; then
+    echo "Checksum verification failed for kubectl"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  if command -v cosign &>/dev/null; then
+    if ! cosign verify-blob --signature "${tmp_dir}/kubectl.sig" --certificate "${tmp_dir}/kubectl.cert" \
+      --certificate-identity=krel-staging@k8s-releng-prod.iam.gserviceaccount.com \
+      --certificate-oidc-issuer=https://accounts.google.com \
+      "${tmp_dir}/kubectl" &>/dev/null; then
+      echo "Signature verification failed for kubectl"
+      rm -rf "${tmp_dir}"
+      return 1
+    fi
+  else
+    echo "Skipping signature verification because cosign is not installed"
+  fi
+
+  chmod +x "${tmp_dir}/kubectl"
+  binary_version=$("${tmp_dir}/kubectl" version --client 2>/dev/null | awk '$1 == "Client" && $2 == "Version:" { print $3 }')
+  if [ "$binary_version" != "v${version}" ]; then
+    echo "Binary is kubectl ${binary_version:-unknown}, expected v${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/kubectl" "$DOTFILE_DIR/dot/bin/kubectl"
+  rm -rf "${tmp_dir}"
+  echo "kubectl ${version} installed to $DOTFILE_DIR/dot/bin/kubectl"
+}
+
+helm_latest_version() {
+  curl -fsSLI -o /dev/null -w '%{url_effective}' https://github.com/helm/helm/releases/latest | sed 's|.*/tag/v||'
+}
+
+install_helm() {
+  version=$1
+  if [ -z "$version" ]; then
+    echo "Usage: install_helm <version>"
+    return 1
+  fi
+
+  os=$(uname | tr '[:upper:]' '[:lower:]')
+  arch=$(detect_arch | sed -e 's/x86_64/amd64/')
+  archive_name="helm-v${version}-${os}-${arch}.tar.gz"
+
+  tmp_dir=$(mktemp -d)
+  echo "Downloading https://get.helm.sh/${archive_name}"
+  if ! curl -fsSL "https://get.helm.sh/${archive_name}" -o "${tmp_dir}/${archive_name}" ||
+    ! curl -fsSL "https://github.com/helm/helm/releases/download/v${version}/${archive_name}.asc" -o "${tmp_dir}/${archive_name}.asc"; then
+    echo "Failed to download ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+  local verified=false fingerprint
+  for fingerprint in "${HELM_KEY_FINGERPRINTS[@]}"; do
+    if verify_gpg_signature "${tmp_dir}/${archive_name}" "${tmp_dir}/${archive_name}.asc" "$HELM_PUBLIC_KEYS" "$fingerprint"; then
+      verified=true
+      break
+    fi
+  done
+  if [ "$verified" != true ]; then
+    echo "Signature verification failed for ${archive_name}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  tar -xzf "${tmp_dir}/${archive_name}" -C "${tmp_dir}"
+  binary_version=$("${tmp_dir}/${os}-${arch}/helm" version --template '{{.Version}}' 2>/dev/null)
+  if [ "$binary_version" != "v${version}" ]; then
+    echo "Archive contains helm ${binary_version:-unknown}, expected v${version}"
+    rm -rf "${tmp_dir}"
+    return 1
+  fi
+
+  mkdir -p "$DOTFILE_DIR/dot/bin"
+  install -m 755 "${tmp_dir}/${os}-${arch}/helm" "$DOTFILE_DIR/dot/bin/helm"
+  rm -rf "${tmp_dir}"
+  echo "helm ${version} installed to $DOTFILE_DIR/dot/bin/helm"
+}
+
 install_krew() {
   os=$(uname | tr '[:upper:]' '[:lower:]')
   arch=$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')

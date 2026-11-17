@@ -39,7 +39,7 @@ install_tools:python() {
   install_tools:uv
   uv tool install argcomplete
   uv tool install ansible-lint
-  uv tool install ansible
+  uv tool install ansible --with-executables-from ansible-core
 }
 
 install_software() {

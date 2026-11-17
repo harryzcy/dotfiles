@@ -21,6 +21,18 @@
   ],
   "packageRules": [
     {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "commitMessagePrefix": "[ci]"
+    },
+    {
+      "matchManagers": [
+        "gomod"
+      ],
+      "commitMessagePrefix": "[dotd]"
+    },
+    {
       "description": "Homebrew/install moves several times a week, so bump it monthly",
       "matchDepNames": [
         "Homebrew/install"
@@ -28,7 +40,8 @@
       "schedule": [
         "* * 1 * *"
       ],
-      "updateNotScheduled": false
+      "updateNotScheduled": false,
+      "commitMessagePrefix": "[setup]"
     }
   ]
 }

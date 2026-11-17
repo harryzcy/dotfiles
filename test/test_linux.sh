@@ -7,6 +7,8 @@ check_tools() {
   if [[ "${IS_DEV_MACHINE}" = "true" ]]; then
     echo "Running tests for dev machines"
     check_command http
+    check_command kubectl
+    check_command helm
     check_file "$HOME/.krew/bin/kubectl-krew"
     check_command asdf
     check_command gh
