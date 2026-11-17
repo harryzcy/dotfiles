@@ -19,8 +19,16 @@
   "packageRules": [
     {
       "matchManagers": [
-        "github-actions",
+        "github-actions"
+      ],
+      "commitMessagePrefix": "[ci]"
+    },
+    {
+      "matchManagers": [
         "custom.regex"
+      ],
+      "matchDepNames": [
+        "bats-core/bats-core"
       ],
       "commitMessagePrefix": "[ci]"
     },
