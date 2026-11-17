@@ -46,6 +46,16 @@ else
   export DOWNLOAD_DIR="$HOME"
 fi
 
+# warn about a pending reboot in terminals; VS Code also runs zsh in the
+# background to read the environment, which must stay silent
+if [[ -o interactive && -t 1 && -z "$VSCODE_RESOLVING_ENVIRONMENT" && -f /var/run/reboot-required ]]; then
+  () {
+    local -a pkgs
+    [[ -r /var/run/reboot-required.pkgs ]] && pkgs=(${(fu)"$(</var/run/reboot-required.pkgs)"})
+    print -P "%F{yellow}*** System restart required ***%f${pkgs:+ (${(j:, :)pkgs})}"
+  }
+fi
+
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source $HOME/.zshrc.local
 fi
