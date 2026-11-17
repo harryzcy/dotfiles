@@ -23,6 +23,7 @@ _dot() {
         'tm:time machine utilities'
         'pull:pull repositories'
         'lookup:lookup oh-my-zsh plugins'
+        'gh:GitHub utilities'
       )
       _describe 'command' subcmds
       ;;
@@ -60,6 +61,23 @@ _dot() {
               add) _alternative 'flags:flag:(--dry-run)' 'paths:path:_files' ;;
               rm|check) _files ;;
             esac
+          fi
+          ;;
+        gh)
+          if (( CURRENT == 2 )); then
+            local -a gh_cmds
+            gh_cmds=(
+              'done:mark notifications for merged pull requests as done'
+            )
+            _describe 'gh command' gh_cmds
+          elif [[ $words[2] == done ]]; then
+            # make "done" the command word so _arguments sees only its flags
+            shift words
+            (( CURRENT-- ))
+            _arguments \
+              '--dry-run[list what would be marked done, without asking]' \
+              '(-y --yes)'{-y,--yes}'[mark all without asking per repository]' \
+              '(-v --verbose)'{-v,--verbose}'[print each API request]'
           fi
           ;;
         lookup)

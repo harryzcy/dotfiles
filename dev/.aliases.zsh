@@ -16,6 +16,7 @@ alias clone='dot clone'
 alias cl='dot clone'
 alias pull='dot pull'
 alias pl='dot pull'
+alias ghdone='dot gh done'
 
 # gh
 alias ghp='gh pr'
