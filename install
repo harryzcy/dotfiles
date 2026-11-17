@@ -20,7 +20,8 @@ fi
 
 if [[ "$is_mac" == "true" ]]; then
   if ! command_exists brew; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    # pinned to a Homebrew/install commit, which Renovate updates
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/0a396a4ee5b538f409de666af904fa0570b53949/install.sh)"
     # Apple Silicon installs to /opt/homebrew, which isn't on PATH yet
     if [[ -x /opt/homebrew/bin/brew ]]; then
       eval "$(/opt/homebrew/bin/brew shellenv)"
