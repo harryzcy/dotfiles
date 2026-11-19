@@ -2,10 +2,33 @@
   "extends": [
     "github>harryzcy/renovate-config"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.+\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "bats-version:\\s*(?<currentValue>\\S+)"
+      ],
+      "depNameTemplate": "bats-core/bats-core",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    }
+  ],
   "packageRules": [
     {
       "matchManagers": [
         "github-actions"
+      ],
+      "commitMessagePrefix": "[ci]"
+    },
+    {
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchDepNames": [
+        "bats-core/bats-core"
       ],
       "commitMessagePrefix": "[ci]"
     },

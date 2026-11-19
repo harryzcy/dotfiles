@@ -4,3 +4,6 @@ setup:
 .PHONY: test
 test:
 	./test/test.sh
+.PHONY: test-unit
+test-unit:
+	bats test/unit
