@@ -20,12 +20,16 @@ plugins=(
   kubectl
 )
 
+platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
+export DOTFILE_DIR="$(dirname "$platform_dir")"
+
+# plugins skip loading if their command isn't on PATH yet
+typeset -U path
+path+=("$DOTFILE_DIR/dot/bin")
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
-platform_dir=$(dirname "$(realpath "$HOME/.zshrc")")
-export DOTFILE_DIR="$(dirname "$platform_dir")"
 
 export GPG_TTY=$(tty)
 
